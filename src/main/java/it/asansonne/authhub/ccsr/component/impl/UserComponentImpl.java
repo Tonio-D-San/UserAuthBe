@@ -12,6 +12,7 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -40,13 +41,19 @@ public class UserComponentImpl implements UserComponent {
 
   @Override
   public UserResponse createPerson(UserRequest userRequest) {
+
     return userResponseModelMapper.toDto(userService.createUser(
-        "Form",
-        UUID.randomUUID().toString(),
-        userRequest.getEmail(),
-        userRequest.getFirstname(),
-        userRequest.getLastname(),
-        userRequest.getProfileImage() == null ? null : userRequest.getProfileImage()
+        User.builder()
+            .uuid(UUID.randomUUID())
+            .provider("Form")
+            .providerId(UUID.randomUUID().toString())
+            .email(userRequest.getEmail())
+            .password(new BCryptPasswordEncoder().encode(userRequest.getPassword()))
+            .name(userRequest.getFirstname())
+            .surname(userRequest.getLastname())
+            .isActive(true)
+            .profileImage(userRequest.getProfileImage() == null ? null : userRequest.getProfileImage())
+            .build()
     ));
   }
 

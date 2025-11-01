@@ -43,7 +43,7 @@ public interface UserService {
    */
   Page<User> findInactiveUsers(Pageable pageable);
 
-  User createUser(String provider, String providerId, String email, String name, String surname, byte[] pictureUrl);
+  User createUser(User user);
 
   /**
    * Update user.

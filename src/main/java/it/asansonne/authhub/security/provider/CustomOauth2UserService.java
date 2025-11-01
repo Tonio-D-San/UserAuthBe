@@ -92,7 +92,16 @@ public class CustomOauth2UserService implements OAuth2UserService<OidcUserReques
     User user;
 
     if (userOpt.isEmpty()) {
-      user = userService.createUser(provider, providerId, email, name, surname, pictureBytes);
+      user = userService.createUser(
+          User.builder()
+              .provider(provider)
+              .providerId(providerId)
+              .email(email)
+              .name(name)
+              .surname(surname)
+              .profileImage(pictureBytes)
+              .build()
+      );
       log.info("Creato nuovo utente {}", email);
     } else {
       user = userOpt.get();

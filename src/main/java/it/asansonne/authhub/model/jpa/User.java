@@ -51,6 +51,9 @@ public class User implements Models {
   @Column(name = "email", unique = true, nullable = false, length = 100)
   private String email;
 
+  @Column(name = "password", nullable = false, length = 100)
+  private String password;
+
   @Column(name = "is_active", nullable = false)
   private Boolean isActive;
 

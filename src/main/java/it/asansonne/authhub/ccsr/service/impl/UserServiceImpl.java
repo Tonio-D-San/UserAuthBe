@@ -56,19 +56,11 @@ public final class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User createUser(String provider, String providerId, String email, String name, String surname, byte[] pictureUrl) {
-    return userRepository.save(User.builder()
-        .uuid(UUID.randomUUID())
-        .provider(provider)
-        .providerId(providerId)
-        .email(email)
-        .name(name)
-        .surname(surname)
-        .isActive(true)
-        .profileImage(pictureUrl)
-        .groups(List.of(
-            Objects.requireNonNull(groupRepository.findById(3).orElse(null))
-        )).build());
+  public User createUser(User user) {
+    user.setGroups(
+        List.of(Objects.requireNonNull(groupRepository.findById(3).orElse(null)))
+    );
+    return userRepository.save(user);
   }
 
   @Override
