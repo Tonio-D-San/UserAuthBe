@@ -30,7 +30,7 @@ public class LoginControllerImpl implements LoginController {
 
   @Override
   @CrossOrigin(origins = "http://localhost:5173")
-  @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE,
+  @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<UserResponse> createPerson(

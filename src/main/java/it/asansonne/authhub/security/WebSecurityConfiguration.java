@@ -25,6 +25,7 @@ public class WebSecurityConfiguration {
   private final AuthorizationAuthenticationHandler handler;
   private final CustomOauth2UserService customOAuth2UserService;
   private final ManageToken manageToken;
+  private static final String LOGIN_PROCESSING_URL = "/login";
 
   @Bean
   protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,13 +43,13 @@ public class WebSecurityConfiguration {
             .permitAll()
         ).formLogin(
             form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
+                .loginPage(LOGIN_PROCESSING_URL)
+                .loginProcessingUrl(LOGIN_PROCESSING_URL)
                 .defaultSuccessUrl("/api/v1/swagger-ui/index.html", true)
-                .failureUrl("/login?error=true")
+                .failureUrl(LOGIN_PROCESSING_URL + "?error=true")
                 .permitAll()
         ).oauth2Login(oauth -> oauth
-            .loginPage("/login")
+            .loginPage(LOGIN_PROCESSING_URL)
             .userInfoEndpoint(userInfo -> userInfo
                 .oidcUserService(customOAuth2UserService)
             ).defaultSuccessUrl("/api/v1/swagger-ui/index.html", true)
@@ -57,8 +58,8 @@ public class WebSecurityConfiguration {
             .logoutSuccessUrl("/")
             .permitAll()
         ).sessionManagement(session -> {
-          session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-          session.maximumSessions(1).maxSessionsPreventsLogin(false);
+              session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+              session.maximumSessions(1).maxSessionsPreventsLogin(false);
             }
         ).exceptionHandling(exceptionHandling -> exceptionHandling
             .defaultAuthenticationEntryPointFor(handler, new AntPathRequestMatcher("/api/**"))
