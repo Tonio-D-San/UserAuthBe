@@ -1,0 +1,105 @@
+Ho questa filter chain:
+public class WebSecurityConfiguration {
+
+  private final AuthorizationAuthenticationHandler handler;
+  private final CustomOauth2UserService customOAuth2UserService;
+
+  @Bean
+  protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    log.info("Configuring security filter chain");
+    return http
+        .cors(Customizer.withDefaults())
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(requests -> requests
+            // Proteggi solo le API
+            .requestMatchers(
+                new AntPathRequestMatcher("/api/v*/**")
+            ).authenticated()
+            .anyRequest()
+            .permitAll()
+        ).oauth2Login(oauth -> oauth
+            .loginPage("/login.html")
+            .userInfoEndpoint(userInfo -> userInfo
+                .oidcUserService(customOAuth2UserService)
+            ).defaultSuccessUrl("/api/v1/swagger-ui/", true)
+            .permitAll()
+        ).logout(logout -> logout
+            .logoutSuccessUrl("/")
+            .permitAll()
+        ).sessionManagement(session ->
+            session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        ).exceptionHandling(exceptionHandling -> exceptionHandling
+            .defaultAuthenticationEntryPointFor(handler, new AntPathRequestMatcher("/api/**"))
+            .defaultAccessDeniedHandlerFor(handler, new AntPathRequestMatcher("/api/**"))
+        ).build();
+  }
+}
+e questa è la custom service:
+public class CustomOauth2UserService implements OAuth2UserService<OidcUserRequest, OidcUser> {
+
+  private final UserRepository userRepository;
+  private final GroupRepository groupRepository;
+
+  @Bean
+  public OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
+    return userRequest -> {
+      OidcUser oidcUser = new OidcUserService().loadUser(userRequest);
+      Set<GrantedAuthority> mappedAuthorities = new HashSet<>(oidcUser.getAuthorities());
+
+      if ("johndoe@test.com".equalsIgnoreCase(oidcUser.getEmail())) {
+        mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+      }
+      mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+      return new DefaultOidcUser(
+          mappedAuthorities,
+          oidcUser.getIdToken(),
+          oidcUser.getUserInfo()
+      );
+    };
+  }
+
+  @Override
+  public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
+    OidcUser oidcUser = new OidcUserService().loadUser(userRequest);
+
+    String providerId = oidcUser.getSubject();
+    String email = oidcUser.getEmail();
+    String name = oidcUser.getFullName();
+
+    log.info("OIDC login for providerId={} email={} and name={}", providerId, email, name);
+
+    User user = userRepository
+        .findByEmail(email)
+        .orElseGet(() -> userRepository.save(
+            User.builder()
+                .provider("google")
+                .providerId(providerId)
+                .email(email)
+                .name(name)
+                .groups(List.of(
+                    Objects.requireNonNull(groupRepository.findById(3).orElse(null))
+                )).build()
+        ));
+
+    Set<GrantedAuthority> authorities = new HashSet<>();
+
+    if(user.getGroups().stream().anyMatch(group ->
+        "admin-service-administrators".equalsIgnoreCase(group.getName()))) {
+      authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    } else {
+      authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    return new DefaultOidcUser(
+        authorities,
+        oidcUser.getIdToken(),
+        oidcUser.getUserInfo()
+    );
+  }
+}
+
+Mi spieghi perché quando accedo a /login (che sta in resources/static/login.html) mi da :
+2025-10-29T12:38:47.551+01:00  WARN 26376 --- [auth_hub] [nio-8082-exec-4] o.s.web.servlet.PageNotFound             : No mapping for GET /login
+2025-10-29T12:38:47.552+01:00  WARN 26376 --- [auth_hub] [nio-8082-exec-4] o.s.web.servlet.PageNotFound             : No endpoint GET /login
+?

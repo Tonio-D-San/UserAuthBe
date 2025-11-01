@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="/templates/favicon.ico">
+</head>
+<body>
+<h2>Benvenuto!</h2>
+
+<h3>Accedi con credenziali</h3>
+<form id="loginForm" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+    <label for="firstname">Nome:</label>
+    <input type="text" id="firstname" name="firstname" required><br>
+    <label for="lastname">Cognome:</label>
+    <input type="text" id="lastname" name="lastname" required><br>
+    <label for="biography">Biografia:</label>
+    <textarea id="biography" name="biography"></textarea><br>
+    <label for="profileImage">Immagine profilo:</label>
+    <input type="file" id="profileImage" name="profileImage" accept="image/*"><br>
+    <button type="submit">Registrati</button>
+</form>
+
+<script>
+    async function toByteArray(file) {
+        return new Uint8Array(await file.arrayBuffer());
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.target;
+
+        let profileImageBytes = null;
+        if (form.profileImage.files.length > 0) {
+            profileImageBytes = Array.from(await toByteArray(form.profileImage.files[0]));
+        }
+
+        const data = {
+            username: form.username.value,
+            password: form.password.value,
+            email: form.email.value,
+            firstname: form.firstname.value,
+            lastname: form.lastname.value,
+            biography: form.biography.value,
+            profileImage: profileImageBytes
+        };
+
+        const response = await fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) alert("Registrazione riuscita!");
+        else {
+            const text = await response.text();
+            alert("Errore nella registrazione: " + text);
+        }
+    });
+</script>
+
+<hr>
+
+<h3>Oppure</h3>
+<a href="/oauth2/authorization/google">Accedi con Google</a>
+</body>
+</html>
