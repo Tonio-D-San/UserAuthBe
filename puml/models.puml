@@ -1,0 +1,114 @@
+@startuml
+' ==========================
+' MODELS
+' ==========================
+
+class Player {
+  Integer id
+  UUID uuid
+  String pgName
+  String background
+  String diary
+}
+
+class Bag {
+  Integer id
+  UUID uuid
+}
+
+class Money {
+  Integer id
+  UUID uuid
+  MoneyName moneyName
+}
+
+class Kingdom {
+  Integer id
+  UUID uuid
+  KingdomName kingdomName
+}
+
+class Card {
+  Integer id
+  UUID uuid
+  Integer totalPoints
+  Integer availablePoints
+  Integer usedPoints
+}
+
+class Ability {
+  Integer id
+  UUID uuid
+  AbilityName abilityName
+  String background
+}
+
+class Reagent {
+  Integer id
+  UUID uuid
+  ReagentName reagentName
+}
+
+class User {
+  Integer id
+  UUID uuid
+  String provider
+  String providerId
+  String email
+  String password
+  Boolean isActive
+  String name
+  String surname
+  String biography
+  byte[] profileImage
+}
+
+class Group {
+  Integer id
+  UUID uuid
+  GroupName name
+  String path
+  String description
+}
+
+' ==========================
+' RELAZIONI
+' ==========================
+
+' --- User ↔ Player ---
+User "1" --> "many" Player : has >
+
+' --- Player ↔ Card ---
+Player "1" --> "1" Card : has >
+
+' --- Player ↔ Bag ---
+Player "1" --> "1" Bag : owns >
+
+' --- Bag ↔ Player ---
+Bag "1" --> "1" Player : owner <
+
+' --- Player ↔ Ability (many-to-many) ---
+Player "many" -- "many" Ability : player_ability
+
+' --- Bag ↔ Money (one-to-many) ---
+Bag "1" --> "many" Money : contains >
+
+' --- Money ↔ Bag ---
+Money "*" --> "1" Bag : belongsTo <
+
+' --- Bag ↔ Reagent (one-to-many) ---
+Bag "1" --> "many" Reagent : holds >
+
+' --- Reagent ↔ Bag ---
+Reagent "*" --> "1" Bag : in <
+
+' --- Card ↔ Kingdom (one-to-one) ---
+Card "1" --> "1" Kingdom : linked >
+
+' --- Kingdom ↔ Player (one-to-one) ---
+Kingdom "1" --> "1" Player : belongsTo >
+
+' --- User ↔ Group (many-to-many) ---
+User "many" -- "many" Group : user_group
+
+@enduml
