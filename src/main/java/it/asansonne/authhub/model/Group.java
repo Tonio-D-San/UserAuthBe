@@ -1,15 +1,12 @@
-package it.asansonne.authhub.model.jpa;
+package it.asansonne.authhub.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.asansonne.authhub.enumeration.GroupName;
-import it.asansonne.authhub.model.Models;
 import it.asansonne.authhub.util.GroupNameConverter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

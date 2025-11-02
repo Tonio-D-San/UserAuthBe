@@ -5,6 +5,8 @@ import it.asansonne.management.enumeration.AbilityName;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -44,6 +46,7 @@ public class Ability implements Models {
   private UUID uuid;
 
   @Column(name = "ability_name", length = 50)
+  @Enumerated(EnumType.STRING)
   private AbilityName abilityName;
 
   @Column(name = "background")

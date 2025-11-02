@@ -42,7 +42,7 @@ public class Bag implements Models {
   @OneToMany(mappedBy = "bag")
   private List<Money> money;
 
-  @OneToMany(mappedBy = "reagents")
+  @OneToMany(mappedBy = "bag")
   private List<Reagent> reagents;
 
   @OneToOne(mappedBy = "bag")

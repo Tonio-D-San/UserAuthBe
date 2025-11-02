@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.asansonne.authhub.IntegrationTest;
-import it.asansonne.authhub.ccsr.repository.jpa.UserRepository;
+import it.asansonne.authhub.ccsr.repository.UserRepository;
 import it.asansonne.authhub.ccsr.service.UserService;
-import it.asansonne.authhub.model.jpa.User;
+import it.asansonne.authhub.model.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

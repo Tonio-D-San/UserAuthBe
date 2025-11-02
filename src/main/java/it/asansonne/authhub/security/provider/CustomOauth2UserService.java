@@ -2,17 +2,12 @@ package it.asansonne.authhub.security.provider;
 
 import static it.asansonne.authhub.enumeration.GroupName.ADMIN;
 
-import it.asansonne.authhub.ccsr.repository.jpa.GroupRepository;
-import it.asansonne.authhub.ccsr.repository.jpa.UserRepository;
+import it.asansonne.authhub.ccsr.repository.UserRepository;
 import it.asansonne.authhub.ccsr.service.impl.UserServiceImpl;
-import it.asansonne.authhub.model.jpa.User;
+import it.asansonne.authhub.model.User;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

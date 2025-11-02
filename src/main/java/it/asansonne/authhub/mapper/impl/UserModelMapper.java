@@ -4,7 +4,7 @@ import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.mapper.RequestModelMapper;
 import it.asansonne.authhub.mapper.ResponseModelMapper;
-import it.asansonne.authhub.model.jpa.User;
+import it.asansonne.authhub.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

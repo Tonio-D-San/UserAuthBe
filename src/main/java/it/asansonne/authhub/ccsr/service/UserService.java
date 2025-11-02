@@ -1,6 +1,6 @@
 package it.asansonne.authhub.ccsr.service;
 
-import it.asansonne.authhub.model.jpa.User;
+import it.asansonne.authhub.model.User;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;

@@ -1,9 +1,9 @@
 package it.asansonne.authhub.ccsr.service.impl;
 
-import it.asansonne.authhub.ccsr.repository.jpa.GroupRepository;
-import it.asansonne.authhub.ccsr.repository.jpa.UserRepository;
+import it.asansonne.authhub.ccsr.repository.GroupRepository;
+import it.asansonne.authhub.ccsr.repository.UserRepository;
 import it.asansonne.authhub.ccsr.service.UserService;
-import it.asansonne.authhub.model.jpa.User;
+import it.asansonne.authhub.model.User;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Objects;

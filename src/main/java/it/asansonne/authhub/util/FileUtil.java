@@ -2,7 +2,7 @@ package it.asansonne.authhub.util;
 
 import static it.asansonne.authhub.enumeration.GroupName.ADMIN;
 
-import it.asansonne.authhub.model.jpa.User;
+import it.asansonne.authhub.model.User;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

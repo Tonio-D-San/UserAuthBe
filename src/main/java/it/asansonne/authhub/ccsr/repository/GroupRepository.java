@@ -1,7 +1,7 @@
-package it.asansonne.authhub.ccsr.repository.jpa;
+package it.asansonne.authhub.ccsr.repository;
 
-import it.asansonne.authhub.model.jpa.Group;
-import it.asansonne.authhub.model.jpa.User;
+import it.asansonne.authhub.model.Group;
+import it.asansonne.authhub.model.User;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
