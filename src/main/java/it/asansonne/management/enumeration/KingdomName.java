@@ -5,44 +5,47 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum KingdomName implements Name{
-  CORONOR("Coronor", "C") {
+public enum KingdomName implements Name {
+  CORONOR("Coronor", "C", "coronor.battlecry") {
     @Override
-    public String battleCry() { return "He who runs on the cold, slips on shame."; }
+    public String battleCry() {
+      return getMaxim();
+    }
   },
-  LEVALIA("Levalia", "L") {
+  LEVALIA("Levalia", "L", "levalia.battlecry") {
     @Override
-    public String battleCry() { return "By the Light of the Plains!"; }
+    public String battleCry() {
+      return getMaxim();
+    }
   },
-  MALATEA("Malatea", "M") {
+  MALATEA("Malatea", "M", "malatea.battlecry") {
     @Override
-    public String battleCry() { return "The Blood of the King!"; }
+    public String battleCry() {
+      return getMaxim();
+    }
   },
-  PORTUMBRIA("Portumbria", "P") {
+  PORTUMBRIA("Portumbria", "P", "portumbria.battlecry") {
     @Override
-    public String battleCry() { return "The King's Fury!"; }
+    public String battleCry() {
+      return getMaxim();
+    }
   },
-  TAL_MERIDIA("Tal-Meridia", "T") {
+  TAL_MERIDIA("Tal-Meridia", "T", "talmeridia.battlecry") {
     @Override
-    public String battleCry() { return "The King's Reign!"; }
+    public String battleCry() {
+      return getMaxim();
+    }
   },
-  VALMORA("Valmora", "V") {
+  VALMORA("Valmora", "V", "valmora.battlecry") {
     @Override
-    public String battleCry() { return "The King's Name!"; }
-  }
-  ;
+    public String battleCry() {
+      return getMaxim();
+    }
+  };
 
   private final String name;
   private final String abbreviation;
-
-  public static KingdomName fromName(String name) {
-    for (KingdomName k : values()) {
-      if (k.name.equalsIgnoreCase(name)) {
-        return k;
-      }
-    }
-    throw new IllegalArgumentException("Nessun regno trovato per: " + name);
-  }
+  private final String maxim;
 
   public abstract String battleCry();
 }

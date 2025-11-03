@@ -25,14 +25,14 @@ public class I18nConfig implements WebMvcConfigurer {
   @Bean
   public LocaleResolver localeResolver() {
     SessionLocaleResolver slr = new SessionLocaleResolver();
-    slr.setDefaultLocale(Locale.ENGLISH);
+    slr.setDefaultLocale(Locale.ITALIAN);
     return slr;
   }
 
   @Bean
   public LocaleChangeInterceptor localeChangeInterceptor() {
     LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-    lci.setParamName("lang"); // esempio: ?lang=it
+    lci.setParamName("lang");
     return lci;
   }
 

@@ -26,7 +26,6 @@
     <input type="file" id="profileImage" name="profileImage" accept="image/*"><br>
     <button type="submit">Registrati</button>
 </form>
-<p th:text="${message}"></p>
 
 
 <script>
@@ -71,5 +70,7 @@
 
 <h3>Oppure</h3>
 <a href="/oauth2/authorization/google">Accedi con Google</a>
+<p th:text="${message}"></p>
+<p th:text="${name}"></p>
 </body>
 </html>
