@@ -87,7 +87,7 @@ Player "1" --> "1" Bag : owns >
 ' --- Bag ↔ Player ---
 Bag "1" --> "1" Player : owner <
 
-' --- Player ↔ Ability (many-to-many) ---
+' --- Player ↔ PlayerAbilities (many-to-many) ---
 Player "many" -- "many" Ability : player_ability
 
 ' --- Bag ↔ Money (one-to-many) ---

@@ -2,7 +2,7 @@ package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
 import it.asansonne.management.enumeration.AbilityName;
-import it.asansonne.management.enumeration.AbilityType;
+import it.asansonne.management.enumeration.Training;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,14 +29,14 @@ import lombok.ToString;
 
 @Builder
 @Entity
-@Table(name = "ability")
+@Table(name = "player_abilities")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 @ToString
-public class Ability implements Models {
+public class PlayerAbilities implements Models {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -46,12 +46,12 @@ public class Ability implements Models {
   @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
   private UUID uuid;
 
+  @Column(name = "training")
+  private Training training;
+
   @Column(name = "ability_name", length = 50)
   @Enumerated(EnumType.STRING)
   private AbilityName abilityName;
-
-  @Column(name = "abilityType")
-  private AbilityType abilityType;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(name = "player_ability",

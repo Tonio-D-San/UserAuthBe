@@ -71,5 +71,5 @@ public class Player implements Models {
   @JoinTable(name = "player_ability",
       joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "ability_id", referencedColumnName = "id"))
-  private List<Ability> abilities;
+  private List<PlayerAbilities> abilities;
 }
