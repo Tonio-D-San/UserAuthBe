@@ -8,6 +8,7 @@ import it.asansonne.authhub.model.User;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -89,9 +90,11 @@ public class CustomOauth2UserService implements OAuth2UserService<OidcUserReques
     if (userOpt.isEmpty()) {
       user = userService.createUser(
           User.builder()
+              .uuid(UUID.randomUUID())
               .provider(provider)
               .providerId(providerId)
               .email(email)
+              .isActive(true)
               .name(name)
               .surname(surname)
               .profileImage(pictureBytes)

@@ -1,370 +1,112 @@
-In base a queste classi Java:
-public class Ability implements Models {
+Ok allora ho appena scoperto che in :
+@Entity
+@Table(name = "ability_definition")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class AbilityDefinition implements Models {
+
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
+  @Enumerated(EnumType.STRING)
+  private AbilityName code;
 
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "ability_name", length = 50)
-  private AbilityName abilityName;
-
-  @Column(name = "background")
-  private String background;
-
-  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-  @JoinTable(name = "player_ability",
-      joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "ability_id", referencedColumnName = "id"))
-  private List<Player> players;
-}
-public class Bag implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @OneToMany(mappedBy = "bag")
-  private List<Money> money;
-
-  @OneToMany(mappedBy = "reagents")
-  private List<Reagent> reagents;
-
-  @OneToOne(mappedBy = "bag")
-  private Player owner;
-}
-public class Card implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "total_points")
-  private Integer totalPoints;
-
-  @Column(name = "available_points")
-  private Integer availablePoints;
-
-  @Column(name = "used_points")
-  private Integer usedPoints;
-
-  @OneToOne(mappedBy = "kingdom")
-  private Kingdom kingdom;
-
-  @OneToOne(mappedBy = "card")
-  private Player player;
-}
-public class Diary implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "name", nullable = false, unique = true)
+  @Column(nullable = false)
   private String name;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "player_id", nullable = false)
-  private Player owner;
+  @Column(nullable = false)
+  private String descriptionKey;
 
-  @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<DiaryEntry> entries;
-}
-public class DiaryEntry implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "diary_id", nullable = false)
-  private Diary diary;
-
-  @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Paragraph> paragraphs;
-}
-public class DiaryImage implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "image_data", columnDefinition = "BYTEA")
-  private byte[] imageData;
-
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "entry_id", nullable = false)
-  private List<Paragraph> paragraphs;
-}
-public class Kingdom implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "kingdom_name", length = 50)
-  private KingdomName kingdomName;
-
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinColumn(name = "player_id")
-  private Player player;
-}
-public class Money implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "money_name", length = 50)
-  private MoneyName moneyName;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "bag_id", nullable = false)
-  private Bag bag;
-}
-public class Paragraph implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "date")
-  private Long date; //Cambiare in millis
-
-  @Column(name = "description", columnDefinition = "TEXT")
-  private String description;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "diary_entry_id", nullable = false)
-  private DiaryEntry entry;
-
-  @ManyToMany(mappedBy = "entry", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<DiaryImage> images;
-}
-public class Player implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "pg_name", length = 50)
-  private String pgName;
-
-  @Column(name = "background")
-  private String background;
-
-  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Diary> diaries;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
-
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinColumn(name = "card_id")
-  private Card card;
-
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
-  @JoinColumn(name = "bag_id", nullable = false, unique = true)
-  private Bag bag;
+  @Enumerated(EnumType.STRING)
+  private AbilityType type;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-  @JoinTable(name = "player_ability",
-      joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "ability_id", referencedColumnName = "id"))
-  private List<Ability> abilities;
+  @JoinTable(
+      name = "ability_definition_notes",
+      joinColumns = @JoinColumn(name = "ability_definition_code", referencedColumnName = "code"),
+      inverseJoinColumns = @JoinColumn(name = "note_id", referencedColumnName = "id")
+  )
+  private List<Note> notes;
+  
+  @ElementCollection
+  @Enumerated(EnumType.STRING)
+  private List<AbilityName> requirements;
+
+  @ElementCollection
+  @Enumerated(EnumType.STRING)
+  private List<AbilityName> unlockables;
+
+  @Enumerated(EnumType.STRING)
+  private RequirementType requirementType;
 }
-public class Reagent implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
+Tra i requirements ho (per esempio):
+Alchimia I:
+Il Personaggio è in grado di analizzare
+un composto e comprenderne gli
+effetti, purché dedichi almeno 5
+minuti all’osservazione, allo studio e
+all’interpretazione di quest’ultimo.
+Questa abilità permette inoltre di accedere
+ad una delle Tre Vie Alchemiche e
+di apprendere le [Misture Base e da
+Apprendista] della relativa Via, presenti nelle
+appendici.
+Alchimia II:
+(Prerequisito: Alchimia I, 1 Mistura Base e 2
+Misture da Apprendista)
+Il Personaggio è in grado di analizzare
+un composto e comprendere la
+composizione di una mistura, purché
+dedichi almeno 5 minuti all’osservazione,
+allo studio e all’interpretazione di
+quest’ultimo.
+Questa abilità permette inoltre di accedere
+all’apprendimento delle [Misture da
+Esperto] presenti nelle appendici.
+Alchimia III:
+(Prerequisito: Alchimia II, 3 Misture da
+Esperto)
+Il Personaggio è in grado di scomporre una
+mistura alchemica già pronta per ricavare
+un reagente a scelta presente nella
+mistura stessa, purché dedichi almeno
+5 minuti all’osservazione, allo studio e
+all’interpretazione di quest’ultimo.
+Questa abilità permette inoltre di accedere
+all’apprendimento delle [Misture da
+Maestro] presenti nelle appendici.
+Le misture sono altri tipi di oggetti però (che hanno ingredienti, ricette, ecc)
+Mistura Base:
+Inchiostro del crepuscolo
+Ingredienti: Alcohol, Nigredo
+Effetti: L’Alchimista può creare un inchiostro
+invisibile e il relativo solvente rivelatore,
+seguendo una ricetta pratica con ingredienti
+reali oltre i cartellini Ingredienti.
+L’inchiostro consente di scrivere messaggi
+che non sono visibili a occhio nudo.
+Per motivi di gioco, è obbligatorio marcare
+i quattro angoli fronte e retro del foglio
+con un simbolo evidente (per esempio
+con asterischi), a segnalare la presenza del
+messaggio invisibile.
+Ricetta per l’inchiostro invisibile:
+1 cucchiaino di bicarbonato di sodio
+2 cucchiai d’acqua
+(Mescolare fino a ottenere un liquido con cui
+scrivere.)
+Come usare il Solvente?
+Prima di usare il solvente su tutto il foglio è
+obbligatorio bagnare con il solvente uno
+dei quattro angoli del foglio.
+Se compare un qualsiasi simbolo nascosto
+allora il foglio conterrà messaggi nascosti,
+contrariamente non servirà usare il
+solvente sul foglio.
+Ricetta per il solvente rivelatore:
+1/2 cucchiaino di curcuma in polvere
+2 cucchiai di alcool o igenizzante liquido
+(Mescolare e applicare sul foglio per far
+emergere il messaggio.)
 
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
-  @Column(name = "reagent_name", length = 50)
-  private ReagentName reagentName;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "bag_id", nullable = false)
-  private Bag bag;
-}
-
-Correqgimi questi DDL
--- =========================================
--- ENUM PLACEHOLDERS (se li vuoi come enum DB)
--- =========================================
--- CREATE TYPE money_name AS ENUM ('cartographer', 'constitution');
--- CREATE TYPE ability_name AS ENUM (...);
--- CREATE TYPE reagent_name AS ENUM (...);
--- CREATE TYPE kingdom_name AS ENUM (...);
-
--- =========================================
--- CARD
--- =========================================
-CREATE TABLE card (
-                      id SERIAL PRIMARY KEY,
-                      uuid UUID NOT NULL UNIQUE,
-                      total_points INTEGER,
-                      available_points INTEGER,
-                      used_points INTEGER
-);
-
--- =========================================
--- BAG
--- =========================================
-CREATE TABLE bag (
-                     id SERIAL PRIMARY KEY,
-                     uuid UUID NOT NULL UNIQUE
-);
-
-
--- =========================================
--- DIARY
--- =========================================
-CREATE TABLE diary (
-                       id SERIAL PRIMARY KEY,
-                       uuid UUID NOT NULL DEFAULT gen_random_uuid(),
-                       name VARCHAR(100) NOT NULL UNIQUE
-);
-
--- =========================================
--- DIARY_ENTRY
--- =========================================
-CREATE TABLE diary_entry (
-                             id SERIAL PRIMARY KEY,
-                             diary_id INTEGER NOT NULL REFERENCES diary(id) ON DELETE CASCADE,
-                             date TIMESTAMP NOT NULL DEFAULT NOW(),
-                             description TEXT
-);
-
--- =========================================
--- DIARY_ENTRY_PARTICIPANTS (ManyToMany Player ↔ DiaryEntry)
--- =========================================
-CREATE TABLE diary_entry_participants (
-                                          entry_id INTEGER NOT NULL REFERENCES diary_entry(id) ON DELETE CASCADE,
-                                          player_id INTEGER NOT NULL REFERENCES player(id) ON DELETE CASCADE,
-                                          PRIMARY KEY (entry_id, player_id)
-);
-
--- =========================================
--- DIARY_IMAGE
--- =========================================
-CREATE TABLE diary_image (
-                             id SERIAL PRIMARY KEY,
-                             entry_id INTEGER NOT NULL REFERENCES diary_entry(id) ON DELETE CASCADE,
-                             image_data BYTEA NOT NULL
-);
-
--- =========================================
--- PLAYER
--- =========================================
-CREATE TABLE player (
-                        id SERIAL PRIMARY KEY,
-                        uuid UUID NOT NULL UNIQUE,
-                        pg_name VARCHAR(50),
-                        background TEXT,
-                        diary_id INTEGER,
-                        user_id BIGINT NOT NULL,
-                        card_id INTEGER,
-                        bag_id INTEGER NOT NULL UNIQUE,
-                        CONSTRAINT fk_player_diary FOREIGN KEY (diary_id) REFERENCES diary (id) ON DELETE CASCADE,
-                        CONSTRAINT fk_player_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-                        CONSTRAINT fk_player_card FOREIGN KEY (card_id) REFERENCES card (id),
-                        CONSTRAINT fk_player_bag FOREIGN KEY (bag_id) REFERENCES bag (id)
-);
-
--- =========================================
--- MONEY
--- =========================================
-CREATE TABLE money (
-                       id SERIAL PRIMARY KEY,
-                       uuid UUID NOT NULL UNIQUE,
-                       money_name VARCHAR(50),
-                       bag_id INTEGER NOT NULL,
-                       CONSTRAINT fk_money_bag FOREIGN KEY (bag_id) REFERENCES bag (id) ON DELETE CASCADE
-);
-
--- =========================================
--- REAGENT
--- =========================================
-CREATE TABLE reagent (
-                         id SERIAL PRIMARY KEY,
-                         uuid UUID NOT NULL UNIQUE,
-                         reagent_name VARCHAR(50),
-                         bag_id INTEGER NOT NULL,
-                         CONSTRAINT fk_reagent_bag FOREIGN KEY (bag_id) REFERENCES bag (id) ON DELETE CASCADE
-);
-
--- =========================================
--- KINGDOM
--- =========================================
-CREATE TABLE kingdom (
-                         id SERIAL PRIMARY KEY,
-                         uuid UUID NOT NULL UNIQUE,
-                         kingdom_name VARCHAR(50),
-                         player_id INTEGER,
-                         CONSTRAINT fk_kingdom_player FOREIGN KEY (player_id) REFERENCES player (id) ON DELETE CASCADE
-);
-
--- =========================================
--- ABILITY
--- =========================================
-CREATE TABLE ability (
-                         id SERIAL PRIMARY KEY,
-                         uuid UUID NOT NULL UNIQUE,
-                         ability_name VARCHAR(50),
-                         background TEXT
-);
-
--- =========================================
--- PLAYER_ABILITY (join table ManyToMany)
--- =========================================
-CREATE TABLE player_ability (
-                                player_id INTEGER NOT NULL,
-                                ability_id INTEGER NOT NULL,
-                                PRIMARY KEY (player_id, ability_id),
-                                CONSTRAINT fk_player_ability_player FOREIGN KEY (player_id) REFERENCES player (id) ON DELETE CASCADE,
-                                CONSTRAINT fk_player_ability_ability FOREIGN KEY (ability_id) REFERENCES ability (id) ON DELETE CASCADE
-);
+Quindi i prerequititi e i sbloccabili possono essere tipi di oggetti diversi, come posso gestirlo?

@@ -16,7 +16,7 @@ public class AbilityLocalizationService {
   }
 
   public String getLocalizedName(AbilityDefinition def, Locale locale) {
-    return messageSource.getMessage(def.getNameKey(), null, locale);
+    return messageSource.getMessage(def.getName(), null, locale);
   }
 }
 

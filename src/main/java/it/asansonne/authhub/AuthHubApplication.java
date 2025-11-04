@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "it.asansonne")
-@EnableJpaRepositories(basePackages = "it.asansonne.authhub.ccsr.repository")
+@EnableJpaRepositories(basePackages = {"it.asansonne.authhub.ccsr.repository", "it.asansonne.management.ccsr.repository"})
 @EntityScan(basePackages = {"it.asansonne.authhub.model", "it.asansonne.management.model"})
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class AuthHubApplication {

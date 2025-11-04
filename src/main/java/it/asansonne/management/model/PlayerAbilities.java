@@ -47,6 +47,7 @@ public class PlayerAbilities implements Models {
   private UUID uuid;
 
   @Column(name = "training")
+  @Enumerated(EnumType.STRING)
   private Training training;
 
   @Column(name = "ability_name", length = 50)
