@@ -7,7 +7,6 @@ import it.asansonne.management.ccsr.controller.PlayerController;
 import it.asansonne.management.ccsr.service.AbilityDefinitionService;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
 import it.asansonne.management.enumeration.AbilityName;
-import it.asansonne.management.model.AbilityDefinition;
 import it.asansonne.management.model.Player;
 import it.asansonne.management.model.PlayerAbilities;
 import java.util.List;
@@ -25,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(API + "/" + API_VERSION + "/players")
 @AllArgsConstructor
 public class PlayerControllerImpl implements PlayerController {
-
-
 
   private final AbilityDefinitionService service;
 
@@ -50,9 +47,10 @@ public class PlayerControllerImpl implements PlayerController {
   }
 
   @GetMapping(value = "/{ability}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public AbilityDefinition findByAbility(
-      @PathVariable("ability") AbilityName abilityName
+  public AbilityDefinitionDTO findByAbility(
+      @PathVariable("ability") AbilityName abilityName,
+      Locale locale
   ) {
-    return service.findAbilityDefinitionByCode(abilityName);
+    return service.findAbilityDefinitionByCode(abilityName, locale);
   }
 }

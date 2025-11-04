@@ -34,13 +34,16 @@ public class AbilityDefinitionService {
     ));
   }
 
-  public AbilityDefinition findAbilityDefinitionByCode(AbilityName abilityName) {
-    return repository.findAbilityDefinitionByCode(abilityName).orElse(
-        AbilityDefinition.builder()
-            .code(AbilityName.CARTOGRAPHER)
-            .name(messageSource.getMessage("cartographer.name", null, Locale.ITALIAN))
-            .descriptionKey("cartographer.description")
-            .build()
-    );
+  public AbilityDefinitionDTO findAbilityDefinitionByCode(AbilityName abilityName, Locale locale) {
+    AbilityDefinition def = repository.findAbilityDefinitionByCode(abilityName)
+        .orElseThrow(() -> new IllegalArgumentException("Ability not found: " + abilityName));
+
+    return AbilityDefinitionDTO.builder()
+        .code(def.getCode().name())
+        .name(messageSource.getMessage(def.getName(), null, locale))
+        .description(messageSource.getMessage(def.getDescriptionKey(), null, locale))
+        .type(def.getType().name())
+        .requirementType(def.getRequirementType().name())
+        .build();
   }
 }
