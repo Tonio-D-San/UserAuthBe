@@ -2,9 +2,12 @@ package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
 import it.asansonne.authhub.model.User;
+import it.asansonne.management.enumeration.Training;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -66,6 +69,10 @@ public class Player implements Models {
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
   @JoinColumn(name = "bag_id", nullable = false, unique = true)
   private Bag bag;
+
+  @Column(name = "training")
+  @Enumerated(EnumType.STRING)
+  private Training training;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(name = "player_ability",

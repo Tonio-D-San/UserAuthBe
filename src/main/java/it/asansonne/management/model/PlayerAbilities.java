@@ -2,7 +2,6 @@ package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
 import it.asansonne.management.enumeration.AbilityName;
-import it.asansonne.management.enumeration.Training;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,10 +44,6 @@ public class PlayerAbilities implements Models {
 
   @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
   private UUID uuid;
-
-  @Column(name = "training")
-  @Enumerated(EnumType.STRING)
-  private Training training;
 
   @Column(name = "ability_name", length = 50)
   @Enumerated(EnumType.STRING)
