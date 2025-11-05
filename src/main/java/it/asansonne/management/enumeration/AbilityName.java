@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum AbilityName implements Name {
+  // GENERIC ABILITIES
   CARTOGRAPHER("cartographer.name"),
   MARSHAL("marshall.name"),
   HERMETIC_CIPHER("hermetic_cipher.name"),
@@ -30,7 +31,81 @@ public enum AbilityName implements Name {
   REFINE_ALATHIUM("refine_alathium.name"),
   LOCKPICKING("lockpicking.name"),
   EVALUATE("evaluate.name"),
-  RITUAL_VECTOR("ritual_vector.name");
+  RITUAL_VECTOR("ritual_vector.name"),
+  //ALCHEMY
+  ALCHEMY_ONE("alchemy_one.name"),
+  ALCHEMY_TWO("alchemy_two.name"),
+  ALCHEMY_THREE("alchemy_three.name"),
+  ALCHEMICAL_CROSSROADS("alchemical_crossroads.name"),
+  IMMUNOLOGIST("immunologist.name"),
+  //EXTRACTION
+  EXTRACTION_ONE("extraction_one.name"),
+  EXTRACTION_TWO("extraction_two.name"),
+  EXTRACTION_THREE("extraction_three.name"),
+  MINERALOGY_ONE("mineralogy_one.name"),
+  MINERALOGY_TWO("mineralogy_two.name"),
+  MINERALOGY_THREE("mineralogy_three.name"),
+  FINDING_COLLECTION_AREAS("finding_collection_areas.name"),
+  HERBAL_TRASMUTATION("herbal_transmutation.name"),
+  MINERAL_TRASNMUTATION("mineral_trasnmutation.name"),
+  //CRAFTSMANSHIP
+  CRAFTSMAN_ONE("craftsman_one.name"),
+  CRAFTSMAN_TWO("craftsman_two.name"),
+  CRAFTSMAN_THREE("craftsman_three.name"),
+  MYSTIC_SMITH("mystic_smith.name"),
+  ARTIFICER_ONE("artificer_one.name"),
+  ARTIFICER_TWO("artificer_two.name"),
+  ARTIFICER_THREE("artificer_three.name"),
+  //COMBAT
+  LIGHT_ARMOR("light_armor.name"),
+  MEDIUM_ARMOR("medium_armor.name"),
+  HEAVY_ARMOR("heavy_armor.name"),
+  MASTERY_TWO_HANDED_WEAPONS("mastery_two_handed_weapons.name"),
+  MASTERY_ONE_HANDED_WEAPONS_SHORT("mastery_one_handed_weapons_short.name"),
+  MASTERY_ONE_HANDED_WEAPONS("mastery_one_handed_weapons.name"),
+  MASTERY_FIREARMS("mastery_firearms.name"),
+  MASTERY_THROWING_WEAPONS("mastery_throwing_weapons.name"),
+  MASTERY_SHOOTING_WEAPONS("mastery_shooting_weapons.name"),
+  MASTERY_SHIELD("mastery_shield.name"),
+  BREATHING("breathing.name"),
+  IMPROVED_BREATHING("improved_breathing.name"),
+  //RECOVERY
+  FIRST_AID("first_aid.name"),
+  EXPERT_RESCUER("expert_rescuer.name"),
+  HEALING_ARTS("healing_arts.name"),
+  SURGEON("surgeon.name"),
+  FIELD_SURGEON_ONE("field_surgeon_one.name"),
+  FIELD_SURGEON_TWO("field_surgeon_two.name"),
+  FIELD_SURGEON_THREE("field_surgeon_three.name"),
+  FIELD_EXPEDIENTS_ONE("field_expedient_one.name"),
+  FIELD_EXPEDIENTS_TWO("field_expedient_two.name"),
+  FIELD_EXPEDIENTS_THREE("field_expedient_three.name"),
+  TENACIOUS_HEALER("tenacious_healer.name"),
+  TOXICOLOGIST("toxicologist.name"),
+  //MAGIC
+  MAGICAL_CONTAMINATION("magical_contamination.name"),
+  POWER_GIFT("power_gift.name"),
+  ENCHANTER_ONE("enchanter_one.name"),
+  ENCHANTER_TWO("enchanter_two.name"),
+  ENCHANTER_THREE("enchanter_three.name"),
+  LIGHT_ENCHANTER("light_enchanter.name"),
+  BATTLE_ENCHANTER("battle_enchanter.name"),
+  WAR_ENCHANTER("war_enchanter.name"),
+  //RITUALIST
+  RITUALIST_ONE("ritualist_one.name"),
+  RITUALIST_TWO("ritualist_two.name"),
+  RITUALIST_THREE("ritualist_three.name"),
+  //YIELD
+  HERBAL_INCOME_ONE("herbal_income_one.name"),
+  HERBAL_INCOME_TWO("herbal_income_two.name"),
+  HERBAL_INCOME_THREE("herbal_income_three.name"),
+  MINERAL_INCOME_ONE("mineral_income_one.name"),
+  MINERAL_INCOME_TWO("mineral_income_two.name"),
+  MINERAL_INCOME_THREE("mineral_income_three.name"),
+  MONEY_INCOME_ONE("money_income_one.name"),
+  MONEY_INCOME_TWO("money_income_two.name"),
+  MONEY_INCOME_THREE("money_income_three.name"),
+  FENCE("fence.name");
 
   private final String name;
 
