@@ -12,7 +12,7 @@ public class AbilityLocalizationService {
   private final MessageSource messageSource;
 
   public String getLocalizedDescription(AbilityDefinition def, Locale locale) {
-    return messageSource.getMessage(def.getDescriptionKey(), null, locale);
+    return messageSource.getMessage(def.getDescription(), null, locale);
   }
 
   public String getLocalizedName(AbilityDefinition def, Locale locale) {

@@ -1,6 +1,5 @@
 package it.asansonne.management.ccsr.service;
 
-import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.management.ccsr.repository.AbilityDefinitionRepository;
 import it.asansonne.management.ccsr.repository.ReagentRepository;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
@@ -11,7 +10,6 @@ import it.asansonne.management.model.Reagent;
 import it.asansonne.management.service.AbilityLocalizationService;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -60,7 +58,7 @@ public class AbilityDefinitionService {
         .code(def.getCode().name())
         .name(messageSource.getMessage(def.getName(), null, locale))
         .description(
-            messageSource.getMessage(def.getDescriptionKey(),
+            messageSource.getMessage(def.getDescription(),
             new Object[]{c1, c2},
             locale)
         ).type(def.getType().name())
