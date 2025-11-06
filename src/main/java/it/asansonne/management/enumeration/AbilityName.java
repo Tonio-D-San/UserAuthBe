@@ -76,10 +76,8 @@ public enum AbilityName implements Name {
   SURGEON("surgeon.name", "surgeon.description"),
   FIELD_SURGEON_ONE("field_surgeon_one.name", "field_surgeon_one.description"),
   FIELD_SURGEON_TWO("field_surgeon_two.name", "field_surgeon_two.description"),
-  FIELD_SURGEON_THREE("field_surgeon_three.name", "field_surgeon_three.description"),
   FIELD_EXPEDIENTS_ONE("field_expedient_one.name", "field_expedient_one.description"),
   FIELD_EXPEDIENTS_TWO("field_expedient_two.name", "field_expedient_two.description"),
-  FIELD_EXPEDIENTS_THREE("field_expedient_three.name", "field_expedient_three.description"),
   TENACIOUS_HEALER("tenacious_healer.name", "tenacious_healer.description"),
   TOXICOLOGIST("toxicologist.name", "toxicologist.description"),
   //MAGIC
