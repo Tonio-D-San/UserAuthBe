@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @Controller
 @RequiredArgsConstructor
 public class LoginControllerImpl implements LoginController {
@@ -49,7 +50,6 @@ public class LoginControllerImpl implements LoginController {
 
 
   @Override
-  @CrossOrigin(origins = "http://localhost:5173")
   @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)

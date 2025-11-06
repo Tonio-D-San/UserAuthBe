@@ -25,7 +25,7 @@ public class WebSecurityConfiguration {
   private final AuthorizationAuthenticationHandler handler;
   private final CustomOauth2UserService customOAuth2UserService;
   private final ManageToken manageToken;
-  private static final String LOGIN_PROCESSING_URL = "/login";
+  private static final String LOGIN_PROCESSING_URL = "http://localhost:5173/login";
 
   @Bean
   protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -62,7 +62,9 @@ public class WebSecurityConfiguration {
               session.maximumSessions(1).maxSessionsPreventsLogin(false);
             }
         ).exceptionHandling(exceptionHandling -> exceptionHandling
-            .defaultAuthenticationEntryPointFor(handler, new AntPathRequestMatcher("/api/**"))
+            .authenticationEntryPoint((_, res, _) ->
+                res.sendRedirect(LOGIN_PROCESSING_URL)
+            ).defaultAuthenticationEntryPointFor(handler, new AntPathRequestMatcher("/api/**"))
             .defaultAccessDeniedHandlerFor(handler, new AntPathRequestMatcher("/api/**"))
         ).build();
   }
