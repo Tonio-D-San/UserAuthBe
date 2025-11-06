@@ -5,47 +5,17 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum KingdomName implements Name {
-  CORONOR("Coronor", "C", "coronor.battle_cry") {
-    @Override
-    public String battleCry() {
-      return getMaxim();
-    }
-  },
-  LEVALIA("Levalia", "L", "levalia.battle_cry") {
-    @Override
-    public String battleCry() {
-      return getMaxim();
-    }
-  },
-  MALATEA("Malatea", "M", "malatea.battle_cry") {
-    @Override
-    public String battleCry() {
-      return getMaxim();
-    }
-  },
-  PORTUMBRIA("Portumbria", "P", "portumbria.battle_cry") {
-    @Override
-    public String battleCry() {
-      return getMaxim();
-    }
-  },
-  TAL_MERIDIA("Tal-Meridia", "T", "talmeridia.battle_cry") {
-    @Override
-    public String battleCry() {
-      return getMaxim();
-    }
-  },
-  VALMORA("Valmora", "V", "valmora.battle_cry") {
-    @Override
-    public String battleCry() {
-      return getMaxim();
-    }
-  };
+public enum KingdomName {
+  CORONOR("Coronor", "C", "coronor.battle_cry"),
+  LEVALIA("Levalia", "L", "levalia.battle_cry"),
+  MALATEA("Malatea", "M", "malatea.battle_cry"),
+  PORTUMBRIA("Portumbria", "P", "portumbria.battle_cry"),
+  TAL_MERIDIA("Tal-Meridia", "T", "talmeridia.battle_cry"),
+  VALMORA("Valmora", "V", "valmora.battle_cry")
+  ;
 
   private final String name;
   private final String abbreviation;
   private final String maxim;
 
-  public abstract String battleCry();
 }

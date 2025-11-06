@@ -42,7 +42,7 @@ public class LoginControllerImpl implements LoginController {
                         HttpServletRequest request,
                         Model model) {
     Locale locale = RequestContextUtils.getLocale(request);
-    String message = messageSource.getMessage(KingdomName.CORONOR.battleCry(), new Object[]{name}, locale);
+    String message = messageSource.getMessage(KingdomName.CORONOR.getMaxim(), new Object[]{name}, locale);
     model.addAttribute("message", message);
     model.addAttribute("name", name);
     return "login";

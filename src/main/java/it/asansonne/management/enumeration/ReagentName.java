@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ReagentName implements Name {
+public enum ReagentName {
   REAGENT_A("Reagent A", "A"),
   REAGENT_B("Reagent B", "B")
   ;

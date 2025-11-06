@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum MoneyName implements Name {
+public enum MoneyName {
   COPPER("copper", "c"),
   SILVER("silver", "s"),
   GOLD("gold", "g")

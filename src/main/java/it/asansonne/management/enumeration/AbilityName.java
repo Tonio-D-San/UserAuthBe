@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum AbilityName implements Name {
+public enum AbilityName {
   // GENERIC ABILITIES
   CARTOGRAPHER("cartographer.name", "cartographer.description"),
   MARSHAL("marshall.name", "marshall.description"),
