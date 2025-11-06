@@ -47,7 +47,7 @@ public enum AbilityName implements Name {
   MINERALOGY_THREE("mineralogy_three.name"),
   FINDING_COLLECTION_AREAS("finding_collection_areas.name"),
   HERBAL_TRASMUTATION("herbal_transmutation.name"),
-  MINERAL_TRASNMUTATION("mineral_trasnmutation.name"),
+  MINERAL_TRANSMUTATION("mineral_transmutation.name"),
   //CRAFTSMANSHIP
   CRAFTSMAN_ONE("craftsman_one.name"),
   CRAFTSMAN_TWO("craftsman_two.name"),
