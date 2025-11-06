@@ -40,7 +40,7 @@ public class AbilityDefinition implements Models {
   private String name;
 
   @Column(nullable = false)
-  private String description;
+  private String descriptionKey;
 
   @Enumerated(EnumType.STRING)
   private AbilityType type;

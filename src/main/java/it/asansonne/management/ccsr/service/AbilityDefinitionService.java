@@ -58,7 +58,7 @@ public class AbilityDefinitionService {
         .code(def.getCode().name())
         .name(messageSource.getMessage(def.getName(), null, locale))
         .description(
-            messageSource.getMessage(def.getDescription(),
+            messageSource.getMessage(def.getDescriptionKey(),
             new Object[]{c1, c2},
             locale)
         ).type(def.getType().name())
