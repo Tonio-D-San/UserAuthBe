@@ -56,15 +56,14 @@ public class AbilityDefinitionService {
         .reagentName(ReagentName.REAGENT_B)
         .build().getReagentName().getName();
     
-    String finalDesc = messageSource.getMessage("herbal_transmutation.description",
-        new Object[]{c1, c2},
-        locale);
-    
     return AbilityDefinitionDTO.builder()
         .code(def.getCode().name())
         .name(messageSource.getMessage(def.getName(), null, locale))
-        .description(messageSource.getMessage(finalDesc, null, locale))
-        .type(def.getType().name())
+        .description(
+            messageSource.getMessage(def.getDescriptionKey(),
+            new Object[]{c1, c2},
+            locale)
+        ).type(def.getType().name())
         .requirementType(def.getRequirementType().name())
         .build();
   }
