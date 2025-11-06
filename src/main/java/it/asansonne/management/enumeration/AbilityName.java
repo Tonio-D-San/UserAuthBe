@@ -39,9 +39,9 @@ public enum AbilityName implements Name {
   ALCHEMICAL_CROSSROADS("alchemical_crossroads.name"),
   IMMUNOLOGIST("immunologist.name"),
   //EXTRACTION
-  EXTRACTION_ONE("extraction_one.name"),
-  EXTRACTION_TWO("extraction_two.name"),
-  EXTRACTION_THREE("extraction_three.name"),
+  HERBAL_MEDICINE_ONE("herbal_medicine_one.name"),
+  HERBAL_MEDICINE_TWO("herbal_medicine_two.name"),
+  HERBAL_MEDICINE_THREE("herbal_medicine_three.name"),
   MINERALOGY_ONE("mineralogy_one.name"),
   MINERALOGY_TWO("mineralogy_two.name"),
   MINERALOGY_THREE("mineralogy_three.name"),

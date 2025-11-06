@@ -1,11 +1,17 @@
 package it.asansonne.management.ccsr.service;
 
+import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.management.ccsr.repository.AbilityDefinitionRepository;
+import it.asansonne.management.ccsr.repository.ReagentRepository;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
 import it.asansonne.management.enumeration.AbilityName;
+import it.asansonne.management.enumeration.ReagentName;
 import it.asansonne.management.model.AbilityDefinition;
+import it.asansonne.management.model.Reagent;
 import it.asansonne.management.service.AbilityLocalizationService;
 import java.util.Locale;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -17,11 +23,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AbilityDefinitionService {
   private final MessageSource messageSource;
-  private final AbilityDefinitionRepository repository;
+  private final AbilityDefinitionRepository abilityRepository;
+  private final ReagentRepository reagentRepository;
   private final AbilityLocalizationService localizationService;
 
   public Page<AbilityDefinitionDTO> findAll(int page, int size, String direction, Locale locale) {
-    Page<AbilityDefinition> defs = repository.findAll(
+    Page<AbilityDefinition> defs = abilityRepository.findAll(
         PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), "code"))
     );
 
@@ -35,15 +42,42 @@ public class AbilityDefinitionService {
   }
 
   public AbilityDefinitionDTO findAbilityDefinitionByCode(AbilityName abilityName, Locale locale) {
-    AbilityDefinition def = repository.findAbilityDefinitionByCode(abilityName)
+    AbilityDefinition def = abilityRepository.findAbilityDefinitionByCode(abilityName)
         .orElseThrow(() -> new IllegalArgumentException("Ability not found: " + abilityName));
 
+    String c1 = Reagent.builder()
+        .id(1)
+        .uuid(UUID.randomUUID())
+        .reagentName(ReagentName.REAGENT_A)
+        .build().getReagentName().getName();
+    String c2 = Reagent.builder()
+        .id(1)
+        .uuid(UUID.randomUUID())
+        .reagentName(ReagentName.REAGENT_B)
+        .build().getReagentName().getName();
+    
+    String finalDesc = messageSource.getMessage("herbal_transmutation.description",
+        new Object[]{c1, c2},
+        locale);
+    
     return AbilityDefinitionDTO.builder()
         .code(def.getCode().name())
         .name(messageSource.getMessage(def.getName(), null, locale))
-        .description(messageSource.getMessage(def.getDescriptionKey(), null, locale))
+        .description(messageSource.getMessage(finalDesc, null, locale))
         .type(def.getType().name())
         .requirementType(def.getRequirementType().name())
         .build();
   }
+  
+    /* TODO per gestire l'i18n in modo dinamico
+  herbal_transmutation.description=... consumando materiali aggiuntivi: {0}.
+  String consumables = consumableService.listBySkill("HERBAL_TRANSMUTATION")
+    .stream()
+    .map(Consumable::getName)
+    .collect(Collectors.joining(", "));
+
+  String finalDesc = messageSource.getMessage("herbal_transmutation.description",
+                                              new Object[]{consumables},
+                                              locale);
+   */
 }
