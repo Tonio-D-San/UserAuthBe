@@ -1,17 +1,9 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
-import it.asansonne.management.enumeration.Call;
-import it.asansonne.management.enumeration.Prefix;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.AccessLevel;
