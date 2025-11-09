@@ -35,37 +35,34 @@ import org.springframework.stereotype.Component;
 public class WebSecurityConfiguration {
 
   private final AuthorizationAuthenticationHandler handler;
-  private final CustomOauth2UserService customOAuth2UserService;
-  private final ManageToken manageToken;
 
   @Bean
   protected SecurityFilterChain filterChain(
       HttpSecurity http, KeycloakAuthenticationConverter authenticationConverter
   ) throws Exception {
-    log.info("Configuring security filter chain");
     return http
-        .addFilterBefore(manageToken, UsernamePasswordAuthenticationFilter.class)
         .cors(Customizer.withDefaults())
-        //TODO keycloak
         .oauth2ResourceServer(oauth2 ->
             oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(authenticationConverter))
-        )
-        //Fine TODO
-        .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(requests -> requests
-            .requestMatchers(new AntPathRequestMatcher("/api/v*/**")).authenticated()
-            .anyRequest().permitAll()
-        ).logout(logout -> logout
-            .logoutSuccessUrl("/")
-            .permitAll()
         ).sessionManagement(session -> {
           session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
           session.maximumSessions(1).maxSessionsPreventsLogin(false);
-        }).exceptionHandling(exceptionHandling -> exceptionHandling
-            .defaultAuthenticationEntryPointFor(handler, new AntPathRequestMatcher("/api/**"))
-            .defaultAccessDeniedHandlerFor(handler, new AntPathRequestMatcher("/api/**"))
+        }).csrf(AbstractHttpConfigurer::disable)
+        .exceptionHandling(exceptionHandling -> exceptionHandling
+            .authenticationEntryPoint(handler)
+            .accessDeniedHandler(handler))
+        .authorizeHttpRequests(
+            requests -> requests
+                .requestMatchers(new AntPathRequestMatcher("/api/v*/"))
+                .authenticated()
+                .anyRequest()
+                .permitAll())
+        .logout(logout -> logout
+            .logoutSuccessUrl("/")
+            .permitAll()
         ).build();
   }
+
 
   /**
    * The Keycloak authentication converter.

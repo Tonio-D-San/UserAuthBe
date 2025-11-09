@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public interface LoginController {
-  String login();
-
   /**
    * Create user response entity.
    *
