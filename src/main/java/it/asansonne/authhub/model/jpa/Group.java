@@ -1,13 +1,13 @@
 package it.asansonne.authhub.model.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import it.asansonne.authhub.converter.GroupNameConverter;
 import it.asansonne.authhub.enumeration.GroupName;
 import it.asansonne.authhub.model.Models;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,7 +47,7 @@ public class Group implements Models {
   private UUID uuid;
 
   @Column(name = "name", nullable = false, length = 50)
-  @Enumerated(EnumType.STRING)
+  @Convert(converter = GroupNameConverter.class)
   private GroupName name;
 
   @Column(name = "path", nullable = false, length = 50)

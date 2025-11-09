@@ -22,3 +22,4 @@ public enum GroupName {
 
   private final String name;
 }
+//No enum constant it.asansonne.authhub.enumeration.GroupName.team-social
