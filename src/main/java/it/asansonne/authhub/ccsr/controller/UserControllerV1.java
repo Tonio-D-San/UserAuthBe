@@ -58,7 +58,7 @@ public interface UserControllerV1 {
    */
   @GetMapping(value = "/active", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  Page<UserResponse> findUsersByIsActive(Principal principal,
+  Page<UserResponse> findUsersByIsActive(
    @Parameter(name = "page", description = "page number") Integer page,
    @Parameter(name = "size", description = "element's number in page") Integer size,
    @Parameter(name = "direction", description = "order direction") String direction,

@@ -90,16 +90,17 @@ public class WebSecurityConfiguration {
         final var realmAccess = (Map<String, Object>) jwt.getClaims()
             .getOrDefault("resource_access", Map.of());
         final var client = (Map<String, Object>) realmAccess
-            .getOrDefault("user-auth-be", Map.of());
+            .getOrDefault("user-auth-client-be", Map.of());
+        final var roles = (List<String>) client
+            .getOrDefault("roles", List.of());
+        final List<String> prefixRoles = roles.stream().map(s -> "ROLE_" + s).toList();
+        final String clientScope = (String) jwt.getClaims()
+            .getOrDefault("scope", "");
+        final List<String> prefixScope = Arrays.stream(clientScope.split(" "))
+            .map(s -> "SCOPE_" + s).toList();
         List<String> authorities = new ArrayList<>();
-        authorities.addAll(
-            Stream.of(client.getOrDefault("roles", List.of()))
-                .map(s -> "ROLE_" + s).toList()
-        );
-        authorities.addAll(Arrays
-            .stream(String.valueOf(jwt.getClaims()).split(" "))
-            .map(s -> "SCOPE_" + s).toList()
-        );
+        authorities.addAll(prefixRoles);
+        authorities.addAll(prefixScope);
         return authorities.stream().map(SimpleGrantedAuthority::new).toList();
       }
     }
