@@ -1,12 +1,13 @@
 package it.asansonne.authhub.security;
 
+import static it.asansonne.authhub.constant.SharedConstant.API;
+import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+
 import it.asansonne.authhub.exception.handler.AuthorizationAuthenticationHandler;
-import it.asansonne.authhub.security.provider.CustomOauth2UserService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +23,6 @@ import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
@@ -53,10 +53,10 @@ public class WebSecurityConfiguration {
             .accessDeniedHandler(handler))
         .authorizeHttpRequests(
             requests -> requests
-                .requestMatchers(new AntPathRequestMatcher("/api/v*/"))
-                .authenticated()
-                .anyRequest()
-                .permitAll())
+                .requestMatchers(
+                    new AntPathRequestMatcher(String.format("/%s/%s/", API, API_VERSION))
+                ).authenticated()
+                .anyRequest().permitAll())
         .logout(logout -> logout
             .logoutSuccessUrl("/")
             .permitAll()

@@ -6,7 +6,7 @@ import java.util.UUID;
  * The interface Shared constant.
  */
 public interface SharedConstant {
-  String API = "api";
+  String API = "ala";
   String API_VERSION = "v1";
   String DEVELOP_ROLES = "hasRole('ROLE_developer')";
   String ALA_ROLES = "hasRole('ROLE_ala')";

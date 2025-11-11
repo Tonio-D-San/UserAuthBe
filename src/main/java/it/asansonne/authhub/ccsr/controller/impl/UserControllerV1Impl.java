@@ -1,6 +1,5 @@
 package it.asansonne.authhub.ccsr.controller.impl;
 
-import static it.asansonne.authhub.constant.SharedConstant.ADMIN_ROLES;
 import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 import static it.asansonne.authhub.constant.SharedConstant.DEVELOP_ROLES;
@@ -89,7 +88,7 @@ public class UserControllerV1Impl implements UserControllerMappingV1 {
     UserResponse response = userComponent.createPerson(personRequest);
     return ResponseEntity
         .created(builder
-            .path("api/v2/admin/")
+            .path("ala/v1/admin/")
             .buildAndExpand(response.getUuid().toString())
             .toUri()
         ).body(response);
