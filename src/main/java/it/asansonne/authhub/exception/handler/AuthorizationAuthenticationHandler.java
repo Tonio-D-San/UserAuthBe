@@ -5,7 +5,7 @@ import it.asansonne.authhub.exception.ExceptionMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -21,10 +21,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * The type Authorization and Authentication handler.
  */
 @RestControllerAdvice
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class AuthorizationAuthenticationHandler implements AccessDeniedHandler,
-    AuthenticationEntryPoint {
+public class AuthorizationAuthenticationHandler
+    implements AccessDeniedHandler, AuthenticationEntryPoint {
+
   public static final String APPLICATION_JSON = "application/json";
   private final ObjectMapper objectMapper;
 

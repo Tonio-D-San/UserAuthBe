@@ -163,7 +163,7 @@ public interface UserControllerMappingV1 extends UserControllerV1 {
                   )
               },
               schema = @Schema(implementation = ExceptionMessage.class)))})
-  Page<UserResponse> findUsersByIsActive(Principal principal,
+  Page<UserResponse> findUsersByIsActive(
     Integer page,
     Integer size,
     String direction,

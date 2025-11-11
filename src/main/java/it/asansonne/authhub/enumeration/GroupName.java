@@ -6,8 +6,20 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum GroupName {
-  ADMIN("admin-service-administrators"),
-  USER("user-service-administrators");
+  ALA("ala-users"),
+  ADMIN("admin"),
+  MASTERS("masters"),
+  TEAM_SOCIAL("team-social"),
+  COMMUNITY("community"),
+  PNG("png"),
+  PG("pg"),
+  CORONOR("coronor"),
+  LEVALIA("levalia"),
+  MALATEA("malatea"),
+  TAL_MERIDIA("tal-meridia"),
+  VALMORA("valmora")
+  ;
 
   private final String name;
 }
+//No enum constant it.asansonne.authhub.enumeration.GroupName.team-social

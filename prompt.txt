@@ -1,112 +1,239 @@
-Ok allora ho appena scoperto che in :
-@Entity
-@Table(name = "ability_definition")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class AbilityDefinition implements Models {
+Allora
+Quando mi collego da http://localhost:8082/api/v1/swagger-ui/index.html e ho queste impostazioni:
+ @Bean
+  public OpenAPI customOpenApi(@Value("${info.app.description}") String appDescription,
+                               @Value("${info.app.version}") String appVersion) {
+    var authUrl = getAuthUrl();
+    return new OpenAPI().components(new Components().addSecuritySchemes(
+                SEC_SCHEME_OAUTH2,
+                new SecurityScheme()
+                    .type(SecurityScheme.Type.OAUTH2)
+                    .description("Oauth2 flow")
+                    .flows(new OAuthFlows().authorizationCode(new OAuthFlow()
+                        .authorizationUrl(authUrl + "/auth")
+                        .tokenUrl(authUrl + "/token"))
+                    )
+        )).security(Collections.singletonList(
+            new SecurityRequirement().addList(SEC_SCHEME_OAUTH2))
+        ).externalDocs(new ExternalDocumentation()
+            .description("Documentazione estesa e guide di integrazione")
+            .url("https://github.com/asansonne/authhub/wiki")
+        );
+  private String getAuthUrl() {
+    return String.format("%s/realms/%s/protocol/openid-connect",
+        this.authServer, this.realm);
+  }
+@Configuration
+@RequiredArgsConstructor
+public class WebSecurityConfiguration {
 
-  @Id
-  @Enumerated(EnumType.STRING)
-  private AbilityName code;
+  private final AuthorizationAuthenticationHandler handler;
+  @Bean
+  protected SecurityFilterChain filterChain(HttpSecurity http,
+                                            KeycloakAuthenticationConverter authenticationConverter)
+      throws Exception {
+    return http.cors(Customizer.withDefaults())
+        .oauth2ResourceServer(
+            oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(authenticationConverter)))
+        // State-less session (state in access-token only)
+        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        // Disable CSRF because of state-less session-management
+        .csrf(AbstractHttpConfigurer::disable)
+        .exceptionHandling(exceptionHandling -> exceptionHandling
+            .authenticationEntryPoint(handler)
+            .accessDeniedHandler(handler))
+        .authorizeHttpRequests(
+            requests -> requests
+                .requestMatchers(new AntPathRequestMatcher("/api/v*/"))
+                .authenticated()
+                .anyRequest()
+                .permitAll())
+        .build();
+  }
 
-  @Column(nullable = false)
-  private String name;
 
-  @Column(nullable = false)
-  private String descriptionKey;
+  /**
+   * The Keycloak authentication converter.
+   */
+  @Component
+  @RequiredArgsConstructor
+  protected static class KeycloakAuthenticationConverter
+      implements Converter<Jwt, JwtAuthenticationToken> {
+    private final KeycloakAuthoritiesConverter authoritiesConverter;
 
-  @Enumerated(EnumType.STRING)
-  private AbilityType type;
+    @Override
+    public JwtAuthenticationToken convert(@NonNull Jwt jwt) {
+      return new JwtAuthenticationToken(jwt, authoritiesConverter.convert(jwt),
+          List.of(jwt.getClaimAsString(StandardClaimNames.SUB)).toString()
+      );
+    }
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-  @JoinTable(
-      name = "ability_definition_notes",
-      joinColumns = @JoinColumn(name = "ability_definition_code", referencedColumnName = "code"),
-      inverseJoinColumns = @JoinColumn(name = "note_id", referencedColumnName = "id")
-  )
-  private List<Note> notes;
-  
-  @ElementCollection
-  @Enumerated(EnumType.STRING)
-  private List<AbilityName> requirements;
+    @Component
+    static class KeycloakAuthoritiesConverter
+        implements Converter<Jwt, List<SimpleGrantedAuthority>> {
 
-  @ElementCollection
-  @Enumerated(EnumType.STRING)
-  private List<AbilityName> unlockables;
+      @Override
+      @SuppressWarnings({"unchecked"})
+      public List<SimpleGrantedAuthority> convert(Jwt jwt) {
+        final var realmAccess = (Map<String, Object>) jwt.getClaims()
+            .getOrDefault("resource_access", Map.of());
+        final var client = (Map<String, Object>) realmAccess
+            .getOrDefault("user-auth-be", Map.of());
+        List<String> authorities = new ArrayList<>();
+        authorities.addAll(
+            Stream.of(client.getOrDefault("roles", List.of()))
+                .map(s -> "ROLE_" + s).toList()
+        );
+        authorities.addAll(Arrays
+            .stream(String.valueOf(jwt.getClaims()).split(" "))
+            .map(s -> "SCOPE_" + s).toList()
+        );
+        return authorities.stream().map(SimpleGrantedAuthority::new).toList();
+      }
+    }
+  }
 
-  @Enumerated(EnumType.STRING)
-  private RequirementType requirementType;
 }
-Tra i requirements ho (per esempio):
-Alchimia I:
-Il Personaggio è in grado di analizzare
-un composto e comprenderne gli
-effetti, purché dedichi almeno 5
-minuti all’osservazione, allo studio e
-all’interpretazione di quest’ultimo.
-Questa abilità permette inoltre di accedere
-ad una delle Tre Vie Alchemiche e
-di apprendere le [Misture Base e da
-Apprendista] della relativa Via, presenti nelle
-appendici.
-Alchimia II:
-(Prerequisito: Alchimia I, 1 Mistura Base e 2
-Misture da Apprendista)
-Il Personaggio è in grado di analizzare
-un composto e comprendere la
-composizione di una mistura, purché
-dedichi almeno 5 minuti all’osservazione,
-allo studio e all’interpretazione di
-quest’ultimo.
-Questa abilità permette inoltre di accedere
-all’apprendimento delle [Misture da
-Esperto] presenti nelle appendici.
-Alchimia III:
-(Prerequisito: Alchimia II, 3 Misture da
-Esperto)
-Il Personaggio è in grado di scomporre una
-mistura alchemica già pronta per ricavare
-un reagente a scelta presente nella
-mistura stessa, purché dedichi almeno
-5 minuti all’osservazione, allo studio e
-all’interpretazione di quest’ultimo.
-Questa abilità permette inoltre di accedere
-all’apprendimento delle [Misture da
-Maestro] presenti nelle appendici.
-Le misture sono altri tipi di oggetti però (che hanno ingredienti, ricette, ecc)
-Mistura Base:
-Inchiostro del crepuscolo
-Ingredienti: Alcohol, Nigredo
-Effetti: L’Alchimista può creare un inchiostro
-invisibile e il relativo solvente rivelatore,
-seguendo una ricetta pratica con ingredienti
-reali oltre i cartellini Ingredienti.
-L’inchiostro consente di scrivere messaggi
-che non sono visibili a occhio nudo.
-Per motivi di gioco, è obbligatorio marcare
-i quattro angoli fronte e retro del foglio
-con un simbolo evidente (per esempio
-con asterischi), a segnalare la presenza del
-messaggio invisibile.
-Ricetta per l’inchiostro invisibile:
-1 cucchiaino di bicarbonato di sodio
-2 cucchiai d’acqua
-(Mescolare fino a ottenere un liquido con cui
-scrivere.)
-Come usare il Solvente?
-Prima di usare il solvente su tutto il foglio è
-obbligatorio bagnare con il solvente uno
-dei quattro angoli del foglio.
-Se compare un qualsiasi simbolo nascosto
-allora il foglio conterrà messaggi nascosti,
-contrariamente non servirà usare il
-solvente sul foglio.
-Ricetta per il solvente rivelatore:
-1/2 cucchiaino di curcuma in polvere
-2 cucchiai di alcool o igenizzante liquido
-(Mescolare e applicare sul foglio per far
-emergere il messaggio.)
+# Keycloak
+keycloak.host=${SCHEMA:http}://${HOST:keycloak}:${KC_EXTERNAL_PORT:5443}
+keycloak.realm.name=${KC_REALM_NAME:user-auth}
+keycloak.client-id.be=${keycloak.realm.name}-client-be
+keycloak.authorization-grant-type=password
+keycloak.host.realm=${keycloak.host}/realms/${keycloak.realm.name}
+keycloak.host.user=${keycloak.host}/admin/realms/${keycloak.realm.name}/users
+spring.security.oauth2.resourceserver.jwt.issuer-uri=${keycloak.host.realm}
+spring.security.oauth2.client.registration.keycloak.client-id=${keycloak.client-id.be}
+spring.security.oauth2.client.registration.keycloak.authorization-grant-type=${keycloak.authorization-grant-type}
+spring.security.oauth2.client.registration.keycloak.client-name=${keycloak.client-id.be}
+spring.security.oauth2.client.registration.keycloak.client-authentication-method=POST
+spring.security.oauth2.client.registration.keycloak.provider=keycloak
+spring.security.oauth2.client.provider.keycloak.issuer-uri=${keycloak.host.realm}
+# Swagger
+springdoc.swagger-ui.oauth.client-id=${keycloak.client-id.be}
+Allora
+Quando mi collego da http://localhost:8082/api/v1/swagger-ui/index.html e ho queste impostazioni:
+ @Bean
+  public OpenAPI customOpenApi(@Value("${info.app.description}") String appDescription,
+                               @Value("${info.app.version}") String appVersion) {
+    var authUrl = getAuthUrl();
+    return new OpenAPI().components(new Components().addSecuritySchemes(
+                SEC_SCHEME_OAUTH2,
+                new SecurityScheme()
+                    .type(SecurityScheme.Type.OAUTH2)
+                    .description("Oauth2 flow")
+                    .flows(new OAuthFlows().authorizationCode(new OAuthFlow()
+                        .authorizationUrl(authUrl + "/auth")
+                        .tokenUrl(authUrl + "/token"))
+                    )
+        )).security(Collections.singletonList(
+            new SecurityRequirement().addList(SEC_SCHEME_OAUTH2))
+        ).externalDocs(new ExternalDocumentation()
+            .description("Documentazione estesa e guide di integrazione")
+            .url("https://github.com/asansonne/authhub/wiki")
+        );
+  private String getAuthUrl() {
+    return String.format("%s/realms/%s/protocol/openid-connect",
+        this.authServer, this.realm);
+  }
+@Configuration
+@RequiredArgsConstructor
+public class WebSecurityConfiguration {
 
-Quindi i prerequititi e i sbloccabili possono essere tipi di oggetti diversi, come posso gestirlo?
+  private final AuthorizationAuthenticationHandler handler;
+  @Bean
+  protected SecurityFilterChain filterChain(HttpSecurity http,
+                                            KeycloakAuthenticationConverter authenticationConverter)
+      throws Exception {
+    return http.cors(Customizer.withDefaults())
+        .oauth2ResourceServer(
+            oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(authenticationConverter)))
+        // State-less session (state in access-token only)
+        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        // Disable CSRF because of state-less session-management
+        .csrf(AbstractHttpConfigurer::disable)
+        .exceptionHandling(exceptionHandling -> exceptionHandling
+            .authenticationEntryPoint(handler)
+            .accessDeniedHandler(handler))
+        .authorizeHttpRequests(
+            requests -> requests
+                .requestMatchers(new AntPathRequestMatcher("/api/v*/"))
+                .authenticated()
+                .anyRequest()
+                .permitAll())
+        .build();
+  }
+
+
+  /**
+   * The Keycloak authentication converter.
+   */
+  @Component
+  @RequiredArgsConstructor
+  protected static class KeycloakAuthenticationConverter
+      implements Converter<Jwt, JwtAuthenticationToken> {
+    private final KeycloakAuthoritiesConverter authoritiesConverter;
+
+    @Override
+    public JwtAuthenticationToken convert(@NonNull Jwt jwt) {
+      return new JwtAuthenticationToken(jwt, authoritiesConverter.convert(jwt),
+          List.of(jwt.getClaimAsString(StandardClaimNames.SUB)).toString()
+      );
+    }
+
+    @Component
+    static class KeycloakAuthoritiesConverter
+        implements Converter<Jwt, List<SimpleGrantedAuthority>> {
+
+      @Override
+      @SuppressWarnings({"unchecked"})
+      public List<SimpleGrantedAuthority> convert(Jwt jwt) {
+        final var realmAccess = (Map<String, Object>) jwt.getClaims()
+            .getOrDefault("resource_access", Map.of());
+        final var client = (Map<String, Object>) realmAccess
+            .getOrDefault("user-auth-be", Map.of());
+        List<String> authorities = new ArrayList<>();
+        authorities.addAll(
+            Stream.of(client.getOrDefault("roles", List.of()))
+                .map(s -> "ROLE_" + s).toList()
+        );
+        authorities.addAll(Arrays
+            .stream(String.valueOf(jwt.getClaims()).split(" "))
+            .map(s -> "SCOPE_" + s).toList()
+        );
+        return authorities.stream().map(SimpleGrantedAuthority::new).toList();
+      }
+    }
+  }
+
+}
+# Keycloak
+keycloak.host=${SCHEMA:http}://${HOST:keycloak}:${KC_EXTERNAL_PORT:5443}
+keycloak.realm.name=${KC_REALM_NAME:user-auth}
+keycloak.client-id.be=${keycloak.realm.name}-client-be
+keycloak.authorization-grant-type=password
+keycloak.host.realm=${keycloak.host}/realms/${keycloak.realm.name}
+keycloak.host.user=${keycloak.host}/admin/realms/${keycloak.realm.name}/users
+spring.security.oauth2.resourceserver.jwt.issuer-uri=${keycloak.host.realm}
+spring.security.oauth2.client.registration.keycloak.client-id=${keycloak.client-id.be}
+spring.security.oauth2.client.registration.keycloak.authorization-grant-type=${keycloak.authorization-grant-type}
+spring.security.oauth2.client.registration.keycloak.client-name=${keycloak.client-id.be}
+spring.security.oauth2.client.registration.keycloak.client-authentication-method=POST
+spring.security.oauth2.client.registration.keycloak.provider=keycloak
+spring.security.oauth2.client.provider.keycloak.issuer-uri=${keycloak.host.realm}
+# Swagger
+springdoc.swagger-ui.oauth.client-id=${keycloak.client-id.be}
+Mentre se mi loggo da:http://localhost:5173/ non funziona:
+function App() {
+    return (
+        <div style={{maxWidth: 400, margin: "auto", padding: 20, fontFamily: "sans-serif"}}>
+ <div className="flex flex-col items-center gap-4 mt-10">
+                <a href={import.meta.env.VITE_KC_LOGIN_URL} className="btn btn-keycloak">
+                    Accedi con Keycloak
+                </a>
+            </div>
+        </div>
+    );
+}
+export default App
+.env:
+VITE_KC_LOGIN_URL="http://localhost:5443/realms/user-auth/protocol/openid-connect/auth?client_id=user-auth-client-be&response_type=code&scope=openid&redirect_uri=http://localhost:5443/admin/realms/user-auth/users/auth"

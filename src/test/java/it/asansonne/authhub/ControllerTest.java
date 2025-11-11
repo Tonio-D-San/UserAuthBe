@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("Controller Test")
 public interface ControllerTest {
-    String API = "/api";
+    String API = "/ala";
     String VERSION = "/v1";
     String EMAIL = "/emails";
     String EMPLOYEE = "/employees";

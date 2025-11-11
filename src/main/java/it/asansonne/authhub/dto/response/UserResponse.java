@@ -33,13 +33,6 @@ public class UserResponse implements Dto {
       example = "08fba211-60ca-45fc-b809-86bc2ad81dca")
   private UUID uuid;
 
-  @Schema(
-      description = "Provider",
-      name = "provider",
-      type = "String",
-      example = "Google"
-  )
-  private String provider;
 
   @Schema(
       description = "User username",
@@ -90,7 +83,14 @@ public class UserResponse implements Dto {
   private Boolean enabled;
 
   @Schema(
-      hidden = true,
+      description = "Provider",
+      name = "provider",
+      type = "String",
+      example = "Google"
+  )
+  private String provider;
+
+  @Schema(
       description = "User profile image",
       name = "profileImage",
       type = "byte[]")

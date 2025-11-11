@@ -2,6 +2,7 @@ package it.asansonne.authhub.ccsr.controller.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+import static it.asansonne.authhub.constant.SharedConstant.DEVELOP_ROLES;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import it.asansonne.authhub.ccsr.component.UserComponent;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +41,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping(API + "/" + API_VERSION + "/users")
 @AllArgsConstructor
 @Tag(name = "UserController" + API_VERSION)
-//@PreAuthorize("hasAuthority('OIDC_USER')")
+@PreAuthorize(DEVELOP_ROLES)
 public class UserControllerV1Impl implements UserControllerMappingV1 {
   private final UserComponent userComponent;
 
@@ -56,7 +58,6 @@ public class UserControllerV1Impl implements UserControllerMappingV1 {
       @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction
   ) {
-    log.info("Principal: {}", principal);
     return userComponent.findAllUsers(
         PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME))
     );
@@ -64,7 +65,7 @@ public class UserControllerV1Impl implements UserControllerMappingV1 {
 
   @Override
   @GetMapping(value = "/isActive", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Page<UserResponse> findUsersByIsActive(Principal principal,
+  public Page<UserResponse> findUsersByIsActive(
       @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
@@ -87,7 +88,7 @@ public class UserControllerV1Impl implements UserControllerMappingV1 {
     UserResponse response = userComponent.createPerson(personRequest);
     return ResponseEntity
         .created(builder
-            .path("api/v2/admin/")
+            .path("ala/v1/admin/")
             .buildAndExpand(response.getUuid().toString())
             .toUri()
         ).body(response);
