@@ -1,5 +1,8 @@
 package it.asansonne.authhub.ccsr.controller.impl;
 
+import static it.asansonne.authhub.constant.SharedConstant.API;
+import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+
 import it.asansonne.authhub.ccsr.component.UserComponent;
 import it.asansonne.authhub.ccsr.controller.LoginController;
 import it.asansonne.authhub.dto.request.UserRequest;

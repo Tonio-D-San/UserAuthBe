@@ -3,7 +3,6 @@ package it.asansonne.authhub.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.asansonne.authhub.converter.GroupNameConverter;
 import it.asansonne.authhub.enumeration.GroupName;
-import it.asansonne.authhub.util.GroupNameConverter;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
