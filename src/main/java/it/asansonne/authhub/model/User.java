@@ -13,6 +13,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -23,6 +24,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Builder
 @Entity
@@ -66,6 +69,14 @@ public class User implements Models {
 
   @Column(name = "biography", columnDefinition = "TEXT")
   private String biography;
+
+  @CreationTimestamp
+  @Column(name = "first_access")
+  private Instant firstAccess;
+
+  @UpdateTimestamp
+  @Column(name = "last_access")
+  private Instant lastAccess;
 
   @Column(name = "img_profile", columnDefinition = "BYTEA")
   private byte[] profileImage;

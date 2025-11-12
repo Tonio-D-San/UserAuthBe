@@ -33,11 +33,6 @@ public class LoginControllerImpl implements LoginController {
   private final UserComponent userComponent;
   private final MessageSource messageSource;
 
-  @GetMapping("/login")
-  public String login() {
-    return "login";
-  }
-
   @GetMapping("/welcome")
   public String welcome(@RequestParam(name="name", defaultValue="User") String name,
                         HttpServletRequest request,
@@ -46,7 +41,7 @@ public class LoginControllerImpl implements LoginController {
     String message = messageSource.getMessage(KingdomName.CORONOR.getMaxim(), new Object[]{name}, locale);
     model.addAttribute("message", message);
     model.addAttribute("name", name);
-    return "login";
+    return model.toString();
   }
 
 

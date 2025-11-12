@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -28,42 +29,45 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
-/**
- * The type Web security configuration.
- */
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class WebSecurityConfiguration {
-
   private final AuthorizationAuthenticationHandler handler;
   private final CustomOauth2UserService customOAuth2UserService;
   private final ManageToken manageToken;
-  private static final String LOGIN_PROCESSING_URL = "http://localhost:5173/login";
+  private static final String LOGIN_PAGE = "/login";
+  private static final String ERROR_PAGE = "/error";
+  private static final String SWAGGER_URL =
+      String.format("/%s/%s/swagger-ui/index.html", API, API_VERSION);
 
   @Bean
   protected SecurityFilterChain filterChain(
       HttpSecurity http, KeycloakAuthenticationConverter authenticationConverter
-  ) throws Exception {    log.info("Configuring security filter chain");
+  ) throws Exception {
+    log.info("Configuring security filter chain");
+
     return http
         .addFilterBefore(manageToken, UsernamePasswordAuthenticationFilter.class)
         .cors(Customizer.withDefaults())
         .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(requests -> requests
-            .requestMatchers(new AntPathRequestMatcher("/api/v*/**")).authenticated()
+        .oauth2ResourceServer(oauth2 ->
+            oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(authenticationConverter))
+        ).authorizeHttpRequests(requests -> requests
+            .requestMatchers(
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html"
+            ).permitAll()
+            .requestMatchers(
+                new AntPathRequestMatcher(String.format("/%s/%s/**", API, API_VERSION)))
+            .authenticated()
             .anyRequest().permitAll()
-        ).formLogin(
-            form -> form
-                .loginPage(LOGIN_PROCESSING_URL)
-                .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                .defaultSuccessUrl("/api/v1/swagger-ui/index.html", true)
-                .failureUrl(LOGIN_PROCESSING_URL + "?error=true")
-                .permitAll()
         ).oauth2Login(oauth -> oauth
-            .loginPage(LOGIN_PROCESSING_URL)
+            .loginPage(LOGIN_PAGE)
             .userInfoEndpoint(userInfo -> userInfo
                 .oidcUserService(customOAuth2UserService)
-            ).defaultSuccessUrl("/api/v1/swagger-ui/index.html", true)
+            ).defaultSuccessUrl(SWAGGER_URL, true)
             .permitAll()
         ).logout(logout -> logout
             .logoutSuccessUrl("/")
@@ -75,42 +79,17 @@ public class WebSecurityConfiguration {
             }
         ).exceptionHandling(exceptionHandling -> exceptionHandling
             .authenticationEntryPoint((_, res, _) ->
-                res.sendRedirect(LOGIN_PROCESSING_URL)
-            ).defaultAuthenticationEntryPointFor(handler, new AntPathRequestMatcher("/api/**"))
-            .defaultAccessDeniedHandlerFor(handler, new AntPathRequestMatcher("/api/**"))
+                res.sendRedirect(ERROR_PAGE)
+            ).defaultAuthenticationEntryPointFor(handler,
+                new AntPathRequestMatcher(String.format("/%s/**", API)))
+            .defaultAccessDeniedHandlerFor(handler,
+                new AntPathRequestMatcher((String.format("/%s/**", API))))
+        ).exceptionHandling(exceptionHandling -> exceptionHandling
+            .authenticationEntryPoint(handler)
+            .accessDeniedHandler(handler)
         ).build();
   }
 
-//  @Bean
-//  protected SecurityFilterChain filterChain(
-//      HttpSecurity http, KeycloakAuthenticationConverter authenticationConverter
-//  ) throws Exception {
-//    return http
-//        .cors(Customizer.withDefaults())
-//        .oauth2ResourceServer(oauth2 ->
-//            oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(authenticationConverter))
-//        ).sessionManagement(session -> {
-//          session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-//          session.maximumSessions(1).maxSessionsPreventsLogin(false);
-//        }).csrf(AbstractHttpConfigurer::disable)
-//        .exceptionHandling(exceptionHandling -> exceptionHandling
-//            .authenticationEntryPoint(handler)
-//            .accessDeniedHandler(handler))
-//        .authorizeHttpRequests(
-//            requests -> requests
-//                .requestMatchers(
-//                    new AntPathRequestMatcher(String.format("/%s/%s/", API, API_VERSION))
-//                ).authenticated()
-//                .anyRequest().permitAll())
-//        .logout(logout -> logout
-//            .logoutSuccessUrl("/")
-//            .permitAll()
-//        ).build();
-//  }
-
-  /**
-   * The Keycloak authentication converter.
-   */
   @Component
   @RequiredArgsConstructor
   protected static class KeycloakAuthenticationConverter
@@ -127,14 +106,15 @@ public class WebSecurityConfiguration {
     @Component
     static class KeycloakAuthoritiesConverter
         implements Converter<Jwt, List<SimpleGrantedAuthority>> {
+      @Value("${keycloak.client-id}")
+      private String clientId;
 
       @Override
       @SuppressWarnings({"unchecked"})
-      public List<SimpleGrantedAuthority> convert(Jwt jwt) {
+      public List<SimpleGrantedAuthority> convert(@NonNull Jwt jwt) {
         final var realmAccess = (Map<String, Object>) jwt.getClaims()
             .getOrDefault("resource_access", Map.of());
-        final var client = (Map<String, Object>) realmAccess
-            .getOrDefault("user-auth-client-be", Map.of());
+        final var client = (Map<String, Object>) realmAccess.getOrDefault(clientId, Map.of());
         final var roles = (List<String>) client
             .getOrDefault("roles", List.of());
         final List<String> prefixRoles = roles.stream().map(s -> "ROLE_" + s).toList();
@@ -149,5 +129,4 @@ public class WebSecurityConfiguration {
       }
     }
   }
-
 }

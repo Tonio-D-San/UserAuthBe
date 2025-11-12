@@ -30,8 +30,6 @@ public class OpenApiConfiguration {
   private String authServer;
   @Value("${keycloak.realm.name}")
   private String realm;
-  @Value("${google.link}")
-  private String link;
 
   /**
    * Custom open api open api.
@@ -50,18 +48,16 @@ public class OpenApiConfiguration {
             .version(appVersion)
             .title("🚀 " + appName)
             .description(appDescription +
-              String.format(
                 """
                   <div style="font-size: 15px; line-height: 1.5;">
                     <b>AuthHub</b> è il servizio centralizzato per gestire autenticazioni via Google e altri provider social.<br>
                     <ul>
-                      <li>🔐 <a href='%s' target='_blank'>Login con Google</a></li>
                       <li>🔐 Login semplificato (OAuth2 Social)</li>
                       <li>🧩 Gestione utenti interna</li>
                       <li>📚 API documentate e pronte all’integrazione</li>
                     </ul>
                   </div>
-                """, link)
+                """
             )
             .version("v" + appVersion)
             .contact(new Contact()
