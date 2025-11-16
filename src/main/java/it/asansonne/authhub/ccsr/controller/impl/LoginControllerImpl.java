@@ -7,7 +7,7 @@ import it.asansonne.authhub.ccsr.component.UserComponent;
 import it.asansonne.authhub.ccsr.controller.LoginController;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
-import it.asansonne.management.enumeration.character.KingdomName;
+import it.asansonne.management.enumeration.character.RealmName;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.Locale;
@@ -38,7 +38,7 @@ public class LoginControllerImpl implements LoginController {
                         HttpServletRequest request,
                         Model model) {
     Locale locale = RequestContextUtils.getLocale(request);
-    String message = messageSource.getMessage(KingdomName.CORONOR.getMaxim(), new Object[]{name}, locale);
+    String message = messageSource.getMessage(RealmName.CORONOR.getMaxim(), new Object[]{name}, locale);
     model.addAttribute("message", message);
     model.addAttribute("name", name);
     return model.toString();

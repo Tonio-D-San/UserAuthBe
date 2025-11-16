@@ -22,10 +22,10 @@ class Money {
   MoneyName moneyName
 }
 
-class Kingdom {
+class Realm {
   Integer id
   UUID uuid
-  KingdomName kingdomName
+  RealmName realmName
 }
 
 class Card {
@@ -102,11 +102,11 @@ Bag "1" --> "many" Reagent : holds >
 ' --- Reagent ↔ Bag ---
 Reagent "*" --> "1" Bag : in <
 
-' --- Card ↔ Kingdom (one-to-one) ---
-Card "1" --> "1" Kingdom : linked >
+' --- Card ↔ Realm (one-to-one) ---
+Card "1" --> "1" Realm : linked >
 
-' --- Kingdom ↔ Player (one-to-one) ---
-Kingdom "1" --> "1" Player : belongsTo >
+' --- Realm ↔ Player (one-to-one) ---
+Realm "1" --> "1" Player : belongsTo >
 
 ' --- User ↔ Group (many-to-many) ---
 User "many" -- "many" Group : user_group

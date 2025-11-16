@@ -1,7 +1,7 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
-import it.asansonne.management.enumeration.character.KingdomName;
+import it.asansonne.management.enumeration.character.RealmName;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,14 +26,14 @@ import lombok.ToString;
 
 @Builder
 @Entity
-@Table(name = "kingdoms")
+@Table(name = "realms")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 @ToString
-public class Kingdom implements Models {
+public class Realm implements Models {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -43,9 +43,9 @@ public class Kingdom implements Models {
   @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
   private UUID uuid;
 
-  @Column(name = "kingdom_name", length = 50)
+  @Column(name = "realm_name", length = 50)
   @Enumerated(EnumType.STRING)
-  private KingdomName kingdomName;
+  private RealmName realmName;
 
   @OneToOne
   @JoinColumn(name = "card_id")

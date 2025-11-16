@@ -48,7 +48,7 @@ public class Card implements Models {
   private Integer usedPoints;
 
   @OneToOne(mappedBy = "card", cascade = CascadeType.ALL)
-  private Kingdom kingdom;
+  private Realm realm;
 
   @OneToOne(mappedBy = "card")
   private Player player;

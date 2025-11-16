@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum KingdomName {
+public enum RealmName {
   CORONOR("Coronor", "C", "coronor.battle_cry"),
   LEVALIA("Levalia", "L", "levalia.battle_cry"),
   MALATEA("Malatea", "M", "malatea.battle_cry"),

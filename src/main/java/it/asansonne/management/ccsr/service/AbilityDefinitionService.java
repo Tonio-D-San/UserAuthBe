@@ -1,8 +1,8 @@
 package it.asansonne.management.ccsr.service;
 
 import it.asansonne.management.ccsr.repository.AbilityDefinitionRepository;
-import it.asansonne.management.ccsr.repository.ReagentRepository;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
+import it.asansonne.management.dto.response.AbilityResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.enumeration.ReagentName;
 import it.asansonne.management.model.AbilityDefinition;
@@ -24,12 +24,12 @@ public class AbilityDefinitionService {
   private final AbilityDefinitionRepository abilityRepository;
   private final AbilityLocalizationService localizationService;
 
-  public Page<AbilityDefinitionDTO> findAll(int page, int size, String direction, Locale locale) {
+  public Page<AbilityResponse> findAll(int page, int size, String direction, Locale locale) {
     Page<AbilityDefinition> defs = abilityRepository.findAll(
         PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), "code"))
     );
 
-    return defs.map(def -> new AbilityDefinitionDTO(
+    return defs.map(def -> new AbilityResponse(
         def.getCode().name(),
         localizationService.getLocalizedName(def, locale),
         localizationService.getLocalizedDescription(def, locale),
