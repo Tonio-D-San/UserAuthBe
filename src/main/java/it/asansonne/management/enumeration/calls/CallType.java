@@ -1,11 +1,12 @@
-package it.asansonne.management.enumeration;
+package it.asansonne.management.enumeration.calls;
 
+import it.asansonne.management.enumeration.Name;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum CallType implements Name{
+public enum CallType implements Name {
   PHYSICAL("call_type.physic.name"),
   ALCHEMIC("call_type.alchemic.name"),
   NOT_RESISTIBLE("call_type.not_resistible.name"),

@@ -3,7 +3,7 @@ package it.asansonne.management.ccsr.service;
 import it.asansonne.management.ccsr.repository.AbilityDefinitionRepository;
 import it.asansonne.management.ccsr.repository.ReagentRepository;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
-import it.asansonne.management.enumeration.AbilityName;
+import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.enumeration.ReagentName;
 import it.asansonne.management.model.AbilityDefinition;
 import it.asansonne.management.model.Reagent;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class AbilityDefinitionService {
   private final MessageSource messageSource;
   private final AbilityDefinitionRepository abilityRepository;
-  private final ReagentRepository reagentRepository;
   private final AbilityLocalizationService localizationService;
 
   public Page<AbilityDefinitionDTO> findAll(int page, int size, String direction, Locale locale) {

@@ -1,4 +1,4 @@
-package it.asansonne.management.enumeration;
+package it.asansonne.management.enumeration.character;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

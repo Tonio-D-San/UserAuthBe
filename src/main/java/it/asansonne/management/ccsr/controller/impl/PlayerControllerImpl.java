@@ -6,7 +6,7 @@ import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 import it.asansonne.management.ccsr.controller.PlayerController;
 import it.asansonne.management.ccsr.service.AbilityDefinitionService;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
-import it.asansonne.management.enumeration.AbilityName;
+import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.model.Player;
 import it.asansonne.management.model.PlayerAbilities;
 import java.util.List;

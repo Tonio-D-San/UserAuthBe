@@ -7,7 +7,7 @@ import it.asansonne.authhub.ccsr.component.UserComponent;
 import it.asansonne.authhub.ccsr.controller.LoginController;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
-import it.asansonne.management.enumeration.KingdomName;
+import it.asansonne.management.enumeration.character.KingdomName;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.Locale;

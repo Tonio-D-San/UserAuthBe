@@ -1,8 +1,8 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
-import it.asansonne.management.enumeration.AbilityName;
-import it.asansonne.management.enumeration.AbilityType;
+import it.asansonne.management.enumeration.character.AbilityName;
+import it.asansonne.management.enumeration.character.AbilityType;
 import it.asansonne.management.enumeration.RequirementType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

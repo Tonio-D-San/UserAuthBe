@@ -2,7 +2,7 @@ package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
 import it.asansonne.authhub.model.User;
-import it.asansonne.management.enumeration.Training;
+import it.asansonne.management.enumeration.character.Training;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

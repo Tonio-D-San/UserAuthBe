@@ -1,7 +1,7 @@
 package it.asansonne.management.model;
 
-import it.asansonne.management.enumeration.Call;
-import it.asansonne.management.enumeration.Prefix;
+import it.asansonne.management.enumeration.calls.Call;
+import it.asansonne.management.enumeration.prefixes.Prefix;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -25,7 +25,7 @@ public class EffectKey implements Serializable {
   @Enumerated(EnumType.STRING)
   private Prefix prefix;
 
-  @Column(name = "call")
+  @Column(name = "calls")
   @Enumerated(EnumType.STRING)
   private Call call;
 
