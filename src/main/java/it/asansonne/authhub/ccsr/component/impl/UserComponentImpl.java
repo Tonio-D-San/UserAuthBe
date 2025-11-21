@@ -40,7 +40,7 @@ public class UserComponentImpl implements UserComponent {
   }
 
   @Override
-  public UserResponse createPerson(UserRequest userRequest) {
+  public UserResponse createUser(UserRequest userRequest) {
 
     return userResponseModelMapper.toDto(userService.createUser(
         User.builder()
@@ -66,7 +66,7 @@ public class UserComponentImpl implements UserComponent {
 
   private User findUser(UUID userUuid) {
     return userService.findUserByUuid(userUuid)
-        .orElseThrow(() -> new NotFoundException("person.not.found"));
+        .orElseThrow(() -> new NotFoundException("person.not.found", userUuid))
+    ;
   }
-
 }

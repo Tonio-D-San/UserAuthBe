@@ -85,7 +85,7 @@ public class UserControllerV1Impl implements UserControllerMappingV1 {
       @Valid @RequestBody UserRequest personRequest,
       UriComponentsBuilder builder
   ) {
-    UserResponse response = userComponent.createPerson(personRequest);
+    UserResponse response = userComponent.createUser(personRequest);
     return ResponseEntity
         .created(builder
             .path("ala/v1/admin/")

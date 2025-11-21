@@ -1,4 +1,4 @@
-package it.asansonne.management.configuration;
+package it.asansonne.authhub.configuration;
 
 import java.util.Locale;
 import org.springframework.context.MessageSource;
@@ -17,7 +17,11 @@ public class I18nConfig implements WebMvcConfigurer {
   @Bean
   public MessageSource messageSource() {
     ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-    messageSource.setBasename("i18n/messages"); // cartella dei file properties
+    messageSource.setBasenames(
+        "i18n/swagger",
+        "i18n/projectMessages",
+        "i18n/restMessages"
+    );
     messageSource.setDefaultEncoding("UTF-8");
     return messageSource;
   }

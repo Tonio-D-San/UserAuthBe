@@ -39,12 +39,12 @@ public interface UserComponent {
   Page<UserResponse> findActiveUsers(Boolean isActive, Pageable pageable);
 
   /**
-   * Create person user response.
+   * Create user user response.
    *
-   * @param personRequest the person request
+   * @param userRequest the user request
    * @return the user response
    */
-  UserResponse createPerson(@Valid UserRequest personRequest);
+  UserResponse createUser(@Valid UserRequest userRequest);
 
   /**
    * Update status user.

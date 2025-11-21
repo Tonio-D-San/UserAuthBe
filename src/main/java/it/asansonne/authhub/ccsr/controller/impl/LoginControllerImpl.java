@@ -53,7 +53,7 @@ public class LoginControllerImpl implements LoginController {
       @Valid @RequestBody UserRequest personRequest,
       UriComponentsBuilder builder
   ) {
-    UserResponse response = userComponent.createPerson(personRequest);
+    UserResponse response = userComponent.createUser(personRequest);
     return ResponseEntity
         .created(builder
             .path(String.format("%s/%s/admin/", API, API_VERSION))

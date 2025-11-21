@@ -13,9 +13,13 @@ import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import java.util.Collections;
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 
 /**
  * The type Open api configuration.
@@ -84,8 +88,26 @@ public class OpenApiConfiguration {
         );
   }
 
+  @Bean
+  public OpenApiCustomizer i18nOpenApiCustomizer(MessageSource messageSource) {
+    return openApi -> {
+      Locale locale = LocaleContextHolder.getLocale();
+
+      openApi.getPaths().forEach((_, item) ->
+          item.readOperations().forEach(operation -> {
+            if (operation.getDescription() != null) {
+              operation.setDescription(
+                  messageSource.getMessage(operation.getDescription(), null, locale)
+              );
+            }
+          })
+      );
+    };
+  }
+
   private String getAuthUrl() {
     return String.format("%s/realms/%s/protocol/openid-connect",
         this.authServer, this.realm);
   }
+
 }

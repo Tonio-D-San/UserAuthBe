@@ -5,8 +5,11 @@ import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.authhub.exception.custom.ParentCreationDateException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -22,7 +25,9 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
  */
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 final class ApplicationExceptionHandler {
+  private final MessageSource messageSource;
 
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ExceptionHandler(RuntimeException.class)
@@ -53,9 +58,21 @@ final class ApplicationExceptionHandler {
   }
 
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  @ExceptionHandler({NoResourceFoundException.class, NotFoundException.class})
-  private ExceptionMessage noResourceExceptionHandler(Exception e) {
-    return new ExceptionMessage(HttpStatus.NOT_FOUND, e.getMessage());
+  @ExceptionHandler(NoResourceFoundException.class)
+  public ExceptionMessage noResourceExceptionHandler(NoResourceFoundException e, Locale locale) {
+    return new ExceptionMessage(
+        HttpStatus.NOT_FOUND,
+        messageSource.getMessage(e.getMessage(), null, locale)
+    );
+  }
+
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ExceptionHandler(NotFoundException.class)
+  public ExceptionMessage noEntityExceptionHandler(NotFoundException e, Locale locale) {
+    return new ExceptionMessage(
+        HttpStatus.NOT_FOUND,
+        messageSource.getMessage(e.getMessage(), e.getArgs(), locale)
+    );
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -75,4 +92,5 @@ final class ApplicationExceptionHandler {
   private ExceptionMessage handleParentCreationDateException(ParentCreationDateException ex) {
     return new ExceptionMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
   }
+
 }
