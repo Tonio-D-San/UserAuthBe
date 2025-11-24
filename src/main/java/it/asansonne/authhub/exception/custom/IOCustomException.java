@@ -16,9 +16,9 @@ public class IOCustomException extends RuntimeException {
   /**
    * Instantiates a new Parent creation date exception.
    *
-   * @param message the message
+   * @param messageKey the messageKey
    */
-  public IOCustomException(String message) {
-    super(message);
+  public IOCustomException(String messageKey) {
+    super(messageKey);
   }
 }
