@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.asansonne.authhub.exception.ExceptionMessage;
-import it.asansonne.management.dto.request.CreateOrderRequest;
-import it.asansonne.management.dto.response.OrdersCreateResponse;
+import it.asansonne.management.dto.request.MyOrderRequest;
+import it.asansonne.management.dto.response.OrdersResponse;
 import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +21,7 @@ public interface PayPalController {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "201", description = "order.create.201.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-              schema = @Schema(implementation = OrdersCreateResponse.class))),
+              schema = @Schema(implementation = OrdersResponse.class))),
       @ApiResponse(responseCode = "204", description = "order.create.204.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
       @ApiResponse(responseCode = "400", description = "order.create.400.description",
@@ -105,9 +105,9 @@ public interface PayPalController {
   @RequestBody(description = "User to add",
       required = true,
       content = @Content(
-          schema = @Schema(implementation = CreateOrderRequest.class)))
+          schema = @Schema(implementation = MyOrderRequest.class)))
   @PostMapping(value = "/create-order", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  OrdersCreateResponse createOrder(Principal principal, CreateOrderRequest dto);
+  OrdersResponse createOrder(Principal principal, MyOrderRequest dto);
 }

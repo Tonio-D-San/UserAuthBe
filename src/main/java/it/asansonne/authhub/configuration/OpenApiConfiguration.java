@@ -50,7 +50,7 @@ public class OpenApiConfiguration {
     return new OpenAPI()
         .info(new Info()
             .version(appVersion)
-            .title("🚀 " + appName)
+            .title("Welcome in " + appName)
             .description(appDescription +
                 """
                   <div style="font-size: 15px; line-height: 1.5;">

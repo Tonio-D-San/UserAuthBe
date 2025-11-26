@@ -5,8 +5,8 @@ import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 
 import it.asansonne.management.ccsr.component.PayPalComponent;
 import it.asansonne.management.ccsr.controller.PayPalController;
-import it.asansonne.management.dto.request.CreateOrderRequest;
-import it.asansonne.management.dto.response.OrdersCreateResponse;
+import it.asansonne.management.dto.request.MyOrderRequest;
+import it.asansonne.management.dto.response.OrdersResponse;
 import java.security.Principal;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +21,9 @@ public class PayPalControllerImpl implements PayPalController {
   private final PayPalComponent payPalComponent;
 
   @PostMapping("/create-order")
-  public OrdersCreateResponse createOrder(
+  public OrdersResponse createOrder(
       Principal principal,
-      @RequestBody CreateOrderRequest dto
+      @RequestBody MyOrderRequest dto
   ) {
     return payPalComponent.createOrder(principal, dto);
   }

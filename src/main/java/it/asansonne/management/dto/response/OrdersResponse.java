@@ -12,7 +12,7 @@ import lombok.Getter;
 @Builder
 @Getter
 @AllArgsConstructor
-public class OrdersCreateResponse implements Dto {
+public class OrdersResponse implements Dto {
   private String orderId;
   private String checkoutPaymentIntent;
   private String createTime;
