@@ -24,7 +24,6 @@ public class AbilityDefinitionService {
   private final AbilityDefinitionRepository abilityRepository;
   private final ReagentRepository reagentRepository;
   private final LocalizationServiceImpl localizationService;
-  private final AbilityLocalizationService localizationService;
 
   public Page<AbilityDefinitionDTO> findAll(int page, int size, String direction, Locale locale) {
     Page<AbilityDefinition> defs = abilityRepository.findAll(
