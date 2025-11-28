@@ -3,6 +3,7 @@ package it.asansonne.payments.enumeration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+//three-character ISO-4217
 @Getter
 @AllArgsConstructor
 public enum CurrencyCode {

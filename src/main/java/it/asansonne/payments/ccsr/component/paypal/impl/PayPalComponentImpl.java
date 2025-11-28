@@ -9,10 +9,10 @@ import com.paypal.orders.PurchaseUnitRequest;
 import it.asansonne.authhub.ccsr.component.UserComponent;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.IOCustomException;
-import it.asansonne.payments.mapper.impl.OrderMapper;
+import it.asansonne.management.enumeration.AmountType;
+import it.asansonne.payments.enumeration.CurrencyCode;
 import it.asansonne.payments.model.MyOrder;
 import it.asansonne.payments.ccsr.component.paypal.PayPalComponent;
-import it.asansonne.payments.dto.request.paypal.MyOrderRequest;
 import it.asansonne.payments.dto.response.paypal.OrdersResponse;
 import java.io.IOException;
 import java.security.Principal;
@@ -28,33 +28,35 @@ import org.springframework.stereotype.Component;
 public class PayPalComponentImpl implements PayPalComponent {
   private final PayPalHttpClient client;
   private final UserComponent userComponent;
-  private final OrderMapper orderMapper;
 
-  public OrdersResponse createOrder(Principal principal, MyOrderRequest dto) {
+  public OrdersResponse createOrder(
+      Principal principal, AmountType amountType, CurrencyCode currencyCode
+  ) {
     OrdersCreateRequest request = new OrdersCreateRequest();
     request.header("prefer", "return=representation");
-    request.requestBody(buildRequestBody(dto.getAmountType().getValue()));
+    request.requestBody(buildRequestBody(amountType, currencyCode));
     return this.createOrder(
         this.findUserFromPrincipal(principal),
         request
     );
   }
 
-  private OrderRequest buildRequestBody(Integer amount) {
+  private OrderRequest buildRequestBody(AmountType amountType, CurrencyCode currencyCode) {
     OrderRequest orderRequest = new OrderRequest();
     orderRequest.checkoutPaymentIntent("CAPTURE");
     orderRequest.applicationContext(new ApplicationContext()
         .brandName("IlTuoShop")
         .landingPage("NO_PREFERENCE")
-        .cancelUrl("http://localhost:8082/login") //TODO cosa fare quando annulli il pagamento?
-        .returnUrl("http://localhost:8082/login")); //TODO cosa fare quando finisce il pagamento?
+        .cancelUrl("http://localhost:8082/error") //TODO cosa fare quando annulli il pagamento?
+        .returnUrl("http://localhost:8082/login") //TODO cosa fare quando finisce il pagamento?
+    );
     orderRequest.purchaseUnits(
         Collections.singletonList(
             new PurchaseUnitRequest()
                 .referenceId("PU-" + System.currentTimeMillis())
                 .amountWithBreakdown(new AmountWithBreakdown()
-                    .currencyCode("EUR")
-                    .value(String.valueOf(amount))
+                    .currencyCode(currencyCode.getCode())
+                    .value(String.valueOf(amountType.getValue()))
                 )
         )
     );
@@ -65,7 +67,6 @@ public class PayPalComponentImpl implements PayPalComponent {
     try {
       MyOrder order = MyOrder.from(client.execute(request).result());
       log.info("Order created: {}", order);
-      orderMapper.toDto(order);
       return OrdersResponse.builder()
           .orderId(order.id())
           .checkoutPaymentIntent(order.checkoutPaymentIntent())

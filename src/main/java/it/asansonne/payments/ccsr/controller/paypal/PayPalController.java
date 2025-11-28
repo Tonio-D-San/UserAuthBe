@@ -4,12 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.asansonne.authhub.exception.ExceptionMessage;
-import it.asansonne.payments.dto.request.paypal.MyOrderRequest;
+import it.asansonne.management.enumeration.AmountType;
 import it.asansonne.payments.dto.response.paypal.OrdersResponse;
+import it.asansonne.payments.enumeration.CurrencyCode;
 import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -102,12 +102,12 @@ public interface PayPalController {
                   )
               },
               schema = @Schema(implementation = ExceptionMessage.class)))})
-  @RequestBody(description = "User to add",
-      required = true,
-      content = @Content(
-          schema = @Schema(implementation = MyOrderRequest.class)))
   @PostMapping(value = "/create-order", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  OrdersResponse createOrder(Principal principal, MyOrderRequest dto);
+  OrdersResponse createOrder(
+      Principal principal,
+      AmountType amountType,
+      CurrencyCode currencyCode
+      );
 }
