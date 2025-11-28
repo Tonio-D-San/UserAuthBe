@@ -2,7 +2,7 @@ package it.asansonne.payments.mapper.impl;
 
 import it.asansonne.authhub.mapper.RequestModelMapper;
 import it.asansonne.authhub.mapper.ResponseModelMapper;
-import it.asansonne.management.model.MyOrder;
+import it.asansonne.payments.model.MyOrder;
 import it.asansonne.payments.dto.request.paypal.MyOrderRequest;
 import it.asansonne.payments.dto.response.paypal.OrdersResponse;
 import lombok.RequiredArgsConstructor;

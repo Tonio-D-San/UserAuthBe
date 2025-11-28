@@ -1,4 +1,4 @@
-package it.asansonne.management.model;
+package it.asansonne.payments.model;
 
 import com.paypal.orders.Order;
 import it.asansonne.authhub.model.Models;
@@ -43,6 +43,7 @@ public class MyOrder extends Order implements Models {
     super.purchaseUnits(o.purchaseUnits());
     super.status(o.status());
     super.updateTime(o.updateTime());
+    this.uuid = UUID.randomUUID();
   }
 
   public static MyOrder from(Order o) {

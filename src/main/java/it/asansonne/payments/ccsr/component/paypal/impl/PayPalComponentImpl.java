@@ -10,7 +10,7 @@ import it.asansonne.authhub.ccsr.component.UserComponent;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.IOCustomException;
 import it.asansonne.payments.mapper.impl.OrderMapper;
-import it.asansonne.management.model.MyOrder;
+import it.asansonne.payments.model.MyOrder;
 import it.asansonne.payments.ccsr.component.paypal.PayPalComponent;
 import it.asansonne.payments.dto.request.paypal.MyOrderRequest;
 import it.asansonne.payments.dto.response.paypal.OrdersResponse;
