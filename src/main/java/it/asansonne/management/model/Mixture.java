@@ -1,7 +1,6 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
-import it.asansonne.management.enumeration.AbilityName;
 import it.asansonne.management.enumeration.AlchemicalMixturesType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
