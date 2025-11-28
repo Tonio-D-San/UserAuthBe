@@ -1,6 +1,7 @@
 package it.asansonne.management.ccsr.service;
 
 import it.asansonne.management.ccsr.repository.AbilityDefinitionRepository;
+import it.asansonne.management.ccsr.repository.ReagentRepository;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
 import it.asansonne.management.dto.response.AbilityResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
