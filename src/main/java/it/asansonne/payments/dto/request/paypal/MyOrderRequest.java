@@ -1,4 +1,4 @@
-package it.asansonne.management.dto.request;
+package it.asansonne.payments.dto.request.paypal;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Dto;

@@ -1,6 +1,6 @@
-package it.asansonne.management.configuration.paypal;
+package it.asansonne.payments.configutation.paypal;
 
-import static it.asansonne.management.enumeration.PayPalType.LIVE;
+import static it.asansonne.payments.enumeration.PayPalType.LIVE;
 
 import com.paypal.core.PayPalEnvironment;
 import com.paypal.core.PayPalHttpClient;

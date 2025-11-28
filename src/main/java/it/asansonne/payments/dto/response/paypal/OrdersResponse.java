@@ -1,4 +1,4 @@
-package it.asansonne.management.dto.response;
+package it.asansonne.payments.dto.response.paypal;
 
 import com.paypal.orders.LinkDescription;
 import com.paypal.orders.PurchaseUnit;

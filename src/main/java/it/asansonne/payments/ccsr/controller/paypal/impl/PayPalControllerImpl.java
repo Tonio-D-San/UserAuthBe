@@ -1,12 +1,12 @@
-package it.asansonne.management.ccsr.controller.impl;
+package it.asansonne.payments.ccsr.controller.paypal.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 
-import it.asansonne.management.ccsr.component.PayPalComponent;
-import it.asansonne.management.ccsr.controller.PayPalController;
-import it.asansonne.management.dto.request.MyOrderRequest;
-import it.asansonne.management.dto.response.OrdersResponse;
+import it.asansonne.payments.ccsr.component.paypal.PayPalComponent;
+import it.asansonne.payments.ccsr.controller.paypal.PayPalController;
+import it.asansonne.payments.dto.request.paypal.MyOrderRequest;
+import it.asansonne.payments.dto.response.paypal.OrdersResponse;
 import java.security.Principal;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

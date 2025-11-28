@@ -1,4 +1,4 @@
-package it.asansonne.management.enumeration;
+package it.asansonne.payments.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,10 +1,10 @@
-package it.asansonne.management.mapper.impl;
+package it.asansonne.payments.mapper.impl;
 
 import it.asansonne.authhub.mapper.RequestModelMapper;
 import it.asansonne.authhub.mapper.ResponseModelMapper;
-import it.asansonne.management.dto.request.MyOrderRequest;
-import it.asansonne.management.dto.response.OrdersResponse;
 import it.asansonne.management.model.MyOrder;
+import it.asansonne.payments.dto.request.paypal.MyOrderRequest;
+import it.asansonne.payments.dto.response.paypal.OrdersResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

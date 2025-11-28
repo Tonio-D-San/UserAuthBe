@@ -1,4 +1,4 @@
-package it.asansonne.management.dto.request;
+package it.asansonne.payments.dto.request.paypal;
 
 import it.asansonne.authhub.dto.Dto;
 import lombok.AllArgsConstructor;

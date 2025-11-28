@@ -1,4 +1,4 @@
-package it.asansonne.management.ccsr.controller;
+package it.asansonne.payments.ccsr.controller.paypal;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.asansonne.authhub.exception.ExceptionMessage;
-import it.asansonne.management.dto.request.MyOrderRequest;
-import it.asansonne.management.dto.response.OrdersResponse;
+import it.asansonne.payments.dto.request.paypal.MyOrderRequest;
+import it.asansonne.payments.dto.response.paypal.OrdersResponse;
 import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
