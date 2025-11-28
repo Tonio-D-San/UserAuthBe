@@ -1,12 +1,30 @@
+package it.asansonne.payments.ccsr.controller.paypal;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import it.asansonne.authhub.exception.ExceptionMessage;
+import it.asansonne.management.enumeration.AmountType;
+import it.asansonne.payments.dto.response.paypal.OrdersResponse;
+import it.asansonne.payments.enumeration.CurrencyCode;
+import java.security.Principal;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 public interface PayPalController {
-  @Operation(summary = "Order creation")
+  @Operation(summary = "order.create.summary")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "201", description = "Order has been created",
+      @ApiResponse(responseCode = "201", description = "order.create.201.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-              schema = @Schema(implementation = OrdersCreateResponse.class))),
-      @ApiResponse(responseCode = "204", description = "No user found",
+              schema = @Schema(implementation = OrdersResponse.class))),
+      @ApiResponse(responseCode = "204", description = "order.create.204.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-      @ApiResponse(responseCode = "400", description = "Order has validation errors",
+      @ApiResponse(responseCode = "400", description = "order.create.400.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
               examples = {
                   @ExampleObject(
@@ -15,7 +33,7 @@ public interface PayPalController {
                           {
                           "status": "BAD REQUEST",
                           "message": \
-                          "Bad Request message"
+                          "Bad request message"
                           , "validations": \
                           {"field":"constraint violation message"}}"""
                   )
@@ -23,7 +41,7 @@ public interface PayPalController {
 
               schema = @Schema(implementation = ExceptionMessage.class))),
       @ApiResponse(responseCode = "401",
-          description = "You are not authorized to access the creation of an order",
+          description = "order.create.401.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
               examples = {
                   @ExampleObject(
@@ -38,8 +56,7 @@ public interface PayPalController {
               },
               schema = @Schema(implementation = ExceptionMessage.class))),
       @ApiResponse(responseCode = "403",
-          description = "Access to the creation of a order you are trying to"
-              + " reach is prohibited",
+          description = "order.create.403.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
               examples = {
                   @ExampleObject(
@@ -54,7 +71,7 @@ public interface PayPalController {
               },
               schema = @Schema(implementation = ExceptionMessage.class))),
       @ApiResponse(responseCode = "405",
-          description = "The user cannot be created because the person is inactive",
+          description = "order.create.405.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
               examples = {
                   @ExampleObject(
@@ -70,7 +87,7 @@ public interface PayPalController {
               },
               schema = @Schema(implementation = ExceptionMessage.class))),
       @ApiResponse(responseCode = "409",
-          description = "Conflict to insert a new user",
+          description = "order.create.409.description",
           content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
               examples = {
                   @ExampleObject(
@@ -85,14 +102,12 @@ public interface PayPalController {
                   )
               },
               schema = @Schema(implementation = ExceptionMessage.class)))})
-  @RequestBody(description = "User to add",
-      required = true,
-      content = @Content(
-          schema = @Schema(implementation = CreateOrderRequest.class)))
   @PostMapping(value = "/create-order", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  OrdersCreateResponse createOrder(Principal principal, CreateOrderRequest dto);
+  OrdersResponse createOrder(
+      Principal principal,
+      AmountType amountType,
+      CurrencyCode currencyCode
+      );
 }
-
-Ho questa documentazione swagger, visto che uso sempre più o meno le stesse descrizioni c'è un modo per utilizzare delle costanti che posso scrivere nei messages_<lan>.properties?

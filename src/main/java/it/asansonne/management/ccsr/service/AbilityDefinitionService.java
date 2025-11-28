@@ -7,7 +7,7 @@ import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.enumeration.ReagentName;
 import it.asansonne.management.model.AbilityDefinition;
 import it.asansonne.management.model.Reagent;
-import it.asansonne.management.service.AbilityLocalizationService;
+import it.asansonne.authhub.ccsr.service.impl.LocalizationServiceImpl;
 import java.util.Locale;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 public class AbilityDefinitionService {
   private final MessageSource messageSource;
   private final AbilityDefinitionRepository abilityRepository;
+  private final ReagentRepository reagentRepository;
+  private final LocalizationServiceImpl localizationService;
   private final AbilityLocalizationService localizationService;
 
   public Page<AbilityDefinitionDTO> findAll(int page, int size, String direction, Locale locale) {
