@@ -18,10 +18,11 @@ public class I18nConfig implements WebMvcConfigurer {
   public MessageSource messageSource() {
     ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
     messageSource.setBasenames(
-        "i18n/swagger",
+        "i18n/payments",
         "i18n/projectMessages",
-        "i18n/restMessages"
-    );
+        "i18n/restMessages",
+        "i18n/swagger"
+        );
     messageSource.setDefaultEncoding("UTF-8");
     return messageSource;
   }
