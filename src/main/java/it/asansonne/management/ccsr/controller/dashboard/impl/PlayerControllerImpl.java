@@ -14,10 +14,12 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(API + "/" + API_VERSION + "/players")
@@ -61,6 +63,13 @@ public class PlayerControllerImpl implements PlayerController {
 
   @Override
   public Player findPlayerByAbility(AbilityName abilityName) {
+    return null;
+  }
+
+
+  @Override
+  public ResponseEntity<PlayerResponse> create(PlayerRequest request,
+                                               UriComponentsBuilder builder) {
     return null;
   }
 }
