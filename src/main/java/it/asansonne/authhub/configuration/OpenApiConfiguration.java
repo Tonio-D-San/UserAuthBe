@@ -13,7 +13,6 @@ import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import java.util.Collections;
-import java.util.Locale;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -56,9 +55,9 @@ public class OpenApiConfiguration {
                   <div style="font-size: 15px; line-height: 1.5;">
                     <b>AuthHub</b> è il servizio centralizzato per gestire autenticazioni via Google e altri provider social.<br>
                     <ul>
-                      <li>🔐 Login semplificato (OAuth2 Social)</li>
-                      <li>🧩 Gestione utenti interna</li>
-                      <li>📚 API documentate e pronte all’integrazione</li>
+                      <li>Login semplificato (OAuth2 Social)</li>
+                      <li>Gestione utenti interna</li>
+                      <li>API documentate e pronte all’integrazione</li>
                     </ul>
                   </div>
                 """
@@ -90,19 +89,19 @@ public class OpenApiConfiguration {
 
   @Bean
   public OpenApiCustomizer i18nOpenApiCustomizer(MessageSource messageSource) {
-    return openApi -> {
-      Locale locale = LocaleContextHolder.getLocale();
-
-      openApi.getPaths().forEach((_, item) ->
-          item.readOperations().forEach(operation -> {
-            if (operation.getDescription() != null) {
-              operation.setDescription(
-                  messageSource.getMessage(operation.getDescription(), null, locale)
-              );
-            }
-          })
-      );
-    };
+    return openApi -> openApi.getPaths().forEach((_, item) ->
+        item.readOperations().forEach(operation -> {
+          if (operation.getDescription() != null) {
+            operation.setDescription(
+                messageSource.getMessage(
+                    operation.getDescription(),
+                    null,
+                    LocaleContextHolder.getLocale()
+                )
+            );
+          }
+        })
+    );
   }
 
   private String getAuthUrl() {
