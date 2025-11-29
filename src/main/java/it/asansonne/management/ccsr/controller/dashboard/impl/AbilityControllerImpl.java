@@ -6,7 +6,7 @@ import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 import it.asansonne.management.ccsr.component.AbilityComponent;
 import it.asansonne.management.ccsr.controller.dashboard.AbilityController;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
-import it.asansonne.management.dto.requests.AbilityRequest;
+import it.asansonne.management.dto.request.AbilityRequest;
 import it.asansonne.management.dto.response.AbilityResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import java.util.Locale;

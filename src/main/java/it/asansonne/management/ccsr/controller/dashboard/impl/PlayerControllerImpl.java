@@ -5,7 +5,7 @@ import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 
 import it.asansonne.management.ccsr.component.PlayerComponent;
 import it.asansonne.management.ccsr.controller.dashboard.PlayerController;
-import it.asansonne.management.dto.requests.PlayerRequest;
+import it.asansonne.management.dto.request.PlayerRequest;
 import it.asansonne.management.dto.response.PlayerResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.model.Player;

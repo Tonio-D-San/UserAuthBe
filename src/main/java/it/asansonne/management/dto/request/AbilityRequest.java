@@ -1,4 +1,4 @@
-package it.asansonne.management.dto.requests;
+package it.asansonne.management.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,7 +15,6 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Ability Request DTO")
 public class AbilityRequest implements Request {

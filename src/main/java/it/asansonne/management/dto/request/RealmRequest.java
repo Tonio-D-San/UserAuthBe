@@ -1,8 +1,9 @@
-package it.asansonne.management.dto.requests;
+package it.asansonne.management.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Request;
+import it.asansonne.management.enumeration.character.RealmName;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,21 +19,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Representation of the Player Request DTO")
-public class PlayerRequest implements Request {
-  @NotBlank(message = "Player name")
+@Schema(description = "Representation of the Realm Request DTO")
+public class RealmRequest implements Request {
+  @NotBlank(message = "Realm name must not be null or empty")
   @Schema(
-      description = "Player name",
-      name = "name",
-      type = "String",
-      example = "mrossi"
-  )
-  private String name;
-  @NotBlank(message = "User surname must not be null or empty")
-  @Schema(
-      description = "User surname",
-      name = "lastname",
+      description = "Realm name",
+      name = "Realm",
       type = "Enum",
       example = "Coronor")
-  private RealmRequest realm;
+  private RealmName realmName;
 }
