@@ -2,7 +2,7 @@ package it.asansonne.authhub.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Dto;
+import it.asansonne.authhub.dto.Request;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Status Request DTO")
-public class StatusRequest implements Dto {
+public class StatusRequest implements Request {
   @NotNull
   @Schema(
       description = "Status",

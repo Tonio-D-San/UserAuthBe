@@ -2,7 +2,7 @@ package it.asansonne.authhub.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Dto;
+import it.asansonne.authhub.dto.Request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,7 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the User Request DTO")
-public class UserRequest implements Dto {
+public class UserRequest implements Request {
   @NotBlank(message = "User username must not be null or empty")
   @Schema(
       description = "User username",
@@ -87,4 +87,11 @@ public class UserRequest implements Dto {
       name = "profileImage",
       type = "byte[]")
   private byte[] profileImage;
+
+  @Schema(
+      description = "User status request",
+      name = "statusRequest",
+      type = "UserStatusRequest")
+  private UserStatusRequest statusRequest;
+
 }

@@ -9,11 +9,10 @@ import com.paypal.orders.PurchaseUnitRequest;
 import it.asansonne.authhub.ccsr.component.UserComponent;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.IOCustomException;
-import it.asansonne.management.enumeration.AmountType;
-import it.asansonne.payments.enumeration.CurrencyCode;
-import it.asansonne.payments.model.MyOrder;
 import it.asansonne.payments.ccsr.component.paypal.PayPalComponent;
+import it.asansonne.payments.dto.request.paypal.OrdersRequest;
 import it.asansonne.payments.dto.response.paypal.OrdersResponse;
+import it.asansonne.payments.model.MyOrder;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
@@ -29,19 +28,20 @@ public class PayPalComponentImpl implements PayPalComponent {
   private final PayPalHttpClient client;
   private final UserComponent userComponent;
 
-  public OrdersResponse createOrder(
-      Principal principal, AmountType amountType, CurrencyCode currencyCode
-  ) {
-    OrdersCreateRequest request = new OrdersCreateRequest();
-    request.header("prefer", "return=representation");
-    request.requestBody(buildRequestBody(amountType, currencyCode));
+  public OrdersResponse createOrder(Principal principal, OrdersRequest request) {
+    OrdersCreateRequest createRequest = new OrdersCreateRequest();
+    createRequest.header("prefer", "return=representation");
+    createRequest.requestBody(buildRequestBody(
+        String.valueOf(request.getAmountType().getValue()),
+        request.getCurrencyCode().getCode()
+    ));
     return this.createOrder(
         this.findUserFromPrincipal(principal),
-        request
+        createRequest
     );
   }
 
-  private OrderRequest buildRequestBody(AmountType amountType, CurrencyCode currencyCode) {
+  private OrderRequest buildRequestBody(String value, String code) {
     OrderRequest orderRequest = new OrderRequest();
     orderRequest.checkoutPaymentIntent("CAPTURE");
     orderRequest.applicationContext(new ApplicationContext()
@@ -55,8 +55,8 @@ public class PayPalComponentImpl implements PayPalComponent {
             new PurchaseUnitRequest()
                 .referenceId("PU-" + System.currentTimeMillis())
                 .amountWithBreakdown(new AmountWithBreakdown()
-                    .currencyCode(currencyCode.getCode())
-                    .value(String.valueOf(amountType.getValue()))
+                    .currencyCode(code)
+                    .value(value)
                 )
         )
     );
@@ -82,6 +82,7 @@ public class PayPalComponentImpl implements PayPalComponent {
       throw new IOCustomException("Error creating order");
     }
   }
+
   private UserResponse findUserFromPrincipal(Principal principal) {
     return userComponent.findUserByUuid(
         UUID.fromString(principal.getName().split("[,\\[\\]\\s]+")[1])

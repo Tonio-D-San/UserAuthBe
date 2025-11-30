@@ -1,4 +1,4 @@
-package it.asansonne.authhub.ccsr.controller;
+package it.asansonne.authhub.ccsr.controller.users;
 
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;

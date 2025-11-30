@@ -2,7 +2,7 @@ package it.asansonne.payments.dto.response.paypal;
 
 import com.paypal.orders.LinkDescription;
 import com.paypal.orders.PurchaseUnit;
-import it.asansonne.authhub.dto.Dto;
+import it.asansonne.authhub.dto.Response;
 import it.asansonne.authhub.dto.response.UserResponse;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.Getter;
 @Builder
 @Getter
 @AllArgsConstructor
-public class OrdersResponse implements Dto {
+public class OrdersResponse implements Response {
   private String orderId;
   private String checkoutPaymentIntent;
   private String createTime;

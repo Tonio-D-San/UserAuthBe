@@ -3,7 +3,7 @@ package it.asansonne.authhub.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Dto;
+import it.asansonne.authhub.dto.Response;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Group Response DTO")
-public class GroupResponse implements Dto {
+public class GroupResponse implements Response {
   @JsonProperty("uuid")
   @Schema(
       description = "Group uuid",

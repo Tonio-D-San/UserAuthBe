@@ -9,16 +9,19 @@ import it.asansonne.management.dto.AbilityDefinitionDTO;
 import it.asansonne.management.dto.request.AbilityRequest;
 import it.asansonne.management.dto.response.AbilityResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
+import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(API + "/" + API_VERSION + "/abilities")
@@ -33,8 +36,8 @@ public class AbilityControllerImpl implements AbilityController {
   }
 
   @Override
-  public Page<AbilityResponse> findActive(Integer page, Integer size, String direction,
-                                          Boolean isActive) {
+  public Page<AbilityResponse> findByIsActive(Integer page, Integer size, String direction,
+                                              Boolean isActive) {
     return null;
   }
 
@@ -44,8 +47,8 @@ public class AbilityControllerImpl implements AbilityController {
       @RequestParam(defaultValue = "0") Integer page,
       @RequestParam(defaultValue = "5") Integer size,
       @RequestParam(defaultValue = "asc") String direction,
-      Locale locale
-  ) {
+      Locale locale,
+      Principal principal) {
     return component.findAll(page, size, direction, locale);
   }
 
@@ -67,5 +70,16 @@ public class AbilityControllerImpl implements AbilityController {
     ) {
 //      return component.findAbilityDefinitionByCode(abilityName, locale);
       return null;
+  }
+
+  @Override
+  public void updateByUuid(UUID uuid, AbilityRequest request) {
+    // TODO document why this method is empty
+  }
+
+  @Override
+  public ResponseEntity<AbilityResponse> create(Principal principal, AbilityRequest request,
+                                                UriComponentsBuilder builder) {
+    return null;
   }
 }

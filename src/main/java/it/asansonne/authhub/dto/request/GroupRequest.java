@@ -2,7 +2,7 @@ package it.asansonne.authhub.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Dto;
+import it.asansonne.authhub.dto.Request;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Group Request DTO")
-public class GroupRequest implements Dto {
+public class GroupRequest implements Request {
   @NotNull(message = "The group uuid must not be null")
   @Schema(
       description = "Group uuid",

@@ -9,6 +9,7 @@ import it.asansonne.management.dto.request.PlayerRequest;
 import it.asansonne.management.dto.response.PlayerResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.model.Player;
+import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -34,8 +35,8 @@ public class PlayerControllerImpl implements PlayerController {
   }
 
   @Override
-  public Page<PlayerResponse> findActive(Integer page, Integer size, String direction,
-                                         Boolean isActive) {
+  public Page<PlayerResponse> findByIsActive(Integer page, Integer size, String direction,
+                                             Boolean isActive) {
     return null;
   }
 
@@ -45,8 +46,8 @@ public class PlayerControllerImpl implements PlayerController {
       @RequestParam(defaultValue = "0") Integer page,
       @RequestParam(defaultValue = "5") Integer size,
       @RequestParam(defaultValue = "asc") String direction,
-      Locale locale
-  ) {
+      Locale locale,
+      Principal principal) {
     return component.findAll(page, size, direction, locale);
   }
 
@@ -68,8 +69,17 @@ public class PlayerControllerImpl implements PlayerController {
 
 
   @Override
-  public ResponseEntity<PlayerResponse> create(PlayerRequest request,
-                                               UriComponentsBuilder builder) {
+  public ResponseEntity<PlayerResponse> create(
+      Principal principal,
+      PlayerRequest request,
+      UriComponentsBuilder builder
+  ) {
     return null;
+  }
+
+
+  @Override
+  public void updateByUuid(UUID uuid, PlayerRequest request) {
+
   }
 }

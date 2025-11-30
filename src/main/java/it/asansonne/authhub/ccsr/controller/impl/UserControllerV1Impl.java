@@ -6,12 +6,13 @@ import static it.asansonne.authhub.constant.SharedConstant.DEVELOP_ROLES;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import it.asansonne.authhub.ccsr.component.UserComponent;
-import it.asansonne.authhub.ccsr.controller.UserControllerMappingV1;
+import it.asansonne.authhub.ccsr.controller.users.UserControllerV1;
 import it.asansonne.authhub.dto.request.StatusRequest;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
 import jakarta.validation.Valid;
 import java.security.Principal;
+import java.util.Locale;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,21 +43,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 @Tag(name = "UserController" + API_VERSION)
 @PreAuthorize(DEVELOP_ROLES)
-public class UserControllerV1Impl implements UserControllerMappingV1 {
+public class UserControllerV1Impl implements UserControllerV1 {
   private final UserComponent userComponent;
 
   @Override
   @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public UserResponse findUserByUuid(@PathVariable("uuid") UUID uuid) {
+  public UserResponse findByUuid(@PathVariable("uuid") UUID uuid) {
     return userComponent.findUserByUuid(uuid);
   }
 
   @Override
   @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Page<UserResponse> findAllUsers(Principal principal,
+  public Page<UserResponse> findAll(
       @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
-      @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction
+      @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
+      Locale locale, Principal principal
   ) {
     return userComponent.findAllUsers(
         PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME))
@@ -64,8 +66,19 @@ public class UserControllerV1Impl implements UserControllerMappingV1 {
   }
 
   @Override
+  public Page<UserResponse> findAllByField(Integer page, Integer size, String direction,
+                                           UserRequest request) {
+    return null;
+  }
+
+  @Override
+  public UserResponse findLastAdded() {
+    return null;
+  }
+
+  @Override
   @GetMapping(value = "/isActive", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Page<UserResponse> findUsersByIsActive(
+  public Page<UserResponse> findByIsActive(
       @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
@@ -81,7 +94,8 @@ public class UserControllerV1Impl implements UserControllerMappingV1 {
   @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  public ResponseEntity<UserResponse> createPerson(
+  public ResponseEntity<UserResponse> create(
+      Principal principal,
       @Valid @RequestBody UserRequest personRequest,
       UriComponentsBuilder builder
   ) {
@@ -89,17 +103,19 @@ public class UserControllerV1Impl implements UserControllerMappingV1 {
     return ResponseEntity
         .created(builder
             .path("ala/v1/admin/")
-            .buildAndExpand(response.getUuid().toString())
+            .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);
   }
 
-  @Override
   @PatchMapping(value = "/status/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void updateStatusUserByUuid(
-      @PathVariable("uuid") UUID uuid, @RequestBody StatusRequest status
+  @Override
+  public void updateByUuid(
+      @PathVariable("uuid") UUID uuid, StatusRequest status
   ) {
     userComponent.updateStatusUserByUuid(uuid, status);
   }
+
+
 }

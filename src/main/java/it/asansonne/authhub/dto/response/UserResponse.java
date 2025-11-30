@@ -3,7 +3,7 @@ package it.asansonne.authhub.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Dto;
+import it.asansonne.authhub.dto.Response;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the User Response DTO")
-public class UserResponse implements Dto {
+public class UserResponse implements Response {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @Schema(
       description = "User uuid",
