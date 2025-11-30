@@ -2,6 +2,7 @@ package it.asansonne.authhub.ccsr.controller.users;
 
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
+import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,5 +22,5 @@ public interface LoginController {
   @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  ResponseEntity<UserResponse> createPerson(UserRequest userRequest, UriComponentsBuilder builder);
+  ResponseEntity<UserResponse> createPerson(Principal principal, UserRequest userRequest, UriComponentsBuilder builder);
 }

@@ -1,6 +1,6 @@
-package it.asansonne.authhub.ccsr.service.impl;
+package it.asansonne.authhub.ccsr.service.users.impl;
 
-import it.asansonne.authhub.ccsr.service.LocalizationService;
+import it.asansonne.authhub.ccsr.service.users.LocalizationService;
 import it.asansonne.management.model.AbilityDefinition;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;

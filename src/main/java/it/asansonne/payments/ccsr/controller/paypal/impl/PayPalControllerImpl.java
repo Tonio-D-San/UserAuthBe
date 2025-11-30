@@ -10,7 +10,6 @@ import it.asansonne.payments.dto.response.paypal.OrdersResponse;
 import java.security.Principal;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,7 +21,6 @@ public class PayPalControllerImpl implements PayPalController {
   private final PayPalComponent payPalComponent;
 
   @Override
-  @PostMapping("/create")
   public ResponseEntity<OrdersResponse> create(
       Principal principal,
       OrdersRequest request,

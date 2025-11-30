@@ -27,7 +27,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @AllArgsConstructor
 public class PlayerControllerImpl implements PlayerController {
 
-  private final PlayerComponent component;
+  private final PlayerComponent playerComponent;
 
   @Override
   public PlayerResponse findByUuid(UUID uuid) {
@@ -48,7 +48,7 @@ public class PlayerControllerImpl implements PlayerController {
       @RequestParam(defaultValue = "asc") String direction,
       Locale locale,
       Principal principal) {
-    return component.findAll(page, size, direction, locale);
+    return playerComponent.findAll(page, size, direction, locale);
   }
 
   @Override
@@ -67,19 +67,28 @@ public class PlayerControllerImpl implements PlayerController {
     return null;
   }
 
+  /*
 
+   */
   @Override
   public ResponseEntity<PlayerResponse> create(
       Principal principal,
       PlayerRequest request,
       UriComponentsBuilder builder
   ) {
-    return null;
+
+    PlayerResponse response = playerComponent.create(principal, request);
+    return ResponseEntity
+        .created(builder
+            .path("ala/v1/admin/")
+            .buildAndExpand(String.valueOf(response.getUuid()))
+            .toUri()
+        ).body(response);
   }
 
 
   @Override
   public void updateByUuid(UUID uuid, PlayerRequest request) {
-
+    // TODO document why this method is empty
   }
 }

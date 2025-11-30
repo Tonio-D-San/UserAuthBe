@@ -1,4 +1,4 @@
-package it.asansonne.authhub.ccsr.service;
+package it.asansonne.authhub.ccsr.service.users;
 
 import it.asansonne.authhub.model.Group;
 import java.util.List;

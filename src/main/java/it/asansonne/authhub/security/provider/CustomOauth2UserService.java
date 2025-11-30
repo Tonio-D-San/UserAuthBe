@@ -3,7 +3,7 @@ package it.asansonne.authhub.security.provider;
 import static it.asansonne.authhub.enumeration.GroupName.ADMIN;
 
 import it.asansonne.authhub.ccsr.repository.UserRepository;
-import it.asansonne.authhub.ccsr.service.impl.UserServiceImpl;
+import it.asansonne.authhub.ccsr.service.users.impl.UserServiceImpl;
 import it.asansonne.authhub.model.User;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -88,7 +88,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OidcUserReques
     User user;
 
     if (userOpt.isEmpty()) {
-      user = userService.createUser(
+      user = userService.create(
           User.builder()
               .uuid(UUID.randomUUID())
               .provider(provider)

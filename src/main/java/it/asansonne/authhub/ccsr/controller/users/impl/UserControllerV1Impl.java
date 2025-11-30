@@ -1,13 +1,12 @@
-package it.asansonne.authhub.ccsr.controller.impl;
+package it.asansonne.authhub.ccsr.controller.users.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 import static it.asansonne.authhub.constant.SharedConstant.DEVELOP_ROLES;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import it.asansonne.authhub.ccsr.component.UserComponent;
+import it.asansonne.authhub.ccsr.component.users.UserComponent;
 import it.asansonne.authhub.ccsr.controller.users.UserControllerV1;
-import it.asansonne.authhub.dto.request.StatusRequest;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
 import jakarta.validation.Valid;
@@ -49,7 +48,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
   @Override
   @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
   public UserResponse findByUuid(@PathVariable("uuid") UUID uuid) {
-    return userComponent.findUserByUuid(uuid);
+    return userComponent.findByUuid(uuid);
   }
 
   @Override
@@ -60,8 +59,9 @@ public class UserControllerV1Impl implements UserControllerV1 {
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
       Locale locale, Principal principal
   ) {
-    return userComponent.findAllUsers(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME))
+    return userComponent.findAll(
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        locale, principal
     );
   }
 
@@ -84,9 +84,9 @@ public class UserControllerV1Impl implements UserControllerV1 {
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
       @RequestParam(value = "isActive", defaultValue = "true") Boolean isActive
   ) {
-    return userComponent.findActiveUsers(
-        isActive,
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME))
+    return userComponent.findByIsActive(
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        isActive
     );
   }
 
@@ -99,7 +99,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
       @Valid @RequestBody UserRequest personRequest,
       UriComponentsBuilder builder
   ) {
-    UserResponse response = userComponent.createUser(personRequest);
+    UserResponse response = userComponent.create(principal, personRequest);
     return ResponseEntity
         .created(builder
             .path("ala/v1/admin/")
@@ -112,10 +112,9 @@ public class UserControllerV1Impl implements UserControllerV1 {
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @Override
   public void updateByUuid(
-      @PathVariable("uuid") UUID uuid, StatusRequest status
+      @PathVariable("uuid") UUID uuid, UserRequest request
   ) {
-    userComponent.updateStatusUserByUuid(uuid, status);
+    userComponent.updateByUuid(uuid, request);
   }
-
 
 }

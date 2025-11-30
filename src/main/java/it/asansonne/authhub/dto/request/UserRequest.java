@@ -92,6 +92,6 @@ public class UserRequest implements Request {
       description = "User status request",
       name = "statusRequest",
       type = "UserStatusRequest")
-  private UserStatusRequest statusRequest;
+  private StatusRequest statusRequest;
 
 }

@@ -8,7 +8,7 @@ import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.enumeration.ReagentName;
 import it.asansonne.management.model.AbilityDefinition;
 import it.asansonne.management.model.Reagent;
-import it.asansonne.authhub.ccsr.service.impl.LocalizationServiceImpl;
+import it.asansonne.authhub.ccsr.service.users.impl.LocalizationServiceImpl;
 import java.util.Locale;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

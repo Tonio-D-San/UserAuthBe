@@ -6,7 +6,7 @@ import com.paypal.orders.ApplicationContext;
 import com.paypal.orders.OrderRequest;
 import com.paypal.orders.OrdersCreateRequest;
 import com.paypal.orders.PurchaseUnitRequest;
-import it.asansonne.authhub.ccsr.component.UserComponent;
+import it.asansonne.authhub.ccsr.component.users.UserComponent;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.IOCustomException;
 import it.asansonne.payments.ccsr.component.paypal.PayPalComponent;
@@ -84,7 +84,7 @@ public class PayPalComponentImpl implements PayPalComponent {
   }
 
   private UserResponse findUserFromPrincipal(Principal principal) {
-    return userComponent.findUserByUuid(
+    return userComponent.findByUuid(
         UUID.fromString(principal.getName().split("[,\\[\\]\\s]+")[1])
     );
   }

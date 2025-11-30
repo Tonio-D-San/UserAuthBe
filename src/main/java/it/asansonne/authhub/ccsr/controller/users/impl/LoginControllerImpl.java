@@ -1,15 +1,16 @@
-package it.asansonne.authhub.ccsr.controller.impl;
+package it.asansonne.authhub.ccsr.controller.users.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 
-import it.asansonne.authhub.ccsr.component.UserComponent;
+import it.asansonne.authhub.ccsr.component.users.UserComponent;
 import it.asansonne.authhub.ccsr.controller.users.LoginController;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.management.enumeration.character.RealmName;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -50,10 +51,11 @@ public class LoginControllerImpl implements LoginController {
       consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<UserResponse> createPerson(
+      Principal principal,
       @Valid @RequestBody UserRequest personRequest,
       UriComponentsBuilder builder
   ) {
-    UserResponse response = userComponent.createUser(personRequest);
+    UserResponse response = userComponent.create(principal, personRequest);
     return ResponseEntity
         .created(builder
             .path(String.format("%s/%s/admin/", API, API_VERSION))

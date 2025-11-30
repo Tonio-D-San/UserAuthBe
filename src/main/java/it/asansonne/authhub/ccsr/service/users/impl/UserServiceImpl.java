@@ -1,11 +1,12 @@
-package it.asansonne.authhub.ccsr.service.impl;
+package it.asansonne.authhub.ccsr.service.users.impl;
 
 import it.asansonne.authhub.ccsr.repository.GroupRepository;
 import it.asansonne.authhub.ccsr.repository.UserRepository;
-import it.asansonne.authhub.ccsr.service.UserService;
+import it.asansonne.authhub.ccsr.service.users.UserService;
 import it.asansonne.authhub.model.User;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,12 +25,12 @@ public final class UserServiceImpl implements UserService {
   private final GroupRepository groupRepository;
 
   @Override
-  public Optional<User> findUserByUuid(UUID userUuid) {
+  public Optional<User> findByUuid(UUID userUuid) {
     return userRepository.findUserByUuid(userUuid);
   }
 
   @Override
-  public Page<User> findAllUsers(Pageable pageable) {
+  public Page<User> findAll(Pageable pageable, Locale locale) {
     Page<User> users = userRepository.findAll(pageable);
     if (users.isEmpty()) {
       throw new EntityNotFoundException("person.empty");
@@ -38,25 +39,28 @@ public final class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Page<User> findActiveUsers(Boolean isActive, Pageable pageable) {
+  public Page<User> findAllByField(Pageable pageable) {
+    return null;
+  }
+
+  @Override
+  public Optional<User> findLastAdded() {
+    return Optional.empty();
+  }
+
+  @Override
+  public Page<User> findByIsActive(Pageable pageable, Boolean isActive) {
     Page<User> users = userRepository.findAllByIsActive(isActive, pageable);
     if (users.isEmpty()) {
-      throw new EntityNotFoundException("person.active.empty");
+      throw new EntityNotFoundException(
+          Boolean.TRUE.equals(isActive) ? "person.active.empty" : "person.inactive.empty"
+      );
     }
     return users;
   }
 
   @Override
-  public Page<User> findInactiveUsers(Pageable pageable) {
-    Page<User> users = userRepository.findAllByIsActiveFalse(pageable);
-    if (users.isEmpty()) {
-      throw new EntityNotFoundException("person.inactive.empty");
-    }
-    return users;
-  }
-
-  @Override
-  public User createUser(User user) {
+  public User create(User user) {
     user.setGroups(
         List.of(Objects.requireNonNull(groupRepository.findById(3).orElse(null)))
     );
@@ -64,7 +68,8 @@ public final class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void updateUser(User user) {
+  public void update(User user) {
     userRepository.save(user);
   }
+
 }

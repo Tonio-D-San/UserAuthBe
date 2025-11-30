@@ -1,4 +1,4 @@
-package it.asansonne.authhub.ccsr.controller.impl;
+package it.asansonne.authhub.ccsr.controller.users.impl;
 
 import it.asansonne.authhub.ccsr.controller.Login;
 import org.springframework.web.bind.annotation.GetMapping;
