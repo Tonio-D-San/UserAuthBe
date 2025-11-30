@@ -11,6 +11,7 @@ import it.asansonne.authhub.ccsr.repository.UserRepository;
 import it.asansonne.authhub.ccsr.service.users.UserService;
 import it.asansonne.authhub.model.User;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,10 +27,12 @@ class PersonServiceImplIT implements IntegrationTest {
   @Autowired
   private UserRepository personRepository;
   private Pageable pageable;
+  private Locale locale;
 
   @BeforeEach
   void setUp() {
     pageable = PageRequest.of(0, 10);
+    locale = Locale.ENGLISH;
   }
 
   @Test
@@ -37,7 +40,7 @@ class PersonServiceImplIT implements IntegrationTest {
   void findAllPersonsFound() {
     personRepository.save(makePerson(true));
     personRepository.save(makePerson(true));
-    Page<User> persons = personService.findAllUsers(pageable);
+    Page<User> persons = personService.findAll(pageable, locale);
     assertFalse(persons.isEmpty());
     assertEquals(2, persons.getTotalElements());
   }
@@ -46,7 +49,7 @@ class PersonServiceImplIT implements IntegrationTest {
   @DisplayName("Find all persons not found")
   void findAllPersonsNotFound() {
     assertThrows(EntityNotFoundException.class,
-        () -> personService.findAllUsers(pageable));
+        () -> personService.findAll(pageable, locale));
   }
 
   @Test
@@ -54,7 +57,7 @@ class PersonServiceImplIT implements IntegrationTest {
   void findActivePersonsFound() {
     personRepository.save(makePerson(true));
     personRepository.save(makePerson(false));
-    Page<User> persons = personService.findActiveUsers(true, pageable);
+    Page<User> persons = personService.findByIsActive(pageable, true);
     assertFalse(persons.isEmpty());
     assertEquals(1, persons.getTotalElements());
     assertTrue(persons.getContent().getFirst().getIsActive());
@@ -65,7 +68,7 @@ class PersonServiceImplIT implements IntegrationTest {
   void findActivePersonsNotFound() {
     personRepository.save(makePerson(false));
     assertThrows(EntityNotFoundException.class,
-        () -> personService.findActiveUsers(true, pageable));
+        () -> personService.findByIsActive(pageable, true));
   }
 
   @Test
@@ -73,7 +76,7 @@ class PersonServiceImplIT implements IntegrationTest {
   void findInactivePersonsInactive() {
     personRepository.save(makePerson(true));
     personRepository.save(makePerson(false));
-    Page<User> persons = personService.findInactiveUsers(pageable);
+    Page<User> persons = personService.findByIsActive(pageable, false);
     assertFalse(persons.isEmpty());
     assertEquals(1, persons.getTotalElements());
     assertFalse(persons.getContent().getFirst().getIsActive());
@@ -84,7 +87,7 @@ class PersonServiceImplIT implements IntegrationTest {
   void findPersonByEmail() {
     personRepository.save(makePerson(true));
     assertThrows(EntityNotFoundException.class,
-        () -> personService.findInactiveUsers(pageable));
+        () -> personService.findByIsActive(pageable, true));
   }
 
   @Test
