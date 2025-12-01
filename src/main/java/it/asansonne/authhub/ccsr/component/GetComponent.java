@@ -9,10 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface GetComponent<R extends Request, S extends Response> {
-  /**
-   * The constant SURNAME.
-   */
-  String SURNAME = "surname";
 
   S findByUuid(UUID uuid);
 
@@ -27,7 +23,7 @@ public interface GetComponent<R extends Request, S extends Response> {
   );
 
   Page<S> findAllByField(
-      Integer page, Integer size, String direction,
+      Pageable pageable,
       R request
   );
 

@@ -16,9 +16,12 @@ import it.asansonne.payments.model.MyOrder;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -28,7 +31,38 @@ public class PayPalComponentImpl implements PayPalComponent {
   private final PayPalHttpClient client;
   private final UserComponent userComponent;
 
-  public OrdersResponse createOrder(Principal principal, OrdersRequest request) {
+  @Override
+  public OrdersResponse findByUuid(UUID uuid) {
+    return null;
+  }
+
+  @Override
+  public Page<OrdersResponse> findByIsActive(Pageable pageable, Boolean isActive) {
+    return null;
+  }
+
+  @Override
+  public Page<OrdersResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
+    return null;
+  }
+
+  @Override
+  public Page<OrdersResponse> findAllByField(Pageable pageable, OrdersRequest request) {
+    return null;
+  }
+
+  @Override
+  public OrdersResponse findLastAdded() {
+    return null;
+  }
+
+  @Override
+  public void updateByUuid(UUID uuid, OrdersRequest request) {
+    // TODO document why this method is empty
+  }
+
+  @Override
+  public OrdersResponse create(Principal principal, OrdersRequest request) {
     OrdersCreateRequest createRequest = new OrdersCreateRequest();
     createRequest.header("prefer", "return=representation");
     createRequest.requestBody(buildRequestBody(
@@ -88,4 +122,5 @@ public class PayPalComponentImpl implements PayPalComponent {
         UUID.fromString(principal.getName().split("[,\\[\\]\\s]+")[1])
     );
   }
+
 }

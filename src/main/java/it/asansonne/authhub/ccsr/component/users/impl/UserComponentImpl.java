@@ -5,7 +5,7 @@ import it.asansonne.authhub.ccsr.service.users.UserService;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.NotFoundException;
-import it.asansonne.authhub.mapper.ResponseMapper;
+import it.asansonne.authhub.mapper.impl.UserMapper;
 import it.asansonne.authhub.model.User;
 import java.security.Principal;
 import java.util.Locale;
@@ -22,38 +22,39 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class UserComponentImpl implements UserComponent {
-  private final UserService userService;
-  private final ResponseMapper<User, UserResponse> userResponseMapper;
+  private final UserService service;
+  private final UserMapper mapper;
 
   @Override
   public UserResponse findByUuid(UUID userUuid) {
-    return userResponseMapper.toDto(findUser(userUuid));
+    return mapper.toDto(findUser(userUuid));
   }
 
   @Override
   public Page<UserResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
-    return userResponseMapper.toDto(userService.findAll(pageable, locale), pageable);
+    return mapper.toDto(this.service.findAll(pageable, locale), pageable);
   }
 
   @Override
-  public Page<UserResponse> findAllByField(Integer page, Integer size, String direction,
-                                           UserRequest request) {
-    return null;
+  public Page<UserResponse> findAllByField(Pageable pageable, UserRequest request) {
+    return mapper.toDto(service.findAllByField(pageable /*,request*/), pageable);
   }
 
   @Override
   public UserResponse findLastAdded() {
-    return null;
+    return mapper.toDto(
+        service.findLastAdded().orElseThrow(() -> new NotFoundException("person.not.found"))
+    );
   }
 
   @Override
   public Page<UserResponse> findByIsActive(Pageable pageable, Boolean isActive) {
-    return userResponseMapper.toDto(userService.findByIsActive(pageable, isActive), pageable);
+    return mapper.toDto(this.service.findByIsActive(pageable, isActive), pageable);
   }
 
   @Override
   public UserResponse create(Principal principal, UserRequest userRequest) {
-    return userResponseMapper.toDto(userService.create(
+    return mapper.toDto(this.service.create(
         User.builder()
             .uuid(UUID.randomUUID())
             .provider("Form")
@@ -72,11 +73,11 @@ public class UserComponentImpl implements UserComponent {
   public void updateByUuid(UUID userUuid, UserRequest request) {
     User user = findUser(userUuid);
     user.setIsActive(request.getStatusRequest().getIsActive());
-    userService.update(user);
+    this.service.update(user);
   }
 
   public User findUser(UUID userUuid) {
-    return userService.findByUuid(userUuid)
+    return this.service.findByUuid(userUuid)
         .orElseThrow(() -> new NotFoundException("person.not.found", userUuid))
     ;
   }

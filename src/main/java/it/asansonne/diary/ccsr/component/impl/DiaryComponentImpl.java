@@ -4,6 +4,7 @@ import it.asansonne.diary.ccsr.component.DiaryComponent;
 import it.asansonne.diary.ccsr.service.DiaryService;
 import it.asansonne.diary.dto.request.DiaryRequest;
 import it.asansonne.diary.dto.response.DiaryResponse;
+import it.asansonne.management.enumeration.character.AbilityName;
 import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class DiaryComponentImpl implements DiaryComponent {
   private final DiaryService diaryService;
 
   @Override
-  public Page<DiaryResponse> findAll(Integer page, Integer size, String direction, Locale locale) {
+  public DiaryResponse findByAbility(AbilityName abilityName) {
     return null;
   }
 
@@ -39,8 +40,7 @@ public class DiaryComponentImpl implements DiaryComponent {
   }
 
   @Override
-  public Page<DiaryResponse> findAllByField(Integer page, Integer size, String direction,
-                                            DiaryRequest request) {
+  public Page<DiaryResponse> findAllByField(Pageable pageable, DiaryRequest request) {
     return null;
   }
 
@@ -51,7 +51,7 @@ public class DiaryComponentImpl implements DiaryComponent {
 
   @Override
   public void updateByUuid(UUID uuid, DiaryRequest request) {
-
+    // TODO document why this method is empty
   }
 
   @Override

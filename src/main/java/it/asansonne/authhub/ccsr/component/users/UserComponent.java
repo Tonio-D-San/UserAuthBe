@@ -17,45 +17,5 @@ public interface UserComponent extends
     PostComponent<UserRequest, UserResponse>
 {
   User findUser(UUID userUuid);
-  /**
-   * Find user by uuid user response.
-   *
-   * @param userUuid the user uuid
-   * @return the user response
-   */
-//  UserResponse findUserByUuid(UUID userUuid);
-
-  /**
-   * Find all user's pages.
-   *
-   * @param pageable the pageable
-   * @return the page
-   */
-//  Page<UserResponse> findAllUsers(Pageable pageable);
-
-//  /**
-//   * Find active users page.
-//   *
-//   * @param isActive the is active
-//   * @param pageable the pageable
-//   * @return the page
-//   */
-//  Page<UserResponse> findActiveUsers(Boolean isActive, Pageable pageable);
-
-  /**
-   * Create user user response.
-   *
-   * @param userRequest the user request
-   * @return the user response
-   */
-//  UserResponse createUser(@Valid UserRequest userRequest);
-
-  /**
-   * Update status user.
-   *
-   * @param userUuid the user uuid
-   * @param status   the user status
-   */
-//  void updateStatusUserByUuid(UUID userUuid, StatusRequest status);
 
 }

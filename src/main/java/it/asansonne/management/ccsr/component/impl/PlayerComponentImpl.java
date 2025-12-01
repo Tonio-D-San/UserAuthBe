@@ -11,6 +11,7 @@ import it.asansonne.management.ccsr.component.PlayerComponent;
 import it.asansonne.management.ccsr.service.dashboard.PlayerService;
 import it.asansonne.management.dto.request.PlayerRequest;
 import it.asansonne.management.dto.response.PlayerResponse;
+import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.mapper.impl.RealmMapper;
 import it.asansonne.management.model.Player;
 import java.security.Principal;
@@ -29,13 +30,12 @@ public class PlayerComponentImpl implements PlayerComponent {
   private final ResponseMapper<Player, PlayerResponse> playerResponseMapper;
   private final RequestMapper<UserRequest, User> userRequestMapper;
   private final ResponseMapper<User, UserResponse> userResponseMapper;
-  private final PlayerService playerService;
+  private final PlayerService service;
   private final RealmMapper realmMapper;
   private final UserService userService;
 
-
   @Override
-  public Page<PlayerResponse> findAll(Integer page, Integer size, String direction, Locale locale) {
+  public PlayerResponse findByAbility(AbilityName ability) {
     return null;
   }
 
@@ -55,8 +55,7 @@ public class PlayerComponentImpl implements PlayerComponent {
   }
 
   @Override
-  public Page<PlayerResponse> findAllByField(Integer page, Integer size, String direction,
-                                             PlayerRequest request) {
+  public Page<PlayerResponse> findAllByField(Pageable pageable, PlayerRequest request) {
     return null;
   }
 
@@ -73,7 +72,7 @@ public class PlayerComponentImpl implements PlayerComponent {
   @Override
   public PlayerResponse create(Principal principal, PlayerRequest request) {
     return playerResponseMapper.toDto(
-        playerService.create(
+        this.service.create(
             Player.builder()
                 .uuid(UUID.randomUUID())
                 .pgName(request.getName())
