@@ -1,4 +1,4 @@
-package it.asansonne.management.model;
+package it.asansonne.diary.model;
 
 import it.asansonne.authhub.model.Models;
 import jakarta.persistence.Column;
@@ -8,8 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import java.util.UUID;
@@ -24,14 +24,14 @@ import lombok.ToString;
 
 @Builder
 @Entity
-@Table(name = "paragraphs")
+@Table(name = "diary_image")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 @ToString
-public class Paragraph implements Models {
+public class DiaryImage implements Models {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -41,17 +41,14 @@ public class Paragraph implements Models {
   @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
   private UUID uuid;
 
-  @Column(name = "date")
-  private Long date;
+  @Column(name = "image_data", columnDefinition = "BYTEA")
+  private byte[] imageData;
 
-  @Column(name = "description", columnDefinition = "TEXT")
-  private String description;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "diary_entry_id", nullable = false)
-  private DiaryEntry entry;
-
-  @ManyToMany(mappedBy = "paragraphs", fetch = FetchType.LAZY)
-  private List<DiaryImage> images;
-
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "diary_image_paragraph",
+      joinColumns = @JoinColumn(name = "diary_image_id"),
+      inverseJoinColumns = @JoinColumn(name = "paragraph_id")
+  )
+  private List<Paragraph> paragraphs;
 }

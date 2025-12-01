@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
  * @param <D> Dto parameter
  * @param <M> Model parameter
  */
-public interface RequestModelMapper<D extends Dto, M extends Models> {
+public interface RequestMapper<D extends Dto, M extends Models> {
 
   /**
    * To model m.

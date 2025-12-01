@@ -1,6 +1,7 @@
-package it.asansonne.management.model;
+package it.asansonne.diary.model;
 
 import it.asansonne.authhub.model.Models;
+import it.asansonne.management.model.Player;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

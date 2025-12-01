@@ -2,8 +2,8 @@ package it.asansonne.authhub.mapper.impl;
 
 import it.asansonne.authhub.dto.request.GroupRequest;
 import it.asansonne.authhub.dto.response.GroupResponse;
-import it.asansonne.authhub.mapper.RequestModelMapper;
-import it.asansonne.authhub.mapper.ResponseModelMapper;
+import it.asansonne.authhub.mapper.RequestMapper;
+import it.asansonne.authhub.mapper.ResponseMapper;
 import it.asansonne.authhub.model.Group;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class GroupModelMapper implements RequestModelMapper<GroupRequest, Group>,
-    ResponseModelMapper<Group, GroupResponse> {
+public class GroupMapper implements RequestMapper<GroupRequest, Group>,
+    ResponseMapper<Group, GroupResponse> {
 
   @Override
   public Group toModel(GroupRequest dto) {
