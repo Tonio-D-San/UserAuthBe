@@ -5,7 +5,7 @@ import it.asansonne.authhub.ccsr.service.users.UserService;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.NotFoundException;
-import it.asansonne.authhub.mapper.ResponseModelMapper;
+import it.asansonne.authhub.mapper.ResponseMapper;
 import it.asansonne.authhub.model.User;
 import java.security.Principal;
 import java.util.Locale;
@@ -23,16 +23,16 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class UserComponentImpl implements UserComponent {
   private final UserService userService;
-  private final ResponseModelMapper<User, UserResponse> userResponseModelMapper;
+  private final ResponseMapper<User, UserResponse> userResponseMapper;
 
   @Override
   public UserResponse findByUuid(UUID userUuid) {
-    return userResponseModelMapper.toDto(findUser(userUuid));
+    return userResponseMapper.toDto(findUser(userUuid));
   }
 
   @Override
   public Page<UserResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
-    return userResponseModelMapper.toDto(userService.findAll(pageable, locale), pageable);
+    return userResponseMapper.toDto(userService.findAll(pageable, locale), pageable);
   }
 
   @Override
@@ -48,12 +48,12 @@ public class UserComponentImpl implements UserComponent {
 
   @Override
   public Page<UserResponse> findByIsActive(Pageable pageable, Boolean isActive) {
-    return userResponseModelMapper.toDto(userService.findByIsActive(pageable, isActive), pageable);
+    return userResponseMapper.toDto(userService.findByIsActive(pageable, isActive), pageable);
   }
 
   @Override
   public UserResponse create(Principal principal, UserRequest userRequest) {
-    return userResponseModelMapper.toDto(userService.create(
+    return userResponseMapper.toDto(userService.create(
         User.builder()
             .uuid(UUID.randomUUID())
             .provider("Form")
@@ -75,7 +75,7 @@ public class UserComponentImpl implements UserComponent {
     userService.update(user);
   }
 
-  private User findUser(UUID userUuid) {
+  public User findUser(UUID userUuid) {
     return userService.findByUuid(userUuid)
         .orElseThrow(() -> new NotFoundException("person.not.found", userUuid))
     ;

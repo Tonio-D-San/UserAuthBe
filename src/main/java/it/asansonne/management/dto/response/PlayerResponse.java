@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Response;
-import jakarta.validation.constraints.NotBlank;
+import it.asansonne.authhub.dto.response.UserResponse;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,12 +25,11 @@ public class PlayerResponse implements Response {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @Schema(
       description = "Player uuid",
-      name = "playerUuid",
+      name = "uuid",
       type = "UUID",
       example = "08fba211-60ca-45fc-b809-86bc2ad81dca")
   private UUID uuid;
 
-  @NotBlank(message = "Player name")
   @Schema(
       description = "Player name",
       name = "name",
@@ -39,11 +38,17 @@ public class PlayerResponse implements Response {
   )
   private String name;
 
-  @NotBlank(message = "User surname must not be null or empty")
   @Schema(
       description = "Realm response",
       name = "realm",
       type = "RealmResponse",
       example = "Coronor")
   private RealmResponse realm;
+
+  @Schema(
+      description = "User response",
+      name = "user",
+      type = "UserResponse",
+      example = "user: {}")
+  private UserResponse user;
 }

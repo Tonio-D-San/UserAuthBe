@@ -1,7 +1,6 @@
 package it.asansonne.management.ccsr.service;
 
 import it.asansonne.management.ccsr.repository.AbilityDefinitionRepository;
-import it.asansonne.management.ccsr.repository.ReagentRepository;
 import it.asansonne.management.dto.AbilityDefinitionDTO;
 import it.asansonne.management.dto.response.AbilityResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class AbilityDefinitionService {
   private final MessageSource messageSource;
   private final AbilityDefinitionRepository abilityRepository;
-  private final ReagentRepository reagentRepository;
   private final LocalizationServiceImpl localizationService;
 
   public Page<AbilityResponse> findAll(int page, int size, String direction, Locale locale) {
@@ -32,11 +30,11 @@ public class AbilityDefinitionService {
     );
 
     return defs.map(def -> new AbilityResponse(
-        def.getCode().name(),
+        def.getCode(),
         localizationService.getLocalizedName(def, locale),
         localizationService.getLocalizedDescription(def, locale),
-        def.getType().name(),
-        def.getRequirementType().name()
+        def.getType(),
+        def.getRequirementType()
     ));
   }
 

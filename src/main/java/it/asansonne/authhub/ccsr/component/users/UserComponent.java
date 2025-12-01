@@ -5,6 +5,8 @@ import it.asansonne.authhub.ccsr.component.PatchComponent;
 import it.asansonne.authhub.ccsr.component.PostComponent;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
+import it.asansonne.authhub.model.User;
+import java.util.UUID;
 
 /**
  * The interface User component.
@@ -14,7 +16,7 @@ public interface UserComponent extends
     PatchComponent<UserRequest, UserResponse>,
     PostComponent<UserRequest, UserResponse>
 {
-
+  User findUser(UUID userUuid);
   /**
    * Find user by uuid user response.
    *

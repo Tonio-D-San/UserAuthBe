@@ -26,6 +26,6 @@ public class RealmRequest implements Request {
       description = "Realm name",
       name = "Realm",
       type = "Enum",
-      example = "Coronor")
+      example = "CORONOR")
   private RealmName realmName;
 }

@@ -2,8 +2,8 @@ package it.asansonne.authhub.mapper.impl;
 
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
-import it.asansonne.authhub.mapper.RequestModelMapper;
-import it.asansonne.authhub.mapper.ResponseModelMapper;
+import it.asansonne.authhub.mapper.RequestMapper;
+import it.asansonne.authhub.mapper.ResponseMapper;
 import it.asansonne.authhub.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class UserModelMapper implements RequestModelMapper<UserRequest, User>,
-    ResponseModelMapper<User, UserResponse> {
+public class UserMapper implements RequestMapper<UserRequest, User>,
+    ResponseMapper<User, UserResponse> {
 
-  private final GroupModelMapper groupModelMapper;
+  private final GroupMapper groupModelMapper;
 
   @Override
   public User toModel(UserRequest dto) {

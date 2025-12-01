@@ -2,6 +2,7 @@ package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
 import it.asansonne.authhub.model.User;
+import it.asansonne.diary.model.Diary;
 import it.asansonne.management.enumeration.character.Training;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -58,6 +59,14 @@ public class Player implements Models {
   @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Diary> diaries;
 
+  @Column(name = "training")
+  @Enumerated(EnumType.STRING)
+  private Training training;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "realm_id", nullable = false)
+  private Realm realm;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
@@ -70,13 +79,11 @@ public class Player implements Models {
   @JoinColumn(name = "bag_id", nullable = false, unique = true)
   private Bag bag;
 
-  @Column(name = "training")
-  @Enumerated(EnumType.STRING)
-  private Training training;
-
-  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-  @JoinTable(name = "player_ability",
-      joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name = "ability_id", referencedColumnName = "id"))
-  private List<PlayerAbilities> abilities;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+      name = "player_ability",
+      joinColumns = @JoinColumn(name = "player_id"),
+      inverseJoinColumns = @JoinColumn(name = "ability_id")
+  )
+  private List<AbilityDefinition> abilities;
 }

@@ -76,11 +76,10 @@ public class PlayerControllerImpl implements PlayerController {
       PlayerRequest request,
       UriComponentsBuilder builder
   ) {
-
     PlayerResponse response = playerComponent.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path("ala/v1/admin/")
+            .path(API + "/" + API_VERSION + "/players")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);

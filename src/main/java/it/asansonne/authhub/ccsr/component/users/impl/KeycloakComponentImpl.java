@@ -7,8 +7,8 @@
 //import it.asansonne.authhub.dto.request.UserRequest;
 //import it.asansonne.authhub.dto.response.UserResponse;
 //import it.asansonne.authhub.exception.custom.NotFoundException;
-//import it.asansonne.authhub.mapper.ResponseModelMapper;
-//import it.asansonne.authhub.mapper.impl.UserModelMapper;
+//import it.asansonne.authhub.mapper.ResponseMapper;
+//import it.asansonne.authhub.mapper.impl.UserMapper;
 //import it.asansonne.authhub.model.User;
 //import java.util.List;
 //import java.util.UUID;
@@ -33,8 +33,8 @@
 //@Component
 //@RequiredArgsConstructor
 //public class KeycloakComponentImpl implements KeycloakComponent {
-//  private final UserModelMapper userMapper;
-//  private final ResponseModelMapper<User, UserResponse> responseModelMapper;
+//  private final UserMapper userMapper;
+//  private final ResponseMapper<User, UserResponse> responseModelMapper;
 //  private final GroupService groupService;
 //  @Value("${keycloak.host.user}")
 //  private String urlUser;

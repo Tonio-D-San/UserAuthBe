@@ -1,7 +1,6 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.Models;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,9 +45,6 @@ public class Card implements Models {
 
   @Column(name = "used_points")
   private Integer usedPoints;
-
-  @OneToOne(mappedBy = "card", cascade = CascadeType.ALL)
-  private Realm realm;
 
   @OneToOne(mappedBy = "card")
   private Player player;

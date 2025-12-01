@@ -63,5 +63,9 @@ public class AbilityDefinition implements Models {
 
   @Enumerated(EnumType.STRING)
   private RequirementType requirementType;
+
+  @ManyToMany(mappedBy = "abilities")
+  private List<Player> players;
+
 }
 

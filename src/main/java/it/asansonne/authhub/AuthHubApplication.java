@@ -10,11 +10,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages = "it.asansonne")
 @EnableJpaRepositories(basePackages = {
     "it.asansonne.authhub.ccsr.repository",
+    "it.asansonne.diary.ccsr.repository",
     "it.asansonne.management.ccsr.repository",
     "it.asansonne.payments.ccsr.repository"
 })
 @EntityScan(basePackages = {
     "it.asansonne.authhub.model",
+    "it.asansonne.diary.model",
     "it.asansonne.management.model",
     "it.asansonne.payments.model"
 })
