@@ -52,11 +52,6 @@ public class PayPalComponentImpl implements PayPalComponent {
   }
 
   @Override
-  public OrdersResponse findLastAdded() {
-    return null;
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, OrdersRequest request) {
     // TODO document why this method is empty
   }

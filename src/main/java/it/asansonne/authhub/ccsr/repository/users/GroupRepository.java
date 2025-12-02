@@ -1,4 +1,4 @@
-package it.asansonne.authhub.ccsr.repository;
+package it.asansonne.authhub.ccsr.repository.users;
 
 import it.asansonne.authhub.model.Group;
 import it.asansonne.authhub.model.User;

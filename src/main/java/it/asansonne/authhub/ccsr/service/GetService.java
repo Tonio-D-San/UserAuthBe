@@ -25,5 +25,4 @@ public interface GetService<M extends Models> {
 //      R request
   );
 
-  Optional<M> findLastAdded();
 }

@@ -80,11 +80,6 @@ public class AbilityControllerImpl implements AbilityController {
     );
   }
 
-  @Override
-  public AbilityResponse findLastAdded() {
-    return this.component.findLastAdded();
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,

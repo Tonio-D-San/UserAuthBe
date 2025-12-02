@@ -1,6 +1,6 @@
 package it.asansonne.authhub.ccsr.service.users.impl;
 
-import it.asansonne.authhub.ccsr.repository.GroupRepository;
+import it.asansonne.authhub.ccsr.repository.users.GroupRepository;
 import it.asansonne.authhub.ccsr.service.users.GroupService;
 import it.asansonne.authhub.model.Group;
 import jakarta.persistence.EntityNotFoundException;

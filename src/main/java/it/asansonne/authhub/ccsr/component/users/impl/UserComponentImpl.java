@@ -41,13 +41,6 @@ public class UserComponentImpl implements UserComponent {
   }
 
   @Override
-  public UserResponse findLastAdded() {
-    return mapper.toDto(
-        service.findLastAdded().orElseThrow(() -> new NotFoundException("person.not.found"))
-    );
-  }
-
-  @Override
   public Page<UserResponse> findByIsActive(Pageable pageable, Boolean isActive) {
     return mapper.toDto(this.service.findByIsActive(pageable, isActive), pageable);
   }

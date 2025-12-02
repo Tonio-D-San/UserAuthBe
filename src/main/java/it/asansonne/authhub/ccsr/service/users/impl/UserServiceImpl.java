@@ -1,7 +1,7 @@
 package it.asansonne.authhub.ccsr.service.users.impl;
 
-import it.asansonne.authhub.ccsr.repository.GroupRepository;
-import it.asansonne.authhub.ccsr.repository.UserRepository;
+import it.asansonne.authhub.ccsr.repository.users.GroupRepository;
+import it.asansonne.authhub.ccsr.repository.users.UserRepository;
 import it.asansonne.authhub.ccsr.service.users.UserService;
 import it.asansonne.authhub.model.User;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,7 +26,7 @@ public final class UserServiceImpl implements UserService {
 
   @Override
   public Optional<User> findByUuid(UUID userUuid) {
-    return userRepository.findUserByUuid(userUuid);
+    return userRepository.findByUuid(userUuid);
   }
 
   @Override
@@ -40,12 +40,7 @@ public final class UserServiceImpl implements UserService {
 
   @Override
   public Page<User> findAllByField(Pageable pageable) {
-    return null;
-  }
-
-  @Override
-  public Optional<User> findLastAdded() {
-    return Optional.empty();
+    return userRepository.findAll(pageable);
   }
 
   @Override

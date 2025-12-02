@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class DiaryServiceImpl implements DiaryService {
-  private final DiaryRepository playerRepository;
+  private final DiaryRepository repository;
 
 
   @Override
@@ -35,11 +35,6 @@ public class DiaryServiceImpl implements DiaryService {
   @Override
   public Page<Diary> findAllByField(Pageable pageable) {
     return null;
-  }
-
-  @Override
-  public Optional<Diary> findLastAdded() {
-    return Optional.empty();
   }
 
   @Override

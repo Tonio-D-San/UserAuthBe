@@ -2,6 +2,7 @@ package it.asansonne.management.ccsr.service.dashboard.impl;
 
 import it.asansonne.management.ccsr.repository.PlayerRepository;
 import it.asansonne.management.ccsr.service.dashboard.PlayerService;
+import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.model.Player;
 import java.util.Locale;
 import java.util.Optional;
@@ -15,6 +16,12 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
   private final PlayerRepository playerRepository;
+
+  @Override
+  public Optional<Player> findByAbility(AbilityName ability) {
+    return null;
+  }
+
   @Override
   public Optional<Player> findByUuid(UUID uuid) {
     return Optional.empty();
@@ -36,11 +43,6 @@ public class PlayerServiceImpl implements PlayerService {
   }
 
   @Override
-  public Optional<Player> findLastAdded() {
-    return Optional.empty();
-  }
-
-  @Override
   public void update(Player model) {
     this.create(model);
   }
@@ -49,4 +51,5 @@ public class PlayerServiceImpl implements PlayerService {
   public Player create(Player model) {
     return playerRepository.save(model);
   }
+
 }

@@ -27,5 +27,4 @@ public interface GetComponent<R extends Request, S extends Response> {
       R request
   );
 
-  S findLastAdded();
 }

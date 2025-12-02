@@ -44,11 +44,6 @@ public class AbilityComponentImpl implements AbilityComponent {
   }
 
   @Override
-  public AbilityResponse findLastAdded() {
-    return null;
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, AbilityRequest request) {
 
   }

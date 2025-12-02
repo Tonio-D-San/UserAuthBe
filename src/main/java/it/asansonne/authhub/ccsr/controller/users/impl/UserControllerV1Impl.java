@@ -79,11 +79,6 @@ public class UserControllerV1Impl implements UserControllerV1 {
   }
 
   @Override
-  public UserResponse findLastAdded() {
-    return this.component.findLastAdded();
-  }
-
-  @Override
   public ResponseEntity<UserResponse> create(
       Principal principal,
       @Valid @RequestBody UserRequest personRequest,

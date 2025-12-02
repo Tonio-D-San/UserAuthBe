@@ -1,18 +1,16 @@
 package it.asansonne.management.ccsr.component.impl;
 
 import it.asansonne.authhub.ccsr.component.users.UserComponent;
-import it.asansonne.authhub.ccsr.service.users.UserService;
-import it.asansonne.authhub.dto.request.UserRequest;
-import it.asansonne.authhub.dto.response.UserResponse;
-import it.asansonne.authhub.mapper.RequestMapper;
-import it.asansonne.authhub.mapper.ResponseMapper;
 import it.asansonne.authhub.model.User;
 import it.asansonne.management.ccsr.component.PlayerComponent;
+import it.asansonne.management.ccsr.repository.RealmRepository;
 import it.asansonne.management.ccsr.service.dashboard.PlayerService;
 import it.asansonne.management.dto.request.PlayerRequest;
 import it.asansonne.management.dto.response.PlayerResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
-import it.asansonne.management.mapper.impl.RealmMapper;
+import it.asansonne.management.mapper.impl.AbilityMapper;
+import it.asansonne.management.mapper.impl.PlayerMapper;
+import it.asansonne.management.model.Bag;
 import it.asansonne.management.model.Player;
 import java.security.Principal;
 import java.util.Locale;
@@ -26,52 +24,51 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class PlayerComponentImpl implements PlayerComponent {
   private final UserComponent userComponent;
-  private final RequestMapper<PlayerRequest, Player> playerRequestMapper;
-  private final ResponseMapper<Player, PlayerResponse> playerResponseMapper;
-  private final RequestMapper<UserRequest, User> userRequestMapper;
-  private final ResponseMapper<User, UserResponse> userResponseMapper;
   private final PlayerService service;
-  private final RealmMapper realmMapper;
-  private final UserService userService;
+  private final PlayerMapper playerMapper;
+  private final AbilityMapper abilityMapper;
+  private final RealmRepository realmRepository;
 
   @Override
   public PlayerResponse findByAbility(AbilityName ability) {
-    return null;
+    return playerMapper.toDto(
+        service.findByAbility(ability).orElseThrow(() -> new RuntimeException("Player not found"))
+    );
   }
 
   @Override
   public PlayerResponse findByUuid(UUID uuid) {
-    return null;
+    return playerMapper.toDto(
+        service.findByUuid(uuid).orElseThrow(() -> new RuntimeException("Player not found"))
+    );
   }
 
   @Override
   public Page<PlayerResponse> findByIsActive(Pageable pageable, Boolean isActive) {
-    return null;
+    return playerMapper.toDto(service.findByIsActive(pageable, isActive), pageable);
   }
 
   @Override
   public Page<PlayerResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
-    return null;
+    return playerMapper.toDto(service.findAll(pageable, locale), pageable);
   }
 
   @Override
   public Page<PlayerResponse> findAllByField(Pageable pageable, PlayerRequest request) {
-    return null;
-  }
-
-  @Override
-  public PlayerResponse findLastAdded() {
-    return null;
+    return playerMapper.toDto(service.findAllByField(pageable), pageable);
   }
 
   @Override
   public void updateByUuid(UUID uuid, PlayerRequest request) {
-
+    service.update(playerMapper.toModel(request));
   }
 
   @Override
   public PlayerResponse create(Principal principal, PlayerRequest request) {
-    return playerResponseMapper.toDto(
+    Bag bag = Bag.builder()
+        .uuid(UUID.randomUUID())
+        .build();
+    return playerMapper.toDto(
         this.service.create(
             Player.builder()
                 .uuid(UUID.randomUUID())
@@ -79,8 +76,13 @@ public class PlayerComponentImpl implements PlayerComponent {
                 .background(request.getBackground())
                 .diaries(null) //TODO implement
                 .training(request.getTraining())
-                .realm(realmMapper.toModel(request.getRealm()))
-                .user(fromPrincipal(principal))
+                .realm(realmRepository
+                    .findByRealmName(request.getRealm().getRealmName())
+                    .orElseThrow(() -> new RuntimeException("Realm not found"))
+                ).user(fromPrincipal(principal))
+                .card(null)
+                .bag(bag) // TODO usare il service per creare la bag
+                .abilities(abilityMapper.toModel(request.getAbilities()))
                 .build()
         )
     );
@@ -102,7 +104,7 @@ public class PlayerComponentImpl implements PlayerComponent {
 
   private User fromPrincipal(Principal principal) {
     return userComponent.findUser(
-        UUID.fromString(principal.getName().split("[,\\[\\]\\s]+")[0])
+        UUID.fromString(principal.getName().split("[,\\[\\]\\s]+")[1])
     );
   }
 

@@ -2,7 +2,7 @@ package it.asansonne.authhub.security.provider;
 
 import static it.asansonne.authhub.enumeration.GroupName.ADMIN;
 
-import it.asansonne.authhub.ccsr.repository.UserRepository;
+import it.asansonne.authhub.ccsr.repository.users.UserRepository;
 import it.asansonne.authhub.ccsr.service.users.impl.UserServiceImpl;
 import it.asansonne.authhub.model.User;
 import java.util.Arrays;

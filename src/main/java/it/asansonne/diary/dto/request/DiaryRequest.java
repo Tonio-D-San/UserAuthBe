@@ -49,7 +49,9 @@ public class DiaryRequest implements Request {
   @Schema(
       description = "Diary images",
       name = "images",
-      type = "List<byte[]>")
+      type = "List<byte[]>",
+      hidden = true
+  )
   private List<byte[]> images;
 
 }

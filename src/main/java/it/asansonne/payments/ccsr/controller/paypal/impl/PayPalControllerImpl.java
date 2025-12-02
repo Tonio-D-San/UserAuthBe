@@ -71,11 +71,6 @@ public class PayPalControllerImpl implements PayPalController {
     );
   }
 
-  @Override
-  public OrdersResponse findLastAdded() {
-    return this.component.findLastAdded();
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,

@@ -81,11 +81,6 @@ public class PlayerControllerImpl implements PlayerController {
     );
   }
 
-  @Override
-  public PlayerResponse findLastAdded() {
-    return this.component.findLastAdded();
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,

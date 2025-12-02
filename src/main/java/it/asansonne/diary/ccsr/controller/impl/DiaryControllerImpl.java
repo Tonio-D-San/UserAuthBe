@@ -81,11 +81,6 @@ public class DiaryControllerImpl implements DiaryController {
     );
   }
 
-  @Override
-  public DiaryResponse findLastAdded() {
-    return this.component.findLastAdded();
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,

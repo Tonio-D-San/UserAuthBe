@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Request;
 import it.asansonne.management.enumeration.character.AbilityName;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,11 +19,12 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Ability Request DTO")
 public class AbilityRequest implements Request {
-  @NotBlank(message = "Ability name must not be null or empty")
+  @NotNull(message = "Ability name must not be null")
   @Schema(
       description = "Ability for your PG",
       name = "abilityName",
       type = "AbilityName",
-      example = "CARTOGRAPHER")
+      example = "CARTOGRAPHER"
+  )
   private AbilityName abilityName;
 }

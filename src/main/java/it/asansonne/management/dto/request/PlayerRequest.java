@@ -5,7 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Request;
 import it.asansonne.diary.dto.request.DiaryRequest;
 import it.asansonne.management.enumeration.character.Training;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,12 +34,11 @@ public class PlayerRequest implements Request {
   )
   private String name;
 
-  @NotBlank(message = "Realm name must not be null or empty")
+  @NotNull(message = "Realm name must not be null or empty")
   @Schema(
       description = "Realm name for your PG",
       name = "realm",
-      type = "RealmRequest",
-      example = "realm: {CORONOR}")
+      type = "RealmRequest")
   private RealmRequest realm;
 
   @NotBlank(message = "Backstory must not be null or empty")
@@ -48,7 +49,7 @@ public class PlayerRequest implements Request {
       example = "This is my back story")
   private String background;
 
-  @NotBlank(message = "Training must not be null or empty")
+  @NotNull(message = "Training must not be null")
   @Schema(
       description = "PG training",
       name = "training",
@@ -56,27 +57,20 @@ public class PlayerRequest implements Request {
       example = "EVALUATOR")
   private Training training;
 
-  @NotBlank(message = "Abilities must not be null or empty")
+  @Valid
+  @NotNull(message = "Abilities must not be null")
   @Schema(
       description = "PG abilities",
       name = "abilities",
-      type = "List<AbilityRequest>",
-      example = "abilities: []")
+      type = "List<AbilityRequest>"
+  )
   private List<AbilityRequest> abilities;
 
-  @NotBlank(message = "Diary must not be null or empty")
+  @NotNull(message = "Diary must not be null")
   @Schema(
       description = "PG diary",
       name = "diaryRequests",
-      type = "DiaryRequest>",
-      example = "diaryRequests: {}}")
+      type = "DiaryRequest")
   private DiaryRequest diaryRequests;
-
-  @NotBlank(message = "Images must not be null or empty")
-  @Schema(
-      description = "Your PG images",
-      name = "images",
-      type = "List<byte[]>")
-  private List<byte[]> images;
 
 }
