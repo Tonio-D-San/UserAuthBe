@@ -3,6 +3,7 @@ package it.asansonne.payments.ccsr.component.paypal.impl;
 import com.paypal.core.PayPalHttpClient;
 import com.paypal.orders.AmountWithBreakdown;
 import com.paypal.orders.ApplicationContext;
+import com.paypal.orders.Order;
 import com.paypal.orders.OrderRequest;
 import com.paypal.orders.OrdersCreateRequest;
 import com.paypal.orders.PurchaseUnitRequest;
@@ -13,6 +14,7 @@ import it.asansonne.payments.ccsr.component.paypal.PayPalComponent;
 import it.asansonne.payments.dto.request.paypal.OrdersRequest;
 import it.asansonne.payments.dto.response.paypal.OrdersResponse;
 import it.asansonne.payments.model.MyOrder;
+import it.asansonne.payments.model.OrderWrapper;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
@@ -94,10 +96,13 @@ public class PayPalComponentImpl implements PayPalComponent {
 
   private OrdersResponse createOrder(UserResponse payer, OrdersCreateRequest request) {
     try {
-      MyOrder order = MyOrder.from(client.execute(request).result());
-      log.info("Order created: {}", order);
+      MyOrder myOrder = MyOrder.builder()
+          .orderWrapper(new OrderWrapper(client.execute(request).result()))
+          .build();
+      log.info("Order created: {}", myOrder);
+      Order order = myOrder.getOrderWrapper().getOrder();
       return OrdersResponse.builder()
-          .orderId(order.id())
+          .orderId(String.valueOf(myOrder.getId()))
           .checkoutPaymentIntent(order.checkoutPaymentIntent())
           .createTime(order.createTime())
           .expirationTime(order.expirationTime())

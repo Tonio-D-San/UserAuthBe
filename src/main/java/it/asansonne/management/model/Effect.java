@@ -1,4 +1,4 @@
-//package it.asansonne.management.model;
+package it.asansonne.management.model;
 //
 //import it.asansonne.authhub.model.Models;
 //import jakarta.persistence.Column;
@@ -22,15 +22,8 @@
 //@Setter
 //@NoArgsConstructor
 //@AllArgsConstructor(access = AccessLevel.PRIVATE)
-//@EqualsAndHashCode
 //@ToString
-//public class Effect implements Models {
-//  @EmbeddedId
-//  private EffectKey id;
-//
-//  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-//  private UUID uuid;
-//
+//public class Effect extends BaseModel {
 //  @Column(name = "duration")
 //  private Long duration;
 //}

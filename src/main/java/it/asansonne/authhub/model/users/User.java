@@ -1,13 +1,11 @@
-package it.asansonne.authhub.model;
+package it.asansonne.authhub.model.users;
 
+import it.asansonne.authhub.model.BaseModel;
 import it.asansonne.management.model.Player;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -15,7 +13,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,18 +31,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
-public class User implements Models {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  @ToString.Exclude
-  private Integer id;
-
-  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-  private UUID uuid;
-
+public class User extends BaseModel {
   @Column(name = "provider")
   private String provider;
 
@@ -57,9 +45,6 @@ public class User implements Models {
 
   @Column(name = "password", nullable = false, length = 100)
   private String password;
-
-  @Column(name = "is_active", nullable = false)
-  private Boolean isActive;
 
   @Column(name = "name", nullable = false, length = 100)
   private String name;

@@ -4,7 +4,7 @@ import it.asansonne.authhub.dto.request.GroupRequest;
 import it.asansonne.authhub.dto.response.GroupResponse;
 import it.asansonne.authhub.mapper.RequestMapper;
 import it.asansonne.authhub.mapper.ResponseMapper;
-import it.asansonne.authhub.model.Group;
+import it.asansonne.authhub.model.users.Group;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +21,9 @@ public class GroupMapper implements RequestMapper<GroupRequest, Group>,
     if (dto == null) {
       return null;
     }
-    return Group.builder()
-        .uuid(dto.getUuid())
-        .build();
+    Group group = new Group();
+    group.setUuid(dto.getUuid());
+    return group;
   }
 
   @Override

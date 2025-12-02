@@ -4,7 +4,7 @@ import static it.asansonne.authhub.enumeration.GroupName.ADMIN;
 
 import it.asansonne.authhub.ccsr.repository.users.UserRepository;
 import it.asansonne.authhub.ccsr.service.users.impl.UserServiceImpl;
-import it.asansonne.authhub.model.User;
+import it.asansonne.authhub.model.users.User;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -90,11 +90,9 @@ public class CustomOauth2UserService implements OAuth2UserService<OidcUserReques
     if (userOpt.isEmpty()) {
       user = userService.create(
           User.builder()
-              .uuid(UUID.randomUUID())
               .provider(provider)
               .providerId(providerId)
               .email(email)
-              .isActive(true)
               .name(name)
               .surname(surname)
               .profileImage(pictureBytes)

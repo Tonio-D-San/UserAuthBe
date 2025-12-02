@@ -1,17 +1,15 @@
 package it.asansonne.management.model;
 
-import it.asansonne.authhub.model.Models;
+import it.asansonne.authhub.model.BaseModel;
+import it.asansonne.management.enumeration.RequirementType;
 import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.enumeration.character.AbilityType;
-import it.asansonne.management.enumeration.RequirementType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -25,14 +23,12 @@ import lombok.Setter;
 
 @Builder
 @Entity
-@Table(name = "ability_definition")
+@Table(name = "ability")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AbilityDefinition implements Models {
-
-  @Id
+public class Ability extends BaseModel {
   @Enumerated(EnumType.STRING)
   private AbilityName code;
 
@@ -47,19 +43,22 @@ public class AbilityDefinition implements Models {
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(
-      name = "ability_definition_notes",
-      joinColumns = @JoinColumn(name = "ability_definition_code", referencedColumnName = "code"),
+      name = "ability_notes",
+      joinColumns = @JoinColumn(name = "ability_id", referencedColumnName = "id"),
       inverseJoinColumns = @JoinColumn(name = "note_id", referencedColumnName = "id")
   )
   private List<Note> notes;
 
-  @ElementCollection
-  @Enumerated(EnumType.STRING)
-  private List<AbilityName> requirements;
+  @ManyToMany
+  @JoinTable(
+      name = "ability_requirements",
+      joinColumns = @JoinColumn(name = "ability_id"),
+      inverseJoinColumns = @JoinColumn(name = "requirement_id")
+  )
+  private List<Ability> requirements;
 
-  @ElementCollection
-  @Enumerated(EnumType.STRING)
-  private List<AbilityName> unlockables;
+  @ManyToMany(mappedBy = "requirements")
+  private List<Ability> unlockables;
 
   @Enumerated(EnumType.STRING)
   private RequirementType requirementType;

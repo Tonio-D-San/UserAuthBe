@@ -5,7 +5,7 @@ import it.asansonne.authhub.ccsr.component.PatchComponent;
 import it.asansonne.authhub.ccsr.component.PostComponent;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
-import it.asansonne.authhub.model.User;
+import it.asansonne.authhub.model.users.User;
 import java.util.UUID;
 
 /**

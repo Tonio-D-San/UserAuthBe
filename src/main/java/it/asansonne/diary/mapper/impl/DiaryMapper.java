@@ -1,4 +1,4 @@
-package it.asansonne.diary.mapper.impl;//package it.asansonne.management.mapper.impl;
+package it.asansonne.diary.mapper.impl;
 
 import it.asansonne.authhub.mapper.RequestMapper;
 import it.asansonne.authhub.mapper.ResponseMapper;
@@ -25,23 +25,25 @@ public class DiaryMapper implements
     if (dto == null) {
       return null;
     }
+    Paragraph paragraph = new Paragraph();
+    paragraph.setCreatedAt(dto.getDate());
+    paragraph.setDescription(dto.getDescription());
+    paragraph.setImages(
+        dto.getImages() == null
+            ? Collections.emptyList() : dto.getImages().stream()
+            .map(image -> DiaryImage.builder()
+                .imageData(image)
+                .build())
+            .toList()
 
+    );
     return Diary.builder()
         .name(dto.getName())
         .entries(Collections.singletonList(
             DiaryEntry.builder()
-                .paragraphs(Collections.singletonList(
-                    Paragraph.builder()
-                        .date(dto.getDate())
-                        .description(dto.getDescription())
-                        .images(dto.getImages() == null
-                            ? Collections.emptyList() : dto.getImages().stream()
-                                .map(image -> DiaryImage.builder()
-                                    .imageData(image)
-                                    .build())
-                                .toList()
-                        ).build()
-                )).build()
+                .paragraphs(
+                    Collections.singletonList(paragraph)
+                ).build()
         )).build();
   }
 

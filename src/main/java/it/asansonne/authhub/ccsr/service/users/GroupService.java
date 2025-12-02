@@ -1,6 +1,6 @@
 package it.asansonne.authhub.ccsr.service.users;
 
-import it.asansonne.authhub.model.Group;
+import it.asansonne.authhub.model.users.Group;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

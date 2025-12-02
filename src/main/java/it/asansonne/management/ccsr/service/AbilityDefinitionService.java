@@ -5,11 +5,10 @@ import it.asansonne.management.dto.AbilityDefinitionDTO;
 import it.asansonne.management.dto.response.AbilityResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.enumeration.ReagentName;
-import it.asansonne.management.model.AbilityDefinition;
+import it.asansonne.management.model.Ability;
 import it.asansonne.management.model.Reagent;
 import it.asansonne.authhub.ccsr.service.users.impl.LocalizationServiceImpl;
 import java.util.Locale;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
@@ -25,7 +24,7 @@ public class AbilityDefinitionService {
   private final LocalizationServiceImpl localizationService;
 
   public Page<AbilityResponse> findAll(int page, int size, String direction, Locale locale) {
-    Page<AbilityDefinition> defs = abilityRepository.findAll(
+    Page<Ability> defs = abilityRepository.findAll(
         PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), "code"))
     );
 
@@ -39,17 +38,13 @@ public class AbilityDefinitionService {
   }
 
   public AbilityDefinitionDTO findAbilityDefinitionByCode(AbilityName abilityName, Locale locale) {
-    AbilityDefinition def = abilityRepository.findAbilityDefinitionByCode(abilityName)
+    Ability def = abilityRepository.findAbilityDefinitionByCode(abilityName)
         .orElseThrow(() -> new IllegalArgumentException("Ability not found: " + abilityName));
 
     String c1 = Reagent.builder()
-        .id(1)
-        .uuid(UUID.randomUUID())
         .reagentName(ReagentName.REAGENT_A)
         .build().getReagentName().getName();
     String c2 = Reagent.builder()
-        .id(1)
-        .uuid(UUID.randomUUID())
         .reagentName(ReagentName.REAGENT_B)
         .build().getReagentName().getName();
     

@@ -13,6 +13,6 @@ public interface GetRepository<M extends Models> extends JpaRepository<M, Intege
 
   Page<M> findAllByIsActive(Boolean isActive, Pageable pageable);
 
-  Page<M> findAllByField(Pageable pageable);
+//  Page<M> findAllByField(Pageable pageable);
 
 }

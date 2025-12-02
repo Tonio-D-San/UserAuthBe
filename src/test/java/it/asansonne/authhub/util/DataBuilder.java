@@ -1,6 +1,6 @@
 package it.asansonne.authhub.util;
 
-import it.asansonne.authhub.model.User;
+import it.asansonne.authhub.model.users.User;
 import lombok.AllArgsConstructor;
 import org.jeasy.random.EasyRandom;
 

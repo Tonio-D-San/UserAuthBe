@@ -1,7 +1,7 @@
 package it.asansonne.authhub.ccsr.component.users;
 
-import it.asansonne.authhub.model.Group;
-import it.asansonne.authhub.model.User;
+import it.asansonne.authhub.model.users.Group;
+import it.asansonne.authhub.model.users.User;
 import it.asansonne.authhub.dto.request.StatusRequest;
 import it.asansonne.authhub.dto.request.UserRequest;
 import java.util.UUID;

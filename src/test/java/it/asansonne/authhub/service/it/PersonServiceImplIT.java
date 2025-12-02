@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import it.asansonne.authhub.IntegrationTest;
 import it.asansonne.authhub.ccsr.repository.users.UserRepository;
 import it.asansonne.authhub.ccsr.service.users.UserService;
-import it.asansonne.authhub.model.User;
+import it.asansonne.authhub.model.users.User;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Locale;
 import org.junit.jupiter.api.BeforeEach;

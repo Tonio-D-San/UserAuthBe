@@ -1,4 +1,4 @@
-//package it.asansonne.management.model;
+package it.asansonne.management.model;
 //
 //import it.asansonne.authhub.model.Models;
 //import it.asansonne.management.enumeration.character.AbilityName;
@@ -35,21 +35,12 @@
 //@AllArgsConstructor(access = AccessLevel.PRIVATE)
 //@EqualsAndHashCode
 //@ToString
-//public class PlayerAbilities implements Models {
-//  @Id
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
-//  @Column(name = "id")
-//  @ToString.Exclude
-//  private Integer id;
-//
-//  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-//  private UUID uuid;
-//
+//public class PlayerAbilities extends BaseModel {
 //  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 //  @JoinTable(name = "player_ability",
 //      joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
 //      inverseJoinColumns = @JoinColumn(name = "ability_id", referencedColumnName = "id"))
-//  private List<AbilityDefinition> abilityName;
+//  private List<Ability> abilityName;
 //
 //  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 //  @JoinTable(name = "player_ability",

@@ -1,10 +1,12 @@
 package it.asansonne.diary.ccsr.repository;
 
+import it.asansonne.authhub.ccsr.repository.GetRepository;
 import it.asansonne.diary.model.Diary;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DiaryRepository extends JpaRepository<Diary, Integer> {
+public interface DiaryRepository extends
+    GetRepository<Diary>
+{
 
 }

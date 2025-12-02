@@ -1,7 +1,8 @@
 package it.asansonne.management.ccsr.component.impl;
 
 import it.asansonne.authhub.ccsr.component.users.UserComponent;
-import it.asansonne.authhub.model.User;
+import it.asansonne.authhub.model.users.User;
+import it.asansonne.diary.model.Diary;
 import it.asansonne.management.ccsr.component.PlayerComponent;
 import it.asansonne.management.ccsr.repository.RealmRepository;
 import it.asansonne.management.ccsr.service.dashboard.PlayerService;
@@ -11,8 +12,10 @@ import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.mapper.impl.AbilityMapper;
 import it.asansonne.management.mapper.impl.PlayerMapper;
 import it.asansonne.management.model.Bag;
+import it.asansonne.management.model.Card;
 import it.asansonne.management.model.Player;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -65,23 +68,19 @@ public class PlayerComponentImpl implements PlayerComponent {
 
   @Override
   public PlayerResponse create(Principal principal, PlayerRequest request) {
-    Bag bag = Bag.builder()
-        .uuid(UUID.randomUUID())
-        .build();
     return playerMapper.toDto(
         this.service.create(
             Player.builder()
-                .uuid(UUID.randomUUID())
                 .pgName(request.getName())
                 .background(request.getBackground())
-                .diaries(null) //TODO implement
+                .diaries(Collections.singletonList(new Diary())) //TODO implement
                 .training(request.getTraining())
                 .realm(realmRepository
                     .findByRealmName(request.getRealm().getRealmName())
                     .orElseThrow(() -> new RuntimeException("Realm not found"))
                 ).user(fromPrincipal(principal))
-                .card(null)
-                .bag(bag) // TODO usare il service per creare la bag
+                .card(new Card())
+                .bag(new Bag()) // TODO usare il service per creare la bag
                 .abilities(abilityMapper.toModel(request.getAbilities()))
                 .build()
         )

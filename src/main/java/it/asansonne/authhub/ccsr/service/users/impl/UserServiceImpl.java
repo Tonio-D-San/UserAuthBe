@@ -3,7 +3,7 @@ package it.asansonne.authhub.ccsr.service.users.impl;
 import it.asansonne.authhub.ccsr.repository.users.GroupRepository;
 import it.asansonne.authhub.ccsr.repository.users.UserRepository;
 import it.asansonne.authhub.ccsr.service.users.UserService;
-import it.asansonne.authhub.model.User;
+import it.asansonne.authhub.model.users.User;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Locale;

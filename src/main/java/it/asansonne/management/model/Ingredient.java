@@ -1,4 +1,4 @@
-//package it.asansonne.management.model;
+package it.asansonne.management.model;
 //
 //import it.asansonne.authhub.model.Models;
 //import it.asansonne.management.enumeration.OriginType;
@@ -27,18 +27,8 @@
 //@Setter
 //@NoArgsConstructor
 //@AllArgsConstructor(access = AccessLevel.PRIVATE)
-//@EqualsAndHashCode
 //@ToString
-//public class Ingredient implements Models {
-//  @Id
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
-//  @Column(name = "id")
-//  @ToString.Exclude
-//  private Integer id;
-//
-//  @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
-//  private UUID uuid;
-//
+//public class Ingredient extends BaseModel {
 //  @Column(name = "name")
 //  private String name;
 //

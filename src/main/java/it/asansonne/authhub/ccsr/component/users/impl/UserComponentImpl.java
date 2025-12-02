@@ -6,7 +6,7 @@ import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.authhub.mapper.impl.UserMapper;
-import it.asansonne.authhub.model.User;
+import it.asansonne.authhub.model.users.User;
 import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
@@ -49,15 +49,13 @@ public class UserComponentImpl implements UserComponent {
   public UserResponse create(Principal principal, UserRequest userRequest) {
     return mapper.toDto(this.service.create(
         User.builder()
-            .uuid(UUID.randomUUID())
             .provider("Form")
             .providerId(UUID.randomUUID().toString())
             .email(userRequest.getEmail())
             .password(new BCryptPasswordEncoder().encode(userRequest.getPassword()))
             .name(userRequest.getFirstname())
             .surname(userRequest.getLastname())
-            .isActive(true)
-            .profileImage(userRequest.getProfileImage() == null ? null : userRequest.getProfileImage())
+            .profileImage(userRequest.getProfileImage())
             .build()
     ));
   }
