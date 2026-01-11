@@ -20,18 +20,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Representation of the Player Request DTO")
-public class PlayerResponse implements Response {
+@Schema(description = "Representation of the Character Request DTO")
+public class CharacterResponse implements Response {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @Schema(
-      description = "Player uuid",
+      description = "Character uuid",
       name = "uuid",
       type = "UUID",
       example = "08fba211-60ca-45fc-b809-86bc2ad81dca")
   private UUID uuid;
 
   @Schema(
-      description = "Player name",
+      description = "Character name",
       name = "name",
       type = "String",
       example = "mrossi"

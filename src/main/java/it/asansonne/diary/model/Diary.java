@@ -1,7 +1,7 @@
 package it.asansonne.diary.model;
 
 import it.asansonne.authhub.model.BaseModel;
-import it.asansonne.management.model.Player;
+import it.asansonne.management.model.Character;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +33,7 @@ public class Diary extends BaseModel {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "owner_id", nullable = false)
-  private Player owner;
+  private Character owner;
 
   @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<DiaryEntry> entries;

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Response;
 import it.asansonne.diary.model.DiaryEntry;
-import it.asansonne.management.dto.response.PlayerResponse;
+import it.asansonne.management.dto.response.CharacterResponse;
 import java.util.List;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -22,18 +22,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Representation of the Player Request DTO")
+@Schema(description = "Representation of the Character Request DTO")
 public class DiaryResponse implements Response {
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @Schema(
-      description = "Player uuid",
+      description = "Character uuid",
       name = "uuid",
       type = "UUID",
       example = "08fba211-60ca-45fc-b809-86bc2ad81dca")
   private UUID uuid;
 
   @Schema(
-      description = "Player name",
+      description = "Character name",
       name = "name",
       type = "String",
       example = "mrossi"
@@ -48,9 +48,9 @@ public class DiaryResponse implements Response {
   private List<DiaryEntry> entries;
 
   @Schema(
-      description = "Player response",
-      name = "player",
-      type = "PlayerResponse",
-      example = "player: {}")
-  private PlayerResponse player;
+      description = "Character response",
+      name = "character",
+      type = "CharacterResponse",
+      example = "character: {}")
+  private CharacterResponse character;
 }

@@ -38,10 +38,10 @@ public class RealmResponse implements Response {
   private String name;
 
   @Schema(
-      description = "Player response",
-      name = "player",
-      type = "PlayerResponse",
-      example = "PG Pro Player"
+      description = "Character response",
+      name = "character",
+      type = "CharacterResponse",
+      example = "PG Pro Character"
   )
-  private PlayerResponse player;
+  private CharacterResponse character;
 }

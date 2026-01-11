@@ -30,5 +30,5 @@ public class Bag extends BaseModel {
   private List<Reagent> reagents;
 
   @OneToOne(mappedBy = "bag")
-  private Player owner;
+  private Character owner;
 }

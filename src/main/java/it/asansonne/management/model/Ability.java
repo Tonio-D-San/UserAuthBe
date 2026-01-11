@@ -64,7 +64,7 @@ public class Ability extends BaseModel {
   private RequirementType requirementType;
 
   @ManyToMany(mappedBy = "abilities")
-  private List<Player> players;
+  private List<Character> characters;
 
 }
 

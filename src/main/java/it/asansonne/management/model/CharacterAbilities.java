@@ -28,23 +28,23 @@ package it.asansonne.management.model;
 //
 //@Builder
 //@Entity
-//@Table(name = "player_abilities")
+//@Table(name = "character_abilities")
 //@Getter
 //@Setter
 //@NoArgsConstructor
 //@AllArgsConstructor(access = AccessLevel.PRIVATE)
 //@EqualsAndHashCode
 //@ToString
-//public class PlayerAbilities extends BaseModel {
+//public class CharacterAbilities extends BaseModel {
 //  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-//  @JoinTable(name = "player_ability",
-//      joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
+//  @JoinTable(name = "character_ability",
+//      joinColumns = @JoinColumn(name = "character_id", referencedColumnName = "id"),
 //      inverseJoinColumns = @JoinColumn(name = "ability_id", referencedColumnName = "id"))
 //  private List<Ability> abilityName;
 //
 //  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-//  @JoinTable(name = "player_ability",
-//      joinColumns = @JoinColumn(name = "player_id", referencedColumnName = "id"),
+//  @JoinTable(name = "character_ability",
+//      joinColumns = @JoinColumn(name = "character_id", referencedColumnName = "id"),
 //      inverseJoinColumns = @JoinColumn(name = "ability_id", referencedColumnName = "id"))
-//  private List<Player> players;
+//  private List<Character> characters;
 //}

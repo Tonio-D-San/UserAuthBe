@@ -3,10 +3,10 @@ package it.asansonne.management.ccsr.controller.dashboard.impl;
 import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 
-import it.asansonne.management.ccsr.component.PlayerComponent;
-import it.asansonne.management.ccsr.controller.dashboard.PlayerController;
-import it.asansonne.management.dto.request.PlayerRequest;
-import it.asansonne.management.dto.response.PlayerResponse;
+import it.asansonne.management.ccsr.component.CharacterComponent;
+import it.asansonne.management.ccsr.controller.dashboard.CharacterController;
+import it.asansonne.management.dto.request.CharacterRequest;
+import it.asansonne.management.dto.response.CharacterResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import jakarta.validation.Valid;
 import java.security.Principal;
@@ -28,26 +28,26 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/players")
+@RequestMapping(API + "/" + API_VERSION + "/characters")
 @AllArgsConstructor
-public class PlayerControllerImpl implements PlayerController {
+public class CharacterControllerImpl implements CharacterController {
 
-  private final PlayerComponent component;
+  private final CharacterComponent component;
 
   @GetMapping(value = "/abilities/{ability}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Override
-  public PlayerResponse findByAbility(@PathVariable AbilityName ability) {
+  public CharacterResponse findByAbility(@PathVariable AbilityName ability) {
     return this.component.findByAbility(ability);
   }
 
   @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Override
-  public PlayerResponse findByUuid(@PathVariable("uuid") UUID uuid) {
+  public CharacterResponse findByUuid(@PathVariable("uuid") UUID uuid) {
     return this.component.findByUuid(uuid);
   }
 
   @Override
-  public Page<PlayerResponse> findByIsActive(
+  public Page<CharacterResponse> findByIsActive(
       @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
@@ -60,7 +60,7 @@ public class PlayerControllerImpl implements PlayerController {
   }
 
   @Override
-  public Page<PlayerResponse> findAll(
+  public Page<CharacterResponse> findAll(
       @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
@@ -73,8 +73,8 @@ public class PlayerControllerImpl implements PlayerController {
   }
 
   @Override
-  public Page<PlayerResponse> findAllByField(Integer page, Integer size, String direction,
-                                             PlayerRequest request) {
+  public Page<CharacterResponse> findAllByField(Integer page, Integer size, String direction,
+                                             CharacterRequest request) {
     return this.component.findAllByField(
         PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
         request
@@ -88,21 +88,21 @@ public class PlayerControllerImpl implements PlayerController {
   )
   @Override
   public void updateByUuid(
-      @PathVariable("uuid") UUID uuid, PlayerRequest request
+      @PathVariable("uuid") UUID uuid, CharacterRequest request
   ) {
     component.updateByUuid(uuid, request);
   }
 
   @Override
-  public ResponseEntity<PlayerResponse> create(
+  public ResponseEntity<CharacterResponse> create(
       Principal principal,
-      @Valid @RequestBody PlayerRequest request,
+      @Valid @RequestBody CharacterRequest request,
       UriComponentsBuilder builder
   ) {
-    PlayerResponse response = component.create(principal, request);
+    CharacterResponse response = component.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/players")
+            .path(API + "/" + API_VERSION + "/characters")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);

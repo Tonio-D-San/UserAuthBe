@@ -3,9 +3,9 @@ package it.asansonne.management.mapper.impl;
 import it.asansonne.authhub.mapper.RequestMapper;
 import it.asansonne.authhub.mapper.ResponseMapper;
 import it.asansonne.authhub.mapper.impl.UserMapper;
-import it.asansonne.management.dto.request.PlayerRequest;
-import it.asansonne.management.dto.response.PlayerResponse;
-import it.asansonne.management.model.Player;
+import it.asansonne.management.dto.request.CharacterRequest;
+import it.asansonne.management.dto.response.CharacterResponse;
+import it.asansonne.management.model.Character;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class PlayerMapper implements
-    RequestMapper<PlayerRequest, Player>, ResponseMapper<Player, PlayerResponse>
+public class CharacterMapper implements
+    RequestMapper<CharacterRequest, Character>, ResponseMapper<Character, CharacterResponse>
 {
 
   private final UserMapper userMapper;
@@ -23,8 +23,8 @@ public class PlayerMapper implements
   private final RealmMapper realmMapper;
 
   @Override
-  public Player toModel(PlayerRequest dto) {
-    return dto == null ? null : Player.builder()
+  public Character toModel(CharacterRequest dto) {
+    return dto == null ? null : Character.builder()
         .pgName(dto.getName())
         .background(dto.getBackground())
         .training(dto.getTraining())
@@ -33,8 +33,8 @@ public class PlayerMapper implements
   }
 
   @Override
-  public PlayerResponse toDto(Player model) {
-    return model == null ? null : PlayerResponse.builder()
+  public CharacterResponse toDto(Character model) {
+    return model == null ? null : CharacterResponse.builder()
         .uuid(model.getUuid())
         .name(model.getPgName())
         .realm(realmMapper.toDto(model.getRealm()))

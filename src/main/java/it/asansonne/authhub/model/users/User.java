@@ -1,7 +1,7 @@
 package it.asansonne.authhub.model.users;
 
 import it.asansonne.authhub.model.BaseModel;
-import it.asansonne.management.model.Player;
+import it.asansonne.management.model.Character;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -73,5 +73,5 @@ public class User extends BaseModel {
   private List<Group> groups;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Player> players;
+  private List<Character> characters;
 }

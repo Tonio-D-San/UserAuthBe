@@ -32,5 +32,5 @@ public class Card extends BaseModel {
   private Integer usedPoints;
 
   @OneToOne(mappedBy = "card")
-  private Player player;
+  private Character character;
 }

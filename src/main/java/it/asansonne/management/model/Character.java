@@ -28,13 +28,13 @@ import lombok.ToString;
 
 @Builder
 @Entity
-@Table(name = "players")
+@Table(name = "characters")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
-public class Player extends BaseModel {
+public class Character extends BaseModel {
   @Column(name = "pg_name", length = 50)
   private String pgName;
 
@@ -66,8 +66,8 @@ public class Player extends BaseModel {
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
-      name = "player_ability",
-      joinColumns = @JoinColumn(name = "player_id"),
+      name = "character_ability",
+      joinColumns = @JoinColumn(name = "character_id"),
       inverseJoinColumns = @JoinColumn(name = "ability_id")
   )
   private List<Ability> abilities;

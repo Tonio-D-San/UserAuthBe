@@ -3,7 +3,7 @@
 ' MODELS
 ' ==========================
 
-class Player {
+class Character {
   Integer id
   UUID uuid
   String pgName
@@ -75,20 +75,20 @@ class Group {
 ' RELAZIONI
 ' ==========================
 
-' --- User ↔ Player ---
-User "1" --> "many" Player : has >
+' --- User ↔ Character ---
+User "1" --> "many" Character : has >
 
-' --- Player ↔ Card ---
-Player "1" --> "1" Card : has >
+' --- Character ↔ Card ---
+Character "1" --> "1" Card : has >
 
-' --- Player ↔ Bag ---
-Player "1" --> "1" Bag : owns >
+' --- Character ↔ Bag ---
+Character "1" --> "1" Bag : owns >
 
-' --- Bag ↔ Player ---
-Bag "1" --> "1" Player : owner <
+' --- Bag ↔ Character ---
+Bag "1" --> "1" Character : owner <
 
-' --- Player ↔ PlayerAbilities (many-to-many) ---
-Player "many" -- "many" Ability : player_ability
+' --- Character ↔ CharacterAbilities (many-to-many) ---
+Character "many" -- "many" Ability : character_ability
 
 ' --- Bag ↔ Money (one-to-many) ---
 Bag "1" --> "many" Money : contains >
@@ -105,8 +105,8 @@ Reagent "*" --> "1" Bag : in <
 ' --- Card ↔ Realm (one-to-one) ---
 Card "1" --> "1" Realm : linked >
 
-' --- Realm ↔ Player (one-to-one) ---
-Realm "1" --> "1" Player : belongsTo >
+' --- Realm ↔ Character (one-to-one) ---
+Realm "1" --> "1" Character : belongsTo >
 
 ' --- User ↔ Group (many-to-many) ---
 User "many" -- "many" Group : user_group

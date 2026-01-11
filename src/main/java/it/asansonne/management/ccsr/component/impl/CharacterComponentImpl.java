@@ -3,17 +3,17 @@ package it.asansonne.management.ccsr.component.impl;
 import it.asansonne.authhub.ccsr.component.users.UserComponent;
 import it.asansonne.authhub.model.users.User;
 import it.asansonne.diary.model.Diary;
-import it.asansonne.management.ccsr.component.PlayerComponent;
+import it.asansonne.management.ccsr.component.CharacterComponent;
 import it.asansonne.management.ccsr.repository.RealmRepository;
-import it.asansonne.management.ccsr.service.dashboard.PlayerService;
-import it.asansonne.management.dto.request.PlayerRequest;
-import it.asansonne.management.dto.response.PlayerResponse;
+import it.asansonne.management.ccsr.service.dashboard.CharacterService;
+import it.asansonne.management.dto.request.CharacterRequest;
+import it.asansonne.management.dto.response.CharacterResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.mapper.impl.AbilityMapper;
-import it.asansonne.management.mapper.impl.PlayerMapper;
+import it.asansonne.management.mapper.impl.CharacterMapper;
 import it.asansonne.management.model.Bag;
 import it.asansonne.management.model.Card;
-import it.asansonne.management.model.Player;
+import it.asansonne.management.model.Character;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.Locale;
@@ -25,52 +25,52 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class PlayerComponentImpl implements PlayerComponent {
+public class CharacterComponentImpl implements CharacterComponent {
   private final UserComponent userComponent;
-  private final PlayerService service;
-  private final PlayerMapper playerMapper;
+  private final CharacterService service;
+  private final CharacterMapper characterMapper;
   private final AbilityMapper abilityMapper;
   private final RealmRepository realmRepository;
 
   @Override
-  public PlayerResponse findByAbility(AbilityName ability) {
-    return playerMapper.toDto(
-        service.findByAbility(ability).orElseThrow(() -> new RuntimeException("Player not found"))
+  public CharacterResponse findByAbility(AbilityName ability) {
+    return characterMapper.toDto(
+        service.findByAbility(ability).orElseThrow(() -> new RuntimeException("Character not found"))
     );
   }
 
   @Override
-  public PlayerResponse findByUuid(UUID uuid) {
-    return playerMapper.toDto(
-        service.findByUuid(uuid).orElseThrow(() -> new RuntimeException("Player not found"))
+  public CharacterResponse findByUuid(UUID uuid) {
+    return characterMapper.toDto(
+        service.findByUuid(uuid).orElseThrow(() -> new RuntimeException("Character not found"))
     );
   }
 
   @Override
-  public Page<PlayerResponse> findByIsActive(Pageable pageable, Boolean isActive) {
-    return playerMapper.toDto(service.findByIsActive(pageable, isActive), pageable);
+  public Page<CharacterResponse> findByIsActive(Pageable pageable, Boolean isActive) {
+    return characterMapper.toDto(service.findByIsActive(pageable, isActive), pageable);
   }
 
   @Override
-  public Page<PlayerResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
-    return playerMapper.toDto(service.findAll(pageable, locale), pageable);
+  public Page<CharacterResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
+    return characterMapper.toDto(service.findAll(pageable, locale), pageable);
   }
 
   @Override
-  public Page<PlayerResponse> findAllByField(Pageable pageable, PlayerRequest request) {
-    return playerMapper.toDto(service.findAllByField(pageable), pageable);
+  public Page<CharacterResponse> findAllByField(Pageable pageable, CharacterRequest request) {
+    return characterMapper.toDto(service.findAllByField(pageable), pageable);
   }
 
   @Override
-  public void updateByUuid(UUID uuid, PlayerRequest request) {
-    service.update(playerMapper.toModel(request));
+  public void updateByUuid(UUID uuid, CharacterRequest request) {
+    service.update(characterMapper.toModel(request));
   }
 
   @Override
-  public PlayerResponse create(Principal principal, PlayerRequest request) {
-    return playerMapper.toDto(
+  public CharacterResponse create(Principal principal, CharacterRequest request) {
+    return characterMapper.toDto(
         this.service.create(
-            Player.builder()
+            Character.builder()
                 .pgName(request.getName())
                 .background(request.getBackground())
                 .diaries(Collections.singletonList(new Diary())) //TODO implement
@@ -86,7 +86,7 @@ public class PlayerComponentImpl implements PlayerComponent {
         )
     );
     /*
-    Un player alla creazione deve avere:
+    Un character alla creazione deve avere:
       - nome
       - scegliere da dove viene (regno)
       - lista di abilità (ogni abilità è da 3 punti)

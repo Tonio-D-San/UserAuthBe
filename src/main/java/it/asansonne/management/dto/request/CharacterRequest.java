@@ -23,11 +23,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Representation of the Player Request DTO")
-public class PlayerRequest implements Request {
-  @NotBlank(message = "Player name")
+@Schema(description = "Representation of the Character Request DTO")
+public class CharacterRequest implements Request {
+  @NotBlank(message = "Character name")
   @Schema(
-      description = "Player name",
+      description = "Character name",
       name = "name",
       type = "String",
       example = "mrossi"

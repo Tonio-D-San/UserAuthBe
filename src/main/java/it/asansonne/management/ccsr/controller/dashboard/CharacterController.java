@@ -11,17 +11,17 @@ import it.asansonne.authhub.ccsr.controller.PatchController;
 import it.asansonne.authhub.ccsr.controller.PostController;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.ExceptionMessage;
-import it.asansonne.management.dto.request.PlayerRequest;
-import it.asansonne.management.dto.response.PlayerResponse;
+import it.asansonne.management.dto.request.CharacterRequest;
+import it.asansonne.management.dto.response.CharacterResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-public interface PlayerController extends
-    GetController<PlayerRequest, PlayerResponse> ,
-    PatchController<PlayerRequest, PlayerResponse>,
-    PostController<PlayerRequest, PlayerResponse>
+public interface CharacterController extends
+    GetController<CharacterRequest, CharacterResponse> ,
+    PatchController<CharacterRequest, CharacterResponse>,
+    PostController<CharacterRequest, CharacterResponse>
 {
   @Operation(summary = "resource.find.by.ability")
   @ApiResponses(value = {
@@ -90,6 +90,6 @@ public interface PlayerController extends
   )
   })
   @ResponseStatus(HttpStatus.OK)
-  PlayerResponse findByAbility(AbilityName abilityName);
+  CharacterResponse findByAbility(AbilityName abilityName);
 
 }

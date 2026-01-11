@@ -53,7 +53,7 @@ public class DiaryMapper implements
     return model == null ? null : DiaryResponse.builder()
         .uuid(model.getUuid())
         .name(model.getName())
-//        .player(playerMapper.toDto(model.getOwner()))
+//        .character(characterMapper.toDto(model.getOwner()))
         .build();
   }
 
