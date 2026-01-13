@@ -12,8 +12,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
 
 @Builder
+@DynamicInsert
 @Entity
 @Table(name = "cards")
 @Getter
@@ -22,15 +24,31 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 public class Card extends BaseModel {
-  @Column(name = "total_points")
-  private Integer totalPoints;
 
-  @Column(name = "available_points")
-  private Integer availablePoints;
+  @Builder.Default
+  @Column(name = "total_points", nullable = false)
+  private Integer totalPoints = 0;
 
-  @Column(name = "used_points")
-  private Integer usedPoints;
+  @Builder.Default
+  @Column(name = "available_points", nullable = false)
+  private Integer availablePoints = 0;
+
+  @Builder.Default
+  @Column(name = "used_points", nullable = false)
+  private Integer usedPoints = 0;
 
   @OneToOne(mappedBy = "card")
   private Character character;
+
+  public void prePersistCard() {
+    if (totalPoints == null) {
+      totalPoints = 0;
+    }
+    if (availablePoints == null) {
+      availablePoints = 0;
+    }
+    if (usedPoints == null) {
+      usedPoints = 0;
+    }
+  }
 }

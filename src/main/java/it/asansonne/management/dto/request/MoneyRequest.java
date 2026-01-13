@@ -3,8 +3,8 @@ package it.asansonne.management.dto.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Request;
-import it.asansonne.management.enumeration.character.RealmName;
-import jakarta.validation.constraints.NotBlank;
+import it.asansonne.management.enumeration.objects.MoneyName;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,13 +19,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Representation of the Realm Request DTO")
-public class RealmRequest implements Request {
-  @NotBlank(message = "Realm name must not be null or empty")
-  @Schema(
-      description = "Realm name",
-      name = "realmName",
-      type = "Enum",
-      example = "CORONOR")
-  private RealmName realmName;
+@Schema(description = "Representation of the Money Request DTO")
+public class MoneyRequest implements Request {
+
+  @NotNull(message = "Money name must not be null")
+  @Schema(description = "Money type.", example = "GOLD")
+  private MoneyName moneyName;
 }

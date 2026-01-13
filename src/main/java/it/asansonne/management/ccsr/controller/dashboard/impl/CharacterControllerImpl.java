@@ -88,7 +88,7 @@ public class CharacterControllerImpl implements CharacterController {
   )
   @Override
   public void updateByUuid(
-      @PathVariable("uuid") UUID uuid, CharacterRequest request
+      @PathVariable UUID uuid, CharacterRequest request
   ) {
     component.updateByUuid(uuid, request);
   }

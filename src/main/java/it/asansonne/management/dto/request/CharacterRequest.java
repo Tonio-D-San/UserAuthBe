@@ -66,11 +66,29 @@ public class CharacterRequest implements Request {
   )
   private List<AbilityRequest> abilities;
 
-  @NotNull(message = "Diary must not be null")
+  @Valid
+  @NotNull(message = "Card must not be null")
+  @Schema(
+      description = "PG card (points management)",
+      name = "card",
+      type = "CardRequest")
+  private CardRequest card;
+
+  @Valid
+  @Schema(
+      description = "PG bag (inventory)",
+      name = "bag",
+      type = "BagRequest")
+  private BagRequest bag;
+
+  @Valid
+  @NotNull(message = "Card must not be null")
   @Schema(
       description = "PG diary",
       name = "diaryRequests",
-      type = "DiaryRequest")
-  private DiaryRequest diaryRequests;
+      type = "List<DiaryRequest>",
+      hidden = true
+  )
+  private List<DiaryRequest> diaryRequests;
 
 }

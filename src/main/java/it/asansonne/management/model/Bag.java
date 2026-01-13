@@ -1,11 +1,13 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.BaseModel;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,11 +32,13 @@ public class Bag extends BaseModel {
   @Column(name = "description", columnDefinition = "TEXT")
   private String description;
 
-  @OneToMany(mappedBy = "bag")
-  private List<Money> money;
+  @Builder.Default
+  @OneToMany(mappedBy = "bag", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Money> money = new ArrayList<>();
 
-  @OneToMany(mappedBy = "bag")
-  private List<Reagent> reagents;
+  @Builder.Default
+  @OneToMany(mappedBy = "bag", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Reagent> reagents = new ArrayList<>();
 
   @OneToOne(mappedBy = "bag")
   private Character owner;
