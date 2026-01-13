@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReagentRepository extends JpaRepository<Reagent, Integer> {
+public interface ReagentRepository extends JpaRepository<Reagent, Long> {
   Optional<Reagent> findAbilityDefinitionByReagentName(ReagentName reagentName);
 }

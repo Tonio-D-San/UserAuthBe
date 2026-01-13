@@ -30,12 +30,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Ability extends BaseModel {
   @Enumerated(EnumType.STRING)
+  @Column(name = "code", unique = true, length = 50)
   private AbilityName code;
 
   @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
+  @Column(name = "description_key", nullable = false)
   private String descriptionKey;
 
   @Enumerated(EnumType.STRING)
@@ -61,6 +62,7 @@ public class Ability extends BaseModel {
   private List<Ability> unlockables;
 
   @Enumerated(EnumType.STRING)
+  @Column(name = "requirement_type", length = 10)
   private RequirementType requirementType;
 
   @ManyToMany(mappedBy = "abilities")

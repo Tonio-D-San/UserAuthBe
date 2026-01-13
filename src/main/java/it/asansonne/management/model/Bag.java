@@ -1,6 +1,7 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.BaseModel;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -23,6 +24,12 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 public class Bag extends BaseModel {
+  @Column(name = "name", length = 100)
+  private String name;
+
+  @Column(name = "description", columnDefinition = "TEXT")
+  private String description;
+
   @OneToMany(mappedBy = "bag")
   private List<Money> money;
 

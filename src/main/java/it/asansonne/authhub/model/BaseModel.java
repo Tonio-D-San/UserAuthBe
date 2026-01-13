@@ -24,7 +24,7 @@ public abstract class BaseModel implements Models {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @ToString.Exclude
-  private Integer id;
+  private Long id;
 
   @Column(name = "uuid", nullable = false, unique = true, columnDefinition = "UUID")
   private UUID uuid;

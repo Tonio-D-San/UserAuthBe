@@ -1,9 +1,6 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.BaseModel;
-import it.asansonne.management.converter.RealmNameConverter;
-import it.asansonne.management.enumeration.character.RealmName;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -17,18 +14,20 @@ import lombok.ToString;
 
 @Builder
 @Entity
-@Table(name = "realms")
+@Table(name = "formations")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
-public class Realm extends BaseModel {
-  @Column(name = "realm_name", length = 50)
-  @Convert(converter = RealmNameConverter.class)
-  private RealmName realmName;
+public class Formation extends BaseModel {
+
+  @Column(name = "code", unique = true, length = 50)
+  private String code;
+
+  @Column(name = "name", nullable = false, unique = true)
+  private String name;
 
   @Column(name = "description", columnDefinition = "TEXT")
   private String description;
-
 }

@@ -1,12 +1,11 @@
-package it.asansonne.management.model;
+package it.asansonne.management.model.campaign;
 
 import it.asansonne.authhub.model.BaseModel;
-import it.asansonne.management.converter.RealmNameConverter;
-import it.asansonne.management.enumeration.character.RealmName;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,18 +16,20 @@ import lombok.ToString;
 
 @Builder
 @Entity
-@Table(name = "realms")
+@Table(name = "campaigns")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
-public class Realm extends BaseModel {
-  @Column(name = "realm_name", length = 50)
-  @Convert(converter = RealmNameConverter.class)
-  private RealmName realmName;
+public class Campaign extends BaseModel {
+
+  @Column(name = "name", nullable = false, unique = true, length = 100)
+  private String name;
 
   @Column(name = "description", columnDefinition = "TEXT")
   private String description;
 
+  @OneToMany(mappedBy = "campaign")
+  private List<Event> events;
 }

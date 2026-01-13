@@ -1,13 +1,13 @@
 package it.asansonne.authhub.ccsr.service;
 
-import it.asansonne.authhub.model.Models;
+import it.asansonne.authhub.model.BaseModel;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface GetService<M extends Models> {
+public interface GetService<M extends BaseModel> {
 
   Optional<M> findByUuid(UUID uuid);
 

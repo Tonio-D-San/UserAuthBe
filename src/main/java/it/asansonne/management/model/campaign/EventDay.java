@@ -1,15 +1,15 @@
-package it.asansonne.management.model;
+package it.asansonne.management.model.campaign;
 
 import it.asansonne.authhub.model.BaseModel;
-import it.asansonne.management.converter.ReagentNameConverter;
-import it.asansonne.management.enumeration.ReagentName;
-import jakarta.persistence.Convert;
+import it.asansonne.management.model.attendance.CharacterAttendance;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,18 +20,24 @@ import lombok.ToString;
 
 @Builder
 @Entity
-@Table(name = "reagents")
+@Table(name = "event_days")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
-public class Reagent extends BaseModel {
-  @Column(name = "reagent_name", length = 50)
-  @Convert(converter = ReagentNameConverter.class)
-  private ReagentName reagentName;
+public class EventDay extends BaseModel {
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "bag_id", nullable = false)
-  private Bag bag;
+  @JoinColumn(name = "event_id", nullable = false)
+  private Event event;
+
+  @Column(name = "day_number", nullable = false)
+  private Integer dayNumber;
+
+  @Column(name = "day_date")
+  private Long dayDate;
+
+  @OneToMany(mappedBy = "eventDay")
+  private List<CharacterAttendance> attendances;
 }

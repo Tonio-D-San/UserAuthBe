@@ -57,7 +57,7 @@ public final class UserServiceImpl implements UserService {
   @Override
   public User create(User user) {
     user.setGroups(
-        List.of(Objects.requireNonNull(groupRepository.findById(3).orElse(null)))
+        List.of(Objects.requireNonNull(groupRepository.findById(3L).orElse(null)))
     );
     return userRepository.save(user);
   }

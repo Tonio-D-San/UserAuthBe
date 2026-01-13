@@ -1,8 +1,8 @@
 package it.asansonne.authhub.ccsr.service;
 
-import it.asansonne.authhub.model.Models;
+import it.asansonne.authhub.model.BaseModel;
 
-public interface PatchService<M extends Models> {
+public interface PatchService<M extends BaseModel> {
 
   void update(M model);
 }

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RealmRepository extends JpaRepository<Realm, Integer> {
+public interface RealmRepository extends JpaRepository<Realm, Long> {
   Optional<Realm> findByUuid(UUID uuid);
 
   Optional<Realm> findByRealmName(RealmName realmName);

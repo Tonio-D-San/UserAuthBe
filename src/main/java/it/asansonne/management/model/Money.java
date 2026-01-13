@@ -1,11 +1,11 @@
 package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.BaseModel;
+import it.asansonne.management.converter.MoneyNameConverter;
 import it.asansonne.management.enumeration.objects.MoneyName;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -28,7 +28,7 @@ import lombok.ToString;
 @ToString
 public class Money extends BaseModel {
   @Column(name = "money_name", length = 50)
-  @Enumerated(EnumType.STRING)
+  @Convert(converter = MoneyNameConverter.class)
   private MoneyName moneyName;
 
   @ManyToOne(fetch = FetchType.LAZY)
