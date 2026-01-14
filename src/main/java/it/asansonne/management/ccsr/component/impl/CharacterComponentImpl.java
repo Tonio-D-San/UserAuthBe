@@ -3,6 +3,7 @@ package it.asansonne.management.ccsr.component.impl;
 import it.asansonne.authhub.ccsr.component.users.UserComponent;
 import it.asansonne.authhub.model.users.User;
 import it.asansonne.diary.mapper.impl.DiaryMapper;
+import it.asansonne.management.ccsr.component.BagComponent;
 import it.asansonne.management.ccsr.component.CharacterComponent;
 import it.asansonne.management.ccsr.repository.RealmRepository;
 import it.asansonne.management.ccsr.service.dashboard.BagService;
@@ -12,8 +13,12 @@ import it.asansonne.management.dto.request.CharacterRequest;
 import it.asansonne.management.dto.response.CharacterResponse;
 import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.mapper.impl.AbilityMapper;
+import it.asansonne.management.mapper.impl.BagMapper;
 import it.asansonne.management.mapper.impl.CharacterMapper;
+import it.asansonne.management.mapper.impl.MoneyMapper;
+import it.asansonne.management.mapper.impl.ReagentMapper;
 import it.asansonne.management.model.Ability;
+import it.asansonne.management.model.Bag;
 import it.asansonne.management.model.Character;
 import java.security.Principal;
 import java.util.List;
@@ -29,12 +34,14 @@ import org.springframework.stereotype.Component;
 public class CharacterComponentImpl implements CharacterComponent {
   private final UserComponent userComponent;
   private final CharacterService service;
-  private final CardService cardService;
-  private final BagService bagService;
   private final CharacterMapper characterMapper;
   private final AbilityMapper abilityMapper;
   private final DiaryMapper diaryMapper;
   private final RealmRepository realmRepository;
+  private final BagComponent bagComponent;
+  private final BagMapper bagMapper;
+  private final MoneyMapper moneyMapper;
+  private final ReagentMapper reagentMapper;
 
   @Override
   public CharacterResponse findByAbility(AbilityName ability) {
@@ -73,7 +80,7 @@ public class CharacterComponentImpl implements CharacterComponent {
   @Override
   public CharacterResponse create(Principal principal, CharacterRequest request) {
     /*
-    {
+{
   "name": "Conrad",
   "realm": {
     "realmName": "CORONOR"
@@ -122,8 +129,8 @@ public class CharacterComponentImpl implements CharacterComponent {
                     .findByRealmName(request.getRealm().getRealmName())
                     .orElseThrow(() -> new RuntimeException("Realm not found"))
                 ).user(fromPrincipal(principal))
-                .card(cardService.build(request.getCard(), abilities)) //TODO da rivedere
-                .bag(bagService.build(request.getName(), request.getBag())) // TODO usare il service per creare la bag
+                .card() //TODO usare cardComponent e mapper per creare la card
+                .bag() // TODO usare bagComponent e mapper per creare la bag
                 .abilities(abilities)
                 .build()
         )

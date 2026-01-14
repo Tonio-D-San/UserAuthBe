@@ -22,17 +22,27 @@ import lombok.ToString;
 @Schema(description = "Representation of the Bag Request DTO")
 public class BagRequest implements Request {
 
-  @Schema(description = "Bag name.", example = "Zaino di mrossi")
+  @Schema(
+      description = "Bag name.",
+      example = "Zaino di mrossi"
+  )
   private String name;
 
-  @Schema(description = "Bag description.", example = "Zaino da viaggio")
+  @Schema(
+      description = "Bag description.",
+      example = "Zaino da viaggio"
+  )
   private String description;
 
   @Valid
-  @Schema(description = "Money items inside the bag.")
+  @Schema(
+      description = "Money items inside the bag."
+  )
   private List<MoneyRequest> money;
 
   @Valid
-  @Schema(description = "Reagents inside the bag.")
+  @Schema(
+      description = "Reagents inside the bag."
+  )
   private List<ReagentRequest> reagents;
 }

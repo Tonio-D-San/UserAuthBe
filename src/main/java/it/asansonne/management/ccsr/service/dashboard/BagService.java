@@ -1,11 +1,11 @@
 package it.asansonne.management.ccsr.service.dashboard;
 
-import it.asansonne.management.dto.request.BagRequest;
+import it.asansonne.authhub.ccsr.service.GetService;
+import it.asansonne.authhub.ccsr.service.PatchService;
+import it.asansonne.authhub.ccsr.service.PostService;
 import it.asansonne.management.model.Bag;
 
-public interface BagService {
-  /**
-   * Builds a Bag (possibly empty). Money/Reagents (if present) are attached to the Bag.
-   */
-  Bag build(String characterName, BagRequest request);
+public interface BagService extends
+    GetService<Bag>, PatchService<Bag>, PostService<Bag> {
+
 }

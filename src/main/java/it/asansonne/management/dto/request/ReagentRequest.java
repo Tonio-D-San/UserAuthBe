@@ -21,8 +21,10 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Reagent Request DTO")
 public class ReagentRequest implements Request {
-
   @NotNull(message = "Reagent name must not be null")
-  @Schema(description = "Reagent type.", example = "MANDRAGORA")
+  @Schema(
+      description = "Reagent type.",
+      example = "REAGENT_A"
+  )
   private ReagentName reagentName;
 }
