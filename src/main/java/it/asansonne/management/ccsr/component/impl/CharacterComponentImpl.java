@@ -129,8 +129,8 @@ public class CharacterComponentImpl implements CharacterComponent {
                     .findByRealmName(request.getRealm().getRealmName())
                     .orElseThrow(() -> new RuntimeException("Realm not found"))
                 ).user(fromPrincipal(principal))
-                .card() //TODO usare cardComponent e mapper per creare la card
-                .bag() // TODO usare bagComponent e mapper per creare la bag
+//                .card() //TODO usare cardComponent e mapper per creare la card
+//                .bag() // TODO usare bagComponent e mapper per creare la bag
                 .abilities(abilities)
                 .build()
         )
