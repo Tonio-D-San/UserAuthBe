@@ -82,7 +82,7 @@ public class CharacterRequest implements Request {
   private BagRequest bag;
 
   @Valid
-  @NotNull(message = "Card must not be null")
+//  @NotNull(message = "Diary must not be null")
   @Schema(
       description = "PG diary",
       name = "diaryRequests",

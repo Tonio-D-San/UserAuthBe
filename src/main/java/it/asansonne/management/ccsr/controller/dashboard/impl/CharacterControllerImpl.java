@@ -102,7 +102,7 @@ public class CharacterControllerImpl implements CharacterController {
     CharacterResponse response = component.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/characters")
+            .path(API + "/" + API_VERSION + "/characters/{uuid}")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);

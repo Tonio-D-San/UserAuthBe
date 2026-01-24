@@ -27,7 +27,7 @@ public class Card extends BaseModel {
 
   @Builder.Default
   @Column(name = "total_points", nullable = false)
-  private Integer totalPoints = 0;
+  private Integer totalPoints = 16;
 
   @Builder.Default
   @Column(name = "available_points", nullable = false)

@@ -4,6 +4,7 @@ import it.asansonne.authhub.ccsr.component.users.UserComponent;
 import it.asansonne.authhub.model.users.User;
 import it.asansonne.diary.mapper.impl.DiaryMapper;
 import it.asansonne.management.ccsr.component.BagComponent;
+import it.asansonne.management.ccsr.component.CardComponent;
 import it.asansonne.management.ccsr.component.CharacterComponent;
 import it.asansonne.management.ccsr.repository.RealmRepository;
 import it.asansonne.management.ccsr.service.dashboard.BagService;
@@ -39,6 +40,7 @@ public class CharacterComponentImpl implements CharacterComponent {
   private final DiaryMapper diaryMapper;
   private final RealmRepository realmRepository;
   private final BagComponent bagComponent;
+  private final CardComponent cardComponent;
   private final BagMapper bagMapper;
   private final MoneyMapper moneyMapper;
   private final ReagentMapper reagentMapper;
@@ -124,6 +126,7 @@ public class CharacterComponentImpl implements CharacterComponent {
                 .pgName(request.getName())
                 .background(request.getBackground())
                 // Diary is created AFTER the character creation.
+                .diaries(null)
                 .training(request.getTraining())
                 .realm(realmRepository
                     .findByRealmName(request.getRealm().getRealmName())

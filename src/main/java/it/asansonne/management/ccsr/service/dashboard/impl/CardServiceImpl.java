@@ -5,9 +5,16 @@ import it.asansonne.management.dto.request.CardRequest;
 import it.asansonne.management.model.Ability;
 import it.asansonne.management.model.Card;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class CardServiceImpl implements CardService {
 
   @Override
@@ -44,5 +51,35 @@ public class CardServiceImpl implements CardService {
         .usedPoints(usedPoints)
         .availablePoints(totalPoints - usedPoints)
         .build();
+  }
+
+  @Override
+  public Optional<Card> findByUuid(UUID uuid) {
+    return Optional.empty();
+  }
+
+  @Override
+  public Page<Card> findByIsActive(Pageable pageable, Boolean isActive) {
+    return null;
+  }
+
+  @Override
+  public Page<Card> findAll(Pageable pageable, Locale locale) {
+    return null;
+  }
+
+  @Override
+  public Page<Card> findAllByField(Pageable pageable) {
+    return null;
+  }
+
+  @Override
+  public void update(Card model) {
+
+  }
+
+  @Override
+  public Card create(Card model) {
+    return null;
   }
 }
