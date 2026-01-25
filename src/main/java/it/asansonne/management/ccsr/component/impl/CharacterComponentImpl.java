@@ -1,6 +1,7 @@
 package it.asansonne.management.ccsr.component.impl;
 
 import it.asansonne.authhub.ccsr.component.users.UserComponent;
+import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.authhub.model.users.User;
 import it.asansonne.management.ccsr.component.CharacterComponent;
 import it.asansonne.management.ccsr.service.dashboard.CharacterService;
@@ -28,14 +29,15 @@ public class CharacterComponentImpl implements CharacterComponent {
   public CharacterResponse findByAbility(AbilityName ability) {
     return characterMapper.toDto(
         service.findByAbility(ability)
-            .orElseThrow(() -> new RuntimeException("Character not found"))
+            .orElseThrow(() -> new NotFoundException("ability.not.found"))
     );
   }
 
   @Override
   public CharacterResponse findByUuid(UUID uuid) {
     return characterMapper.toDto(
-        service.findByUuid(uuid).orElseThrow(() -> new RuntimeException("Character not found"))
+        service.findByUuid(uuid)
+            .orElseThrow(() -> new NotFoundException("character.not.found", uuid))
     );
   }
 

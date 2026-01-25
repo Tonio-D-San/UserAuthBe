@@ -21,17 +21,17 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public final class UserServiceImpl implements UserService {
-  private final UserRepository userRepository;
+  private final UserRepository repository;
   private final GroupRepository groupRepository;
 
   @Override
   public Optional<User> findByUuid(UUID userUuid) {
-    return userRepository.findByUuid(userUuid);
+    return repository.findByUuid(userUuid);
   }
 
   @Override
   public Page<User> findAll(Pageable pageable, Locale locale) {
-    Page<User> users = userRepository.findAll(pageable);
+    Page<User> users = repository.findAll(pageable);
     if (users.isEmpty()) {
       throw new EntityNotFoundException("person.empty");
     }
@@ -40,12 +40,12 @@ public final class UserServiceImpl implements UserService {
 
   @Override
   public Page<User> findAllByField(Pageable pageable) {
-    return userRepository.findAll(pageable);
+    return repository.findAll(pageable);
   }
 
   @Override
   public Page<User> findByIsActive(Pageable pageable, Boolean isActive) {
-    Page<User> users = userRepository.findAllByIsActive(isActive, pageable);
+    Page<User> users = repository.findAllByIsActive(isActive, pageable);
     if (users.isEmpty()) {
       throw new EntityNotFoundException(
           Boolean.TRUE.equals(isActive) ? "person.active.empty" : "person.inactive.empty"
@@ -59,12 +59,12 @@ public final class UserServiceImpl implements UserService {
     user.setGroups(
         List.of(Objects.requireNonNull(groupRepository.findById(3L).orElse(null)))
     );
-    return userRepository.save(user);
+    return repository.save(user);
   }
 
   @Override
   public void update(User user) {
-    userRepository.save(user);
+    this.create(user);
   }
 
 }

@@ -26,8 +26,8 @@ public class UserComponentImpl implements UserComponent {
   private final UserMapper mapper;
 
   @Override
-  public UserResponse findByUuid(UUID userUuid) {
-    return mapper.toDto(findUser(userUuid));
+  public UserResponse findByUuid(UUID uuid) {
+    return mapper.toDto(findUser(uuid));
   }
 
   @Override
@@ -61,15 +61,15 @@ public class UserComponentImpl implements UserComponent {
   }
 
   @Override
-  public void updateByUuid(UUID userUuid, UserRequest request) {
-    User user = findUser(userUuid);
+  public void updateByUuid(UUID uuid, UserRequest request) {
+    User user = findUser(uuid);
     user.setIsActive(request.getStatusRequest().getIsActive());
     this.service.update(user);
   }
 
-  public User findUser(UUID userUuid) {
-    return this.service.findByUuid(userUuid)
-        .orElseThrow(() -> new NotFoundException("person.not.found", userUuid))
+  public User findUser(UUID uuid) {
+    return this.service.findByUuid(uuid)
+        .orElseThrow(() -> new NotFoundException("person.not.found", uuid))
     ;
   }
 }
