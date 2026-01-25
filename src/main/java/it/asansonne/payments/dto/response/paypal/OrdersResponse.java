@@ -2,17 +2,15 @@ package it.asansonne.payments.dto.response.paypal;
 
 import com.paypal.orders.LinkDescription;
 import com.paypal.orders.PurchaseUnit;
-import it.asansonne.authhub.dto.Response;
+import it.asansonne.authhub.dto.BaseResponse;
 import it.asansonne.authhub.dto.response.UserResponse;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
 @Getter
-@AllArgsConstructor
-public class OrdersResponse implements Response {
+public class OrdersResponse extends BaseResponse {
   private String orderId;
   private String checkoutPaymentIntent;
   private String createTime;

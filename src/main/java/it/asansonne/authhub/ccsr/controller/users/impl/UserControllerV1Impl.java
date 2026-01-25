@@ -39,7 +39,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
 
   @Override
   @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public UserResponse findByUuid(@PathVariable("uuid") UUID uuid) {
+  public UserResponse findByUuid(@PathVariable UUID uuid) {
     return this.component.findByUuid(uuid);
   }
 
@@ -87,7 +87,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
     UserResponse response = component.create(principal, personRequest);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/admin/")
+            .path(API + "/" + API_VERSION + "/admin/{uuid}")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);
@@ -100,7 +100,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
   )
   @Override
   public void updateByUuid(
-      @PathVariable("uuid") UUID uuid, UserRequest request
+      @PathVariable UUID uuid, UserRequest request
   ) {
     component.updateByUuid(uuid, request);
   }

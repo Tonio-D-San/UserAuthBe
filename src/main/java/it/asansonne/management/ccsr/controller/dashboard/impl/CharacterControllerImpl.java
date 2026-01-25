@@ -42,7 +42,7 @@ public class CharacterControllerImpl implements CharacterController {
 
   @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Override
-  public CharacterResponse findByUuid(@PathVariable("uuid") UUID uuid) {
+  public CharacterResponse findByUuid(@PathVariable UUID uuid) {
     return this.component.findByUuid(uuid);
   }
 

@@ -6,10 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,9 +19,9 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table(
-    name = "realms",
+    name = "ability_prerequisites",
     uniqueConstraints = {
-        @UniqueConstraint(name = "uq_realms_ruleset_name", columnNames = {"ruleset_id", "name"})
+        @UniqueConstraint(name = "uq_ability_prereq", columnNames = {"ability_id", "required_ability_id"})
     }
 )
 @Getter
@@ -31,20 +29,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
-public class Realm extends BaseModel {
+public class AbilityPrerequisite extends BaseModel {
 
   @ToString.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "ruleset_id", nullable = false)
-  private Ruleset ruleset;
-
-  @Column(name = "name", nullable = false)
-  private String name;
-
-  @Column(name = "description")
-  private String description;
+  @JoinColumn(name = "ability_id", nullable = false)
+  private Ability ability;
 
   @ToString.Exclude
-  @OneToMany(mappedBy = "realm")
-  private List<Character> characters;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "required_ability_id", nullable = false)
+  private Ability requiredAbility;
+
+  @Column(name = "required_rank", nullable = false)
+  private Integer requiredRank;
 }

@@ -1,15 +1,13 @@
-package it.asansonne.management.model.campaign;
+package it.asansonne.management.model;
 
 import it.asansonne.authhub.model.BaseModel;
-import it.asansonne.management.model.attendance.CharacterAttendance;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,24 +18,27 @@ import lombok.ToString;
 
 @Builder
 @Entity
-@Table(name = "event_days")
+@Table(
+    name = "ability_costs",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uq_ability_costs_ability_rank", columnNames = {"ability_id", "rank"})
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
-public class EventDay extends BaseModel {
+public class AbilityCost extends BaseModel {
 
+  @ToString.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "event_id", nullable = false)
-  private Event event;
+  @JoinColumn(name = "ability_id", nullable = false)
+  private Ability ability;
 
-  @Column(name = "day_number", nullable = false)
-  private Integer dayNumber;
+  @Column(name = "rank", nullable = false)
+  private Integer rank;
 
-  @Column(name = "day_date")
-  private Long dayDate;
-
-  @OneToMany(mappedBy = "eventDay")
-  private List<CharacterAttendance> attendances;
+  @Column(name = "cost", nullable = false)
+  private Integer cost;
 }

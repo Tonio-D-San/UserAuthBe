@@ -19,27 +19,14 @@ public class CharacterMapper implements
 {
 
   private final UserMapper userMapper;
-  private final AbilityMapper abilityMapper;
-  private final RealmMapper realmMapper;
 
   @Override
   public Character toModel(CharacterRequest dto) {
-    return dto == null ? null : Character.builder()
-        .pgName(dto.getName())
-        .background(dto.getBackground())
-        .training(dto.getTraining())
-        .abilities(abilityMapper.toModel(dto.getAbilities()))
-        .build();
+    return null;
   }
 
   @Override
   public CharacterResponse toDto(Character model) {
-    return model == null ? null : CharacterResponse.builder()
-        .uuid(model.getUuid())
-        .name(model.getPgName())
-        .realm(realmMapper.toDto(model.getRealm()))
-        .user(userMapper.toDto(model.getUser()))
-        .build();
+    return null;
   }
-
 }

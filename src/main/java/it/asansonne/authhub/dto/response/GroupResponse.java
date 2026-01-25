@@ -3,35 +3,22 @@ package it.asansonne.authhub.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Response;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import it.asansonne.authhub.dto.BaseResponse;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
  * The type Group response.
  */
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Group Response DTO")
-public class GroupResponse implements Response {
-  @JsonProperty("uuid")
-  @Schema(
-      description = "Group uuid",
-      name = "uuid",
-      type = "UUID",
-      example = "d8317c61-1ca9-4a3d-9501-ec70e74e50e6")
-  private UUID uuid;
-
+public class GroupResponse extends BaseResponse {
   @JsonProperty("name")
   @Schema(
       description = "Category name",

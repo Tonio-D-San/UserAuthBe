@@ -22,9 +22,9 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table(
-    name = "abilities",
+    name = "trainings",
     uniqueConstraints = {
-        @UniqueConstraint(name = "uq_abilities_ruleset_code", columnNames = {"ruleset_id", "code"})
+        @UniqueConstraint(name = "uq_trainings_ruleset_name", columnNames = {"ruleset_id", "name"})
     }
 )
 @Getter
@@ -32,15 +32,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
-public class Ability extends BaseModel {
+public class Training extends BaseModel {
 
   @ToString.Exclude
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ruleset_id", nullable = false)
   private Ruleset ruleset;
-
-  @Column(name = "code", nullable = false)
-  private String code;
 
   @Column(name = "name", nullable = false)
   private String name;
@@ -48,24 +45,11 @@ public class Ability extends BaseModel {
   @Column(name = "description")
   private String description;
 
-  @Column(name = "is_repeatable", nullable = false)
-  private Boolean isRepeatable;
-
-  @Column(name = "max_rank")
-  private Integer maxRank;
+  @ToString.Exclude
+  @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<TrainingAbilityGrant> abilityGrants;
 
   @ToString.Exclude
-  @OneToMany(mappedBy = "ability", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<AbilityCost> costs;
-
-  // prerequisiti “che io richiedo”
-  @ToString.Exclude
-  @OneToMany(mappedBy = "ability", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<AbilityPrerequisite> prerequisites;
-
-  // prerequisiti “in cui io sono richiesto da altri”
-  // NIENTE cascade/orphanRemoval qui: è “vista inversa”, non ownership.
-  @ToString.Exclude
-  @OneToMany(mappedBy = "requiredAbility")
-  private List<AbilityPrerequisite> requiredBy;
+  @OneToMany(mappedBy = "training")
+  private List<Character> characters;
 }

@@ -7,7 +7,6 @@ import it.asansonne.management.ccsr.component.AbilityComponent;
 import it.asansonne.management.ccsr.controller.dashboard.AbilityController;
 import it.asansonne.management.dto.request.AbilityRequest;
 import it.asansonne.management.dto.response.AbilityResponse;
-import it.asansonne.management.enumeration.character.AbilityName;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import java.util.Locale;
@@ -28,20 +27,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/abilities")
+@RequestMapping(API + "/" + API_VERSION + "/abilitys")
 @AllArgsConstructor
 public class AbilityControllerImpl implements AbilityController {
 
   private final AbilityComponent component;
 
-  @GetMapping(value = "/{ability}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public AbilityResponse findByAbility(@PathVariable AbilityName ability) {
-    return this.component.findByAbility(ability);
-  }
-
   @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Override
-  public AbilityResponse findByUuid(@PathVariable("uuid") UUID uuid) {
+  public AbilityResponse findByUuid(@PathVariable UUID uuid) {
     return this.component.findByUuid(uuid);
   }
 
@@ -73,7 +67,7 @@ public class AbilityControllerImpl implements AbilityController {
 
   @Override
   public Page<AbilityResponse> findAllByField(Integer page, Integer size, String direction,
-                                              AbilityRequest request) {
+                                             AbilityRequest request) {
     return this.component.findAllByField(
         PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
         request
@@ -87,7 +81,7 @@ public class AbilityControllerImpl implements AbilityController {
   )
   @Override
   public void updateByUuid(
-      @PathVariable("uuid") UUID uuid, AbilityRequest request
+      @PathVariable UUID uuid, AbilityRequest request
   ) {
     component.updateByUuid(uuid, request);
   }
@@ -101,8 +95,8 @@ public class AbilityControllerImpl implements AbilityController {
     AbilityResponse response = component.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/abilities")
-            .buildAndExpand(String.valueOf(response.getCode()))
+            .path(API + "/" + API_VERSION + "/abilities/{uuid}")
+            .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);
   }
