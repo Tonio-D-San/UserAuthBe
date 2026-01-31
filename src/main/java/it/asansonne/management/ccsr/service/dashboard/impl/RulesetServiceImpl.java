@@ -1,7 +1,5 @@
 package it.asansonne.management.ccsr.service.dashboard.impl;
 
-import static it.asansonne.management.enumeration.Status.DRAFT;
-
 import it.asansonne.management.ccsr.repository.RulesetRepository;
 import it.asansonne.management.ccsr.service.dashboard.RulesetService;
 import it.asansonne.management.enumeration.Status;
@@ -40,7 +38,7 @@ public class RulesetServiceImpl implements RulesetService {
   public Page<Ruleset> findAll(Pageable pageable, Locale locale) {
     Page<Ruleset> abilities = this.repository.findAll(pageable);
     if (abilities.isEmpty()) {
-      throw new EntityNotFoundException("ebilities.empty");
+      throw new EntityNotFoundException("abilities.empty");
     }
     return abilities;
   }

@@ -1,15 +1,10 @@
 package it.asansonne.management.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.BaseResponse;
-import it.asansonne.authhub.dto.Response;
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import java.util.List;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
@@ -30,10 +25,26 @@ public class RealmResponse extends BaseResponse {
   private String name;
 
   @Schema(
-      description = "Character response",
-      name = "character",
-      type = "CharacterResponse",
-      example = "PG Pro Character"
+      description = "Realm description",
+      name = "description",
+      type = "String",
+      example = "Description of this realm"
   )
-  private CharacterResponse character;
+  private String description;
+
+  @Schema(
+      description = "Realm maxim",
+      name = "maxim",
+      type = "String",
+      example = "This realm is the best"
+  )
+  private String maxim;
+
+
+  @Schema(
+      description = "Character response",
+      name = "characters",
+      type = "CharacterResponse"
+  )
+  private List<CharacterResponse> characters;
 }

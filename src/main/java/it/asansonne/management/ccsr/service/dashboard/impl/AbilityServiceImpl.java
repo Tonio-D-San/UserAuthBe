@@ -37,7 +37,7 @@ public class AbilityServiceImpl implements AbilityService {
   public Page<Ability> findAll(Pageable pageable, Locale locale) {
     Page<Ability> abilities = this.repository.findAll(pageable);
     if (abilities.isEmpty()) {
-      throw new EntityNotFoundException("ebilities.empty");
+      throw new EntityNotFoundException("abilities.empty");
     }
     return abilities;
   }
