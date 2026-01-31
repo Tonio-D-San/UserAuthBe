@@ -27,38 +27,38 @@ public class CharacterComponentImpl implements CharacterComponent {
 
   @Override
   public CharacterResponse findByAbility(AbilityName ability) {
-    return characterMapper.toDto(
-        service.findByAbility(ability)
+    return this.characterMapper.toDto(
+        this.service.findByAbility(ability)
             .orElseThrow(() -> new NotFoundException("ability.not.found"))
     );
   }
 
   @Override
   public CharacterResponse findByUuid(UUID uuid) {
-    return characterMapper.toDto(
-        service.findByUuid(uuid)
+    return this.characterMapper.toDto(
+        this.service.findByUuid(uuid)
             .orElseThrow(() -> new NotFoundException("character.not.found", uuid))
     );
   }
 
   @Override
   public Page<CharacterResponse> findByIsActive(Pageable pageable, Boolean isActive) {
-    return characterMapper.toDto(service.findByIsActive(pageable, isActive), pageable);
+    return this.characterMapper.toDto(this.service.findByIsActive(pageable, isActive), pageable);
   }
 
   @Override
   public Page<CharacterResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
-    return characterMapper.toDto(service.findAll(pageable, locale), pageable);
+    return this.characterMapper.toDto(this.service.findAll(pageable, locale), pageable);
   }
 
   @Override
   public Page<CharacterResponse> findAllByField(Pageable pageable, CharacterRequest request) {
-    return characterMapper.toDto(service.findAllByField(pageable), pageable);
+    return this.characterMapper.toDto(this.service.findAllByField(pageable), pageable);
   }
 
   @Override
   public void updateByUuid(UUID uuid, CharacterRequest request) {
-    service.update(characterMapper.toModel(request));
+    this.service.update(this.characterMapper.toModel(request));
   }
 
   @Override
@@ -102,7 +102,7 @@ public class CharacterComponentImpl implements CharacterComponent {
         request.getCard().getFreeAbilities() == 0)) {
       request.getCard().setFreeAbilities(1);
     }
-    return characterMapper.toDto(
+    return this.characterMapper.toDto(
         this.service.create(
             Character.builder()
                 .pgName(request.getName())
@@ -137,7 +137,7 @@ public class CharacterComponentImpl implements CharacterComponent {
   }
 
   private User fromPrincipal(Principal principal) {
-    return userComponent.findUser(
+    return this.userComponent.findUser(
         UUID.fromString(principal.getName().split("[,\\[\\]\\s]+")[1])
     );
   }

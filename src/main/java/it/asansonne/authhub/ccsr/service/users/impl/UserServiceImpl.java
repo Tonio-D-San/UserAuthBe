@@ -26,12 +26,12 @@ public final class UserServiceImpl implements UserService {
 
   @Override
   public Optional<User> findByUuid(UUID userUuid) {
-    return repository.findByUuid(userUuid);
+    return this.repository.findByUuid(userUuid);
   }
 
   @Override
   public Page<User> findAll(Pageable pageable, Locale locale) {
-    Page<User> users = repository.findAll(pageable);
+    Page<User> users = this.repository.findAll(pageable);
     if (users.isEmpty()) {
       throw new EntityNotFoundException("person.empty");
     }
@@ -40,12 +40,12 @@ public final class UserServiceImpl implements UserService {
 
   @Override
   public Page<User> findAllByField(Pageable pageable) {
-    return repository.findAll(pageable);
+    return this.repository.findAll(pageable);
   }
 
   @Override
   public Page<User> findByIsActive(Pageable pageable, Boolean isActive) {
-    Page<User> users = repository.findAllByIsActive(isActive, pageable);
+    Page<User> users = this.repository.findAllByIsActive(isActive, pageable);
     if (users.isEmpty()) {
       throw new EntityNotFoundException(
           Boolean.TRUE.equals(isActive) ? "person.active.empty" : "person.inactive.empty"
@@ -57,9 +57,9 @@ public final class UserServiceImpl implements UserService {
   @Override
   public User create(User user) {
     user.setGroups(
-        List.of(Objects.requireNonNull(groupRepository.findById(3L).orElse(null)))
+        List.of(Objects.requireNonNull(this.groupRepository.findById(3L).orElse(null)))
     );
-    return repository.save(user);
+    return this.repository.save(user);
   }
 
   @Override
@@ -67,4 +67,10 @@ public final class UserServiceImpl implements UserService {
     this.create(user);
   }
 
+  @Override
+  public User deleteByUuid(UUID uuid) {
+    User user = this.findByUuid(uuid).orElseThrow(() -> new EntityNotFoundException("person.not.found"));
+    this.repository.delete(user);
+    return user;
+  }
 }

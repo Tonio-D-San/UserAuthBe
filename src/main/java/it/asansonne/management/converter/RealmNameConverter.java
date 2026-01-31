@@ -4,7 +4,7 @@ import it.asansonne.management.enumeration.character.RealmName;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-@Converter(autoApply = false)
+@Converter()
 public class RealmNameConverter implements AttributeConverter<RealmName, String> {
 
   @Override

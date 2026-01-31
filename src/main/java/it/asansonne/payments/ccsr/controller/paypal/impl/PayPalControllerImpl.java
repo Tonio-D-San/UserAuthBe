@@ -44,7 +44,7 @@ public class PayPalControllerImpl implements PayPalController {
       @RequestParam(value = "isActive", defaultValue = "true") Boolean isActive
   ) {
     return this.component.findByIsActive(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         isActive
     );
   }
@@ -57,7 +57,7 @@ public class PayPalControllerImpl implements PayPalController {
       Locale locale, Principal principal
   ) {
     return this.component.findAll(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         locale, principal
     );
   }
@@ -66,7 +66,7 @@ public class PayPalControllerImpl implements PayPalController {
   public Page<OrdersResponse> findAllByField(Integer page, Integer size, String direction,
                                              OrdersRequest request) {
     return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         request
     );
   }

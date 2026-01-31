@@ -4,7 +4,7 @@ import it.asansonne.management.enumeration.attendance.CardTransactionSource;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-@Converter(autoApply = false)
+@Converter()
 public class CardTransactionSourceConverter implements AttributeConverter<CardTransactionSource, String> {
 
   @Override

@@ -22,36 +22,36 @@ public class AbilityComponentImpl implements AbilityComponent {
 
   @Override
   public AbilityResponse findByUuid(UUID uuid) {
-    return mapper.toDto(
-        service.findByUuid(uuid)
+    return this.mapper.toDto(
+        this.service.findByUuid(uuid)
             .orElseThrow(() -> new NotFoundException("ability.not.found", uuid))
     );
   }
 
   @Override
   public Page<AbilityResponse> findByIsActive(Pageable pageable, Boolean isActive) {
-    return mapper.toDto(service.findByIsActive(pageable, isActive), pageable);
+    return this.mapper.toDto(this.service.findByIsActive(pageable, isActive), pageable);
   }
 
   @Override
   public Page<AbilityResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
-    return mapper.toDto(service.findAll(pageable, locale), pageable);
+    return this.mapper.toDto(this.service.findAll(pageable, locale), pageable);
   }
 
   @Override
   public Page<AbilityResponse> findAllByField(Pageable pageable, AbilityRequest request) {
-    return mapper.toDto(service.findAllByField(pageable), pageable);
+    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
   }
 
   @Override
   public void updateByUuid(UUID uuid, AbilityRequest request) {
-    service.update(mapper.toModel(request));
+    this.service.update(this.mapper.toModel(request));
   }
 
   @Override
   public AbilityResponse create(Principal principal, AbilityRequest request) {
-    return service.create(mapper.toModel(request)) != null
-        ? mapper.toDto(service.create(mapper.toModel(request)))
+    return this.service.create(this.mapper.toModel(request)) != null
+        ? this.mapper.toDto(this.service.create(this.mapper.toModel(request)))
         : null;
   }
 }

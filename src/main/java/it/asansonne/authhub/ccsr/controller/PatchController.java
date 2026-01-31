@@ -151,6 +151,6 @@ public interface PatchController<R extends Request, S extends Response> {
   )
   @ResponseStatus(HttpStatus.OK)
   void updateByUuid(
-      @PathVariable("uuid") UUID uuid, R request
+      @PathVariable UUID uuid, R request
   );
 }

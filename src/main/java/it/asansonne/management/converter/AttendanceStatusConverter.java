@@ -4,7 +4,7 @@ import it.asansonne.management.enumeration.attendance.AttendanceStatus;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-@Converter(autoApply = false)
+@Converter()
 public class AttendanceStatusConverter implements AttributeConverter<AttendanceStatus, String> {
 
   @Override

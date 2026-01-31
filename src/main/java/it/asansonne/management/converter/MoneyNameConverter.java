@@ -4,7 +4,7 @@ import it.asansonne.management.enumeration.objects.MoneyName;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-@Converter(autoApply = false)
+@Converter()
 public class MoneyNameConverter implements AttributeConverter<MoneyName, String> {
 
   @Override

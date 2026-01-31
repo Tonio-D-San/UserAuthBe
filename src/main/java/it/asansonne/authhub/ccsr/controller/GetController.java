@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public interface GetController<R extends Request, S extends Response> {
   /**
-   * The constant SURNAME.
+   * The constant UPDATED_AT.
    */
-  String SURNAME = "surname";
+  String UPDATED_AT = "updatedAt";
 
   @Operation(summary = "resource.find.by.uuid")
   @ApiResponses(value = {

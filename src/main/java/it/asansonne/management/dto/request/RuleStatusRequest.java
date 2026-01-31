@@ -1,9 +1,9 @@
-package it.asansonne.authhub.dto.request;
+package it.asansonne.management.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Request;
-import jakarta.validation.constraints.NotNull;
+import it.asansonne.authhub.dto.request.StatusRequest;
+import it.asansonne.management.enumeration.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +11,6 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-/**
- * The type Status request.
- */
 @SuperBuilder
 @Getter
 @Setter
@@ -21,13 +18,15 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Representation of the Status Request DTO")
-public class StatusRequest implements Request {
-  @NotNull
+@Schema(description = "Representation of the Ruleset Request DTO")
+public class RuleStatusRequest extends StatusRequest {
   @Schema(
       description = "Status",
-      name = "isActive",
-      type = "String",
-      example = "false")
-  private Boolean isActive;
+      name = "status",
+      type = "Status",
+      example = "DRAFT or ACTIVE or DEPRECATED",
+      defaultValue = "DRAFT"
+  )
+  private Status status;
+
 }

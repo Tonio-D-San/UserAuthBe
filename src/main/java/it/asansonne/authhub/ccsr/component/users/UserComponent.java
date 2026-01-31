@@ -1,5 +1,6 @@
 package it.asansonne.authhub.ccsr.component.users;
 
+import it.asansonne.authhub.ccsr.component.DeleteComponent;
 import it.asansonne.authhub.ccsr.component.GetComponent;
 import it.asansonne.authhub.ccsr.component.PatchComponent;
 import it.asansonne.authhub.ccsr.component.PostComponent;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public interface UserComponent extends
     GetComponent<UserRequest, UserResponse>,
     PatchComponent<UserRequest, UserResponse>,
-    PostComponent<UserRequest, UserResponse>
+    PostComponent<UserRequest, UserResponse>,
+    DeleteComponent
 {
   User findUser(UUID userUuid);
 

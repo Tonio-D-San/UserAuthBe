@@ -1,6 +1,7 @@
 package it.asansonne.authhub.exception.handler;
 
 import it.asansonne.authhub.exception.ExceptionMessage;
+import it.asansonne.authhub.exception.custom.ConflictException;
 import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.authhub.exception.custom.ParentCreationDateException;
 import jakarta.persistence.EntityNotFoundException;
@@ -85,6 +86,12 @@ final class ApplicationExceptionHandler {
   @ExceptionHandler(DataIntegrityViolationException.class)
   private ExceptionMessage handleConflictException(DataIntegrityViolationException ex) {
     return new ExceptionMessage(HttpStatus.CONFLICT, ex.getMostSpecificCause().getMessage());
+  }
+
+  @ResponseStatus(HttpStatus.CONFLICT)
+  @ExceptionHandler(ConflictException.class)
+  private ExceptionMessage handleConflictException(ConflictException ex) {
+    return new ExceptionMessage(HttpStatus.CONFLICT, ex.getMessage());
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)

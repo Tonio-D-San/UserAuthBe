@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/abilitys")
+@RequestMapping(API + "/" + API_VERSION + "/abilities")
 @AllArgsConstructor
 public class AbilityControllerImpl implements AbilityController {
 
@@ -47,7 +47,7 @@ public class AbilityControllerImpl implements AbilityController {
       @RequestParam(value = "isActive", defaultValue = "true") Boolean isActive
   ) {
     return this.component.findByIsActive(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         isActive
     );
   }
@@ -60,7 +60,7 @@ public class AbilityControllerImpl implements AbilityController {
       Locale locale, Principal principal
   ) {
     return this.component.findAll(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         locale, principal
     );
   }
@@ -69,7 +69,7 @@ public class AbilityControllerImpl implements AbilityController {
   public Page<AbilityResponse> findAllByField(Integer page, Integer size, String direction,
                                              AbilityRequest request) {
     return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         request
     );
   }

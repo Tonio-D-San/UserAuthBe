@@ -8,6 +8,7 @@ import it.asansonne.authhub.ccsr.component.users.UserComponent;
 import it.asansonne.authhub.ccsr.controller.users.UserControllerV1;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
+import it.asansonne.authhub.exception.custom.NotFoundException;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import java.util.Locale;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,7 +53,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
       @RequestParam(value = "isActive", defaultValue = "true") Boolean isActive
   ) {
     return this.component.findByIsActive(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         isActive
     );
   }
@@ -64,7 +66,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
       Locale locale, Principal principal
   ) {
     return this.component.findAll(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         locale, principal
     );
   }
@@ -73,7 +75,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
   public Page<UserResponse> findAllByField(Integer page, Integer size, String direction,
                                            UserRequest request) {
     return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), SURNAME)),
+        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         request
     );
   }
@@ -84,7 +86,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
       @Valid @RequestBody UserRequest personRequest,
       UriComponentsBuilder builder
   ) {
-    UserResponse response = component.create(principal, personRequest);
+    UserResponse response = this.component.create(principal, personRequest);
     return ResponseEntity
         .created(builder
             .path(API + "/" + API_VERSION + "/admin/{uuid}")
@@ -102,7 +104,12 @@ public class UserControllerV1Impl implements UserControllerV1 {
   public void updateByUuid(
       @PathVariable UUID uuid, UserRequest request
   ) {
-    component.updateByUuid(uuid, request);
+    this.component.updateByUuid(uuid, request);
   }
 
+  @DeleteMapping(value = "/{uuid}")
+  @Override
+  public void deleteByUuid(@PathVariable UUID uuid) {
+    throw new NotFoundException("endpoint.not.found");
+  }
 }

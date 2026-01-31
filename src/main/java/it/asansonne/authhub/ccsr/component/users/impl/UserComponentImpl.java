@@ -27,27 +27,27 @@ public class UserComponentImpl implements UserComponent {
 
   @Override
   public UserResponse findByUuid(UUID uuid) {
-    return mapper.toDto(findUser(uuid));
+    return this.mapper.toDto(findUser(uuid));
   }
 
   @Override
   public Page<UserResponse> findAll(Pageable pageable, Locale locale, Principal principal) {
-    return mapper.toDto(this.service.findAll(pageable, locale), pageable);
+    return this.mapper.toDto(this.service.findAll(pageable, locale), pageable);
   }
 
   @Override
   public Page<UserResponse> findAllByField(Pageable pageable, UserRequest request) {
-    return mapper.toDto(service.findAllByField(pageable /*,request*/), pageable);
+    return this.mapper.toDto(this.service.findAllByField(pageable /*,request*/), pageable);
   }
 
   @Override
   public Page<UserResponse> findByIsActive(Pageable pageable, Boolean isActive) {
-    return mapper.toDto(this.service.findByIsActive(pageable, isActive), pageable);
+    return this.mapper.toDto(this.service.findByIsActive(pageable, isActive), pageable);
   }
 
   @Override
   public UserResponse create(Principal principal, UserRequest userRequest) {
-    return mapper.toDto(this.service.create(
+    return this.mapper.toDto(this.service.create(
         User.builder()
             .provider("Form")
             .providerId(UUID.randomUUID().toString())
@@ -65,6 +65,11 @@ public class UserComponentImpl implements UserComponent {
     User user = findUser(uuid);
     user.setIsActive(request.getStatusRequest().getIsActive());
     this.service.update(user);
+  }
+
+  @Override
+  public void deleteByUuid(UUID uuid) {
+    this.mapper.toDto(this.service.deleteByUuid(uuid));
   }
 
   public User findUser(UUID uuid) {

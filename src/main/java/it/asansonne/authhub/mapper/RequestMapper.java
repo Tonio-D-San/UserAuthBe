@@ -53,4 +53,5 @@ public interface RequestMapper<D extends Dto, M extends Models> {
       return new PageImpl<>(modelList, pageable, dtos.getTotalElements());
     }
   }
+
 }

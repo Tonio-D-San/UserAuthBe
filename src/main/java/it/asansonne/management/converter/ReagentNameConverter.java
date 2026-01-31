@@ -4,7 +4,7 @@ import it.asansonne.management.enumeration.ReagentName;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-@Converter(autoApply = false)
+@Converter()
 public class ReagentNameConverter implements AttributeConverter<ReagentName, String> {
 
   @Override

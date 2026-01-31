@@ -24,7 +24,7 @@ public class AbilityServiceImpl implements AbilityService {
 
   @Override
   public Page<Ability> findByIsActive(Pageable pageable, Boolean isActive) {
-    Page<Ability> abilities = repository.findAllByIsActive(isActive, pageable);
+    Page<Ability> abilities = this.repository.findAllByIsActive(isActive, pageable);
     if (abilities.isEmpty()) {
       throw new EntityNotFoundException(
           Boolean.TRUE.equals(isActive) ? "abilities.active.empty" : "abilities.inactive.empty"
@@ -35,7 +35,7 @@ public class AbilityServiceImpl implements AbilityService {
 
   @Override
   public Page<Ability> findAll(Pageable pageable, Locale locale) {
-    Page<Ability> abilities = repository.findAll(pageable);
+    Page<Ability> abilities = this.repository.findAll(pageable);
     if (abilities.isEmpty()) {
       throw new EntityNotFoundException("ebilities.empty");
     }
@@ -44,7 +44,7 @@ public class AbilityServiceImpl implements AbilityService {
 
   @Override
   public Page<Ability> findAllByField(Pageable pageable) {
-    return repository.findAll(pageable);
+    return this.repository.findAll(pageable);
   }
 
   @Override
@@ -54,7 +54,7 @@ public class AbilityServiceImpl implements AbilityService {
 
   @Override
   public Ability create(Ability model) {
-    return repository.save(model);
+    return this.repository.save(model);
   }
 
 }

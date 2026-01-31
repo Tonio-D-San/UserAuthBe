@@ -21,7 +21,7 @@ public final class GroupServiceImpl implements GroupService {
 
   @Override
   public Optional<Group> findGroupByUuid(UUID uuid) {
-    Optional<Group> group = groupRepository.findGroupByUuid(uuid);
+    Optional<Group> group = this.groupRepository.findGroupByUuid(uuid);
     if (group.isEmpty()) {
       throw new EntityNotFoundException("group.empty");
     }
@@ -30,6 +30,6 @@ public final class GroupServiceImpl implements GroupService {
 
   @Override
   public List<Group> findAllByUuidIn(List<UUID> uuidList) {
-    return groupRepository.findAllByUuidIn(uuidList);
+    return this.groupRepository.findAllByUuidIn(uuidList);
   }
 }

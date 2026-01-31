@@ -3,11 +3,10 @@ package it.asansonne.management.ccsr.controller.dashboard.impl;
 import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
 
-import it.asansonne.management.ccsr.component.CharacterComponent;
-import it.asansonne.management.ccsr.controller.dashboard.CharacterController;
-import it.asansonne.management.dto.request.CharacterRequest;
-import it.asansonne.management.dto.response.CharacterResponse;
-import it.asansonne.management.enumeration.character.AbilityName;
+import it.asansonne.management.ccsr.component.RulesetComponent;
+import it.asansonne.management.ccsr.controller.dashboard.RulesetController;
+import it.asansonne.management.dto.request.RulesetRequest;
+import it.asansonne.management.dto.response.RulesetResponse;
 import jakarta.validation.Valid;
 import java.security.Principal;
 import java.util.Locale;
@@ -18,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,26 +28,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/characters")
+@RequestMapping(API + "/" + API_VERSION + "/ruleset")
 @AllArgsConstructor
-public class CharacterControllerImpl implements CharacterController {
+public class RulesetControllerImpl implements RulesetController {
 
-  private final CharacterComponent component;
-
-  @GetMapping(value = "/abilities/{ability}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @Override
-  public CharacterResponse findByAbility(@PathVariable AbilityName ability) {
-    return this.component.findByAbility(ability);
-  }
+  private final RulesetComponent component;
 
   @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Override
-  public CharacterResponse findByUuid(@PathVariable UUID uuid) {
+  public RulesetResponse findByUuid(@PathVariable UUID uuid) {
     return this.component.findByUuid(uuid);
   }
 
   @Override
-  public Page<CharacterResponse> findByIsActive(
+  public Page<RulesetResponse> findByIsActive(
       @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
@@ -60,7 +54,7 @@ public class CharacterControllerImpl implements CharacterController {
   }
 
   @Override
-  public Page<CharacterResponse> findAll(
+  public Page<RulesetResponse> findAll(
       @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(value = "size", required = false, defaultValue = "5") Integer size,
       @RequestParam(value = "direction", required = false, defaultValue = "asc") String direction,
@@ -73,8 +67,8 @@ public class CharacterControllerImpl implements CharacterController {
   }
 
   @Override
-  public Page<CharacterResponse> findAllByField(Integer page, Integer size, String direction,
-                                             CharacterRequest request) {
+  public Page<RulesetResponse> findAllByField(Integer page, Integer size, String direction,
+                                             RulesetRequest request) {
     return this.component.findAllByField(
         PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
         request
@@ -88,24 +82,35 @@ public class CharacterControllerImpl implements CharacterController {
   )
   @Override
   public void updateByUuid(
-      @PathVariable UUID uuid, CharacterRequest request
+      @PathVariable UUID uuid, @RequestBody RulesetRequest request
   ) {
-    component.updateByUuid(uuid, request);
+    this.component.updateByUuid(uuid, request);
   }
 
   @Override
-  public ResponseEntity<CharacterResponse> create(
+  public ResponseEntity<RulesetResponse> create(
       Principal principal,
-      @Valid @RequestBody CharacterRequest request,
+      @Valid @RequestBody RulesetRequest request,
       UriComponentsBuilder builder
   ) {
-    CharacterResponse response = component.create(principal, request);
+    RulesetResponse response = this.component.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/characters/{uuid}")
+            .path(API + "/" + API_VERSION + "/ruleset/{uuid}")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);
   }
 
+  @Override
+  @GetMapping(value = "/code/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public RulesetResponse findByCode(@PathVariable String code) {
+    return this.component.findByCode(code);
+  }
+
+  @Override
+  @DeleteMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public void deleteByUuid(@PathVariable UUID uuid) {
+    this.component.deleteByUuid(uuid);
+  }
 }
