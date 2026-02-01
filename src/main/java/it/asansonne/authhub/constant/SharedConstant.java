@@ -7,7 +7,7 @@ import java.util.UUID;
  */
 public interface SharedConstant {
   String API = "ala";
-  String API_VERSION = "v1";
+  String AUTH_HUB_API_VERSION = "v1";
   String DEVELOP_ROLES = "hasRole('ROLE_developer')";
   String ALA_ROLES = "hasRole('ROLE_ala')";
   String ADMIN_ROLES = "hasRole('ROLE_client_admin')";

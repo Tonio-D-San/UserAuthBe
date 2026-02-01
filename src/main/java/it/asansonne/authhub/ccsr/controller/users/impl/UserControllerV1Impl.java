@@ -1,9 +1,8 @@
 package it.asansonne.authhub.ccsr.controller.users.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
-import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import it.asansonne.authhub.ccsr.component.users.UserComponent;
 import it.asansonne.authhub.ccsr.controller.users.UserControllerV1;
 import it.asansonne.authhub.dto.request.UserRequest;
@@ -32,9 +31,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/users")
+@RequestMapping(API + "/" + AUTH_HUB_API_VERSION + "/users")
 @AllArgsConstructor
-@Tag(name = "UserController" + API_VERSION)
 public class UserControllerV1Impl implements UserControllerV1 {
 
   private final UserComponent component;
@@ -89,7 +87,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
     UserResponse response = this.component.create(principal, personRequest);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/admin/{uuid}")
+            .path(API + "/" + AUTH_HUB_API_VERSION + "/admin/{uuid}")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);

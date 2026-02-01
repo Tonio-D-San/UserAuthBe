@@ -1,7 +1,7 @@
 package it.asansonne.management.ccsr.controller.dashboard.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
-import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
 import it.asansonne.management.ccsr.component.RulesetComponent;
 import it.asansonne.management.ccsr.controller.dashboard.RulesetController;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/ruleset")
+@RequestMapping(API + "/" + AUTH_HUB_API_VERSION + "/ruleset")
 @AllArgsConstructor
 public class RulesetControllerImpl implements RulesetController {
 
@@ -96,7 +96,7 @@ public class RulesetControllerImpl implements RulesetController {
     RulesetResponse response = this.component.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/ruleset/{uuid}")
+            .path(API + "/" + AUTH_HUB_API_VERSION + "/ruleset/{uuid}")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);

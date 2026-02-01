@@ -1,7 +1,7 @@
 package it.asansonne.authhub.configuration;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
-import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry
-        .addMapping(String.format("/%s/%s/**", API, API_VERSION))
+        .addMapping(String.format("/%s/%s/**", API, AUTH_HUB_API_VERSION))
         .allowedOrigins(allowedOrigins)
         .allowedMethods(allowedMethods)
         .allowedHeaders(allowedHeaders)

@@ -25,7 +25,7 @@ public class TrainingAbilityGrantMapper implements
   public TrainingAbilityGrant toModel(TrainingAbilityGrantRequest dto) {
     TrainingAbilityGrant model = TrainingAbilityGrant.builder()
 //        .training() //TODO mettere training in Component
-        .ability() //TODO mettere ability in Ccmponent
+//        .ability() //TODO mettere ability in Ccmponent
         .rankGranted(dto.getRankGranted())
         .build();
     log.info("Training mapped from request: {}", model);

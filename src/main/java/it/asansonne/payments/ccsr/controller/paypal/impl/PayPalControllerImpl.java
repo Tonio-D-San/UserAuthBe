@@ -1,7 +1,7 @@
 package it.asansonne.payments.ccsr.controller.paypal.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
-import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
 import it.asansonne.payments.ccsr.component.paypal.PayPalComponent;
 import it.asansonne.payments.ccsr.controller.paypal.PayPalController;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/payments")
+@RequestMapping(API + "/" + AUTH_HUB_API_VERSION + "/payments")
 @AllArgsConstructor
 public class PayPalControllerImpl implements PayPalController {
   private final PayPalComponent component;
@@ -92,7 +92,7 @@ public class PayPalControllerImpl implements PayPalController {
     OrdersResponse response = component.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/payments")
+            .path(API + "/" + AUTH_HUB_API_VERSION + "/payments")
             .buildAndExpand(response.getOrderId())
             .toUri()
         ).body(response);

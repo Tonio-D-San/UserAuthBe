@@ -1,7 +1,7 @@
 package it.asansonne.diary.ccsr.controller.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
-import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
 import it.asansonne.diary.ccsr.component.DiaryComponent;
 import it.asansonne.diary.ccsr.controller.DiaryController;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/diary")
+@RequestMapping(API + "/" + AUTH_HUB_API_VERSION + "/diary")
 @AllArgsConstructor
 public class DiaryControllerImpl implements DiaryController {
 
@@ -102,7 +102,7 @@ public class DiaryControllerImpl implements DiaryController {
     DiaryResponse response = component.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/diary")
+            .path(API + "/" + AUTH_HUB_API_VERSION + "/diary")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);

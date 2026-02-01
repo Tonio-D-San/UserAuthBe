@@ -2,10 +2,12 @@ package it.asansonne.management.ccsr.component.impl;
 
 import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.management.ccsr.component.AbilityComponent;
+import it.asansonne.management.ccsr.component.RulesetComponent;
 import it.asansonne.management.ccsr.service.dashboard.AbilityService;
 import it.asansonne.management.dto.request.AbilityRequest;
 import it.asansonne.management.dto.response.AbilityResponse;
 import it.asansonne.management.mapper.impl.AbilityMapper;
+import it.asansonne.management.model.Ability;
 import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 public class AbilityComponentImpl implements AbilityComponent {
   private final AbilityService service;
   private final AbilityMapper mapper;
+  private final RulesetComponent rulesetComponent;
 
   @Override
   public AbilityResponse findByUuid(UUID uuid) {
@@ -50,8 +53,10 @@ public class AbilityComponentImpl implements AbilityComponent {
 
   @Override
   public AbilityResponse create(Principal principal, AbilityRequest request) {
-    return this.service.create(this.mapper.toModel(request)) != null
-        ? this.mapper.toDto(this.service.create(this.mapper.toModel(request)))
+    Ability ability = this.mapper.toModel(request);
+    ability.setRuleset(rulesetComponent.getModel(request.getRulesetUuid()));
+    return this.service.create(ability) != null
+        ? this.mapper.toDto(this.service.create(ability))
         : null;
   }
 }

@@ -3,9 +3,7 @@ package it.asansonne.management.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.BaseResponse;
-import it.asansonne.management.enumeration.RequirementType;
-import it.asansonne.management.enumeration.character.AbilityName;
-import it.asansonne.management.enumeration.character.AbilityType;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,12 +17,14 @@ import lombok.experimental.SuperBuilder;
 @Schema(description = "Representation of the Ability Response DTO")
 public class AbilityResponse extends BaseResponse {
 
+  private RulesetResponse ruleset;
+
   @Schema(
       description = "Ability code",
       name = "code",
       type = "String",
       example = "CARTOGRAPHER")
-  private AbilityName code;
+  private String code;
 
   @Schema(
       description = "Ability name",
@@ -42,20 +42,8 @@ public class AbilityResponse extends BaseResponse {
   )
   private String description;
 
-  @Schema(
-      description = "Ability type",
-      name = "type",
-      type = "AbilityType",
-      example = "GENERIC"
-  )
-  private AbilityType type;
+  private List<AbilityCostResponse> costResponseList;
 
-  @Schema(
-      description = "Ability requirement type",
-      name = "requirementType",
-      type = "RequirementType",
-      example = "ALONE"
-  )
-  private RequirementType requirementType;
+  private List<AbilityPrerequisiteResponse> prerequisiteResponseList;
 
 }

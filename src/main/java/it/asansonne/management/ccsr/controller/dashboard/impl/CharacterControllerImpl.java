@@ -1,7 +1,7 @@
 package it.asansonne.management.ccsr.controller.dashboard.impl;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
-import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
 import it.asansonne.management.ccsr.component.CharacterComponent;
 import it.asansonne.management.ccsr.controller.dashboard.CharacterController;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(API + "/" + API_VERSION + "/characters")
+@RequestMapping(API + "/" + AUTH_HUB_API_VERSION + "/characters")
 @AllArgsConstructor
 public class CharacterControllerImpl implements CharacterController {
 
@@ -102,7 +102,7 @@ public class CharacterControllerImpl implements CharacterController {
     CharacterResponse response = component.create(principal, request);
     return ResponseEntity
         .created(builder
-            .path(API + "/" + API_VERSION + "/characters/{uuid}")
+            .path(API + "/" + AUTH_HUB_API_VERSION + "/characters/{uuid}")
             .buildAndExpand(String.valueOf(response.getUuid()))
             .toUri()
         ).body(response);

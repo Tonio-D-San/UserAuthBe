@@ -1,7 +1,7 @@
 package it.asansonne.authhub.security;
 
 import static it.asansonne.authhub.constant.SharedConstant.API;
-import static it.asansonne.authhub.constant.SharedConstant.API_VERSION;
+import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
 import it.asansonne.authhub.exception.handler.AuthorizationAuthenticationHandler;
 import it.asansonne.authhub.security.provider.CustomOauth2UserService;
@@ -39,7 +39,7 @@ public class WebSecurityConfiguration {
   private static final String LOGIN_PAGE = "/login";
   private static final String ERROR_PAGE = "/error";
   private static final String SWAGGER_URL =
-      String.format("/%s/%s/swagger-ui/index.html", API, API_VERSION);
+      String.format("/%s/%s/swagger-ui/index.html", API, AUTH_HUB_API_VERSION);
 
   @Bean
   protected SecurityFilterChain filterChain(
@@ -60,7 +60,7 @@ public class WebSecurityConfiguration {
                 "/swagger-ui.html"
             ).permitAll()
             .requestMatchers(
-                new AntPathRequestMatcher(String.format("/%s/%s/**", API, API_VERSION)))
+                new AntPathRequestMatcher(String.format("/%s/%s/**", API, AUTH_HUB_API_VERSION)))
             .authenticated()
             .anyRequest().permitAll()
         ).oauth2Login(oauth -> oauth
