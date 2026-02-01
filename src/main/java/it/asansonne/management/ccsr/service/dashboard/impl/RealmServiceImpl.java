@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ public class RealmServiceImpl implements RealmService {
 
   @Override
   public Optional<Realm> findByUuid(UUID uuid) {
-    return this.repository.findByUuid(uuid);
+            return this.repository.findByUuid(uuid);
   }
 
   @Override
@@ -51,6 +52,12 @@ public class RealmServiceImpl implements RealmService {
   @Override
   public void update(Realm model) {
     this.create(findRealm(model.getUuid()));
+  }
+
+  public Realm update(Realm model, Consumer<Realm> mutator) {
+    Realm realm = findRealm(model.getUuid());
+    mutator.accept(realm);
+    return repository.save(realm);
   }
 
   @Override

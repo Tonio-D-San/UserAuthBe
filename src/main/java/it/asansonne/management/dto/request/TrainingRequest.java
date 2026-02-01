@@ -3,7 +3,6 @@ package it.asansonne.management.dto.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Request;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -20,9 +19,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Schema(description = "Representation of the Realm Request DTO")
-public class RealmRequest implements Request {
-
+@Schema(description = "Representation of the Training Request DTO")
+public class TrainingRequest implements Request {
   @NotNull(message = "The ruleset uuid must not be null")
   @Schema(
       description = "Ruleset uuid",
@@ -31,19 +29,16 @@ public class RealmRequest implements Request {
       example = "207db025-4e57-42c2-a710-42cc4354af18")
   private UUID rulesetUuid;
 
-  @NotBlank
   @Schema(
-      description = "Realm name",
-      example = "Coronor"
+      description = "Name of training.",
+      example = "Evaluate"
   )
   private String name;
 
   @Schema(
-      description = "Descrizione del realm",
-      example = "Realm di Coronor",
-      hidden = true
+      description = "Description of training.",
+      example = "Training description"
   )
   private String description;
 
-  private String maxim;
 }

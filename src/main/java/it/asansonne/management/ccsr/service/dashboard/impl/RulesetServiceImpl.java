@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -59,6 +60,17 @@ public class RulesetServiceImpl implements RulesetService {
     );
   }
 
+  public Ruleset update(Ruleset model, Consumer<Ruleset> mutator) {
+    Ruleset ruleset = this.findByUuid(model.getUuid())
+        .orElseThrow(() -> new EntityNotFoundException("ruleset.not.found"));
+    model.setVersion(
+        this.repository.findTopByCodeOrderByVersionDesc(ruleset.getCode())
+            .map(Ruleset::getVersion).orElse(0) + 1
+    );
+    mutator.accept(ruleset);
+    return repository.save(ruleset);
+  }
+  
   @Override
   public Ruleset create(Ruleset model) {
     model.setVersion(1);
