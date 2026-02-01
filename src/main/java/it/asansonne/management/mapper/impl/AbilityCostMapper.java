@@ -25,7 +25,7 @@ public class AbilityCostMapper implements
         .rank(dto.getRank())
         .cost(dto.getCost())
         .build();
-    log.info("Realm mapped from request: {}", model);
+    log.info("AbilityCost mapped from request: {}", model);
     return model;
   }
 
@@ -36,7 +36,7 @@ public class AbilityCostMapper implements
         .updatedAt(model.getUpdatedAt())
         .requiredRank(model.getRank())
         .build();
-    log.info("RealmResponse mapped from response: {}", response);
+    log.info("AbilityCostResponse mapped from response: {}", response);
     return response;
   }
 }
