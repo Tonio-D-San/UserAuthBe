@@ -32,35 +32,18 @@ import lombok.ToString;
 @ToString
 public class Ruleset extends BaseModel {
 
-  /**
-   * Identificatore logico del sistema di regole
-   * Es: "ALARION"
-   */
   @Column(name = "code", nullable = false)
   private String code;
 
-  /**
-   * Versione del ruleset (1,2,3...)
-   */
   @Column(name = "version", nullable = false)
   private Integer version;
 
-  /**
-   * Stato del ruleset:
-   * DRAFT / ACTIVE / DEPRECATED
-   */
   @Column(name = "status", nullable = false)
   private String status;
 
-  /**
-   * Versione precedente (per tracciamento storico)
-   */
   @Column(name = "previous_ruleset_uuid")
   private UUID previousRulesetUuid;
 
-  /**
-   * Data di pubblicazione (quando diventa ACTIVE)
-   */
   @Column(name = "published_at")
   private Long publishedAt;
 

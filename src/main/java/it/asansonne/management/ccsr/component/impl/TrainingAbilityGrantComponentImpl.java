@@ -62,14 +62,6 @@ public class TrainingAbilityGrantComponentImpl implements TrainingAbilityGrantCo
   }
 
   @Override
-  public TrainingAbilityGrantResponse findByName(String name) {
-    return this.mapper.toDto(
-        this.service.findByName(name)
-            .orElseThrow(() -> new NotFoundException("realm.not.found"))
-    );
-  }
-
-  @Override
   public void deleteByUuid(UUID uuid) {
     this.service.deleteByUuid(uuid);
   }

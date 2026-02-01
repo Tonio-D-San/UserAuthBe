@@ -19,12 +19,6 @@ public class TrainingAbilityGrantServiceImpl implements TrainingAbilityGrantServ
   public static final String NOT_FOUND = "training.not.found";
   private final TrainingAbilityGrantRepository repository;
 
-
-  @Override
-  public Optional<TrainingAbilityGrant> findByName(String name) {
-    return this.repository.findByName(name);
-  }
-
   @Override
   public TrainingAbilityGrant deleteByUuid(UUID uuid) {
     TrainingAbilityGrant training = findTrainingAbilityGrant(uuid);

@@ -13,5 +13,5 @@ public interface TrainingAbilityGrantComponent extends
     PostComponent<TrainingAbilityGrantRequest, TrainingAbilityGrantResponse>,
     DeleteComponent
 {
-  TrainingAbilityGrantResponse findByName(String name);
+
 }

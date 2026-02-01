@@ -61,7 +61,7 @@ public class AbilityRequest implements Request {
       description = "Se true, l'abilità ha rank multipli.",
       name = "repeatable",
       type = "Boolean",
-      example = "true"
+      example = "false"
   )
   private Boolean repeatable;
 

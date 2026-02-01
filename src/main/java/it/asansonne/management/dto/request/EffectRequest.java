@@ -21,7 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Realm Request DTO")
-public class RealmRequest implements Request {
+public class EffectRequest implements Request {
 
   @NotNull(message = "The ruleset uuid must not be null")
   @Schema(
@@ -34,21 +34,20 @@ public class RealmRequest implements Request {
 
   @NotBlank
   @Schema(
-      description = "Realm name",
-      example = "Coronor"
+      description = "Codice tecnico stabile dell'effetto.",
+      example = "BLEEDING"
+  )
+  private String code;
+
+  @NotBlank
+  @Schema(
+      description = "Nome leggibile.",
+      example = "Sanguinamento"
   )
   private String name;
 
   @Schema(
-      description = "Descrizione del realm",
-      example = "Realm di Coronor",
-      hidden = true
+      description = "Descrizione."
   )
   private String description;
-
-  @Schema(
-      description = "Maxim del realm",
-      example = "Chi corre sul gelo poi scivola"
-  )
-  private String maxim;
 }
