@@ -7,6 +7,7 @@ import it.asansonne.management.ccsr.service.dashboard.RulesetService;
 import it.asansonne.management.dto.request.RulesetRequest;
 import it.asansonne.management.dto.response.RulesetResponse;
 import it.asansonne.management.mapper.impl.RulesetMapper;
+import it.asansonne.management.model.Ruleset;
 import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
@@ -26,9 +27,13 @@ public class RulesetComponentImpl implements RulesetComponent {
   @Override
   public RulesetResponse findByUuid(UUID uuid) {
     return this.mapper.toDto(
-        this.service.findByUuid(uuid)
-            .orElseThrow(() -> new NotFoundException("ruleset.not.found", uuid))
+        getModel(uuid)
     );
+  }
+
+  public Ruleset getModel(UUID uuid) {
+    return this.service.findByUuid(uuid)
+        .orElseThrow(() -> new NotFoundException("ruleset.not.found", uuid));
   }
 
   @Override

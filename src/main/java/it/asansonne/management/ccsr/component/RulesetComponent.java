@@ -6,6 +6,8 @@ import it.asansonne.authhub.ccsr.component.PatchComponent;
 import it.asansonne.authhub.ccsr.component.PostComponent;
 import it.asansonne.management.dto.request.RulesetRequest;
 import it.asansonne.management.dto.response.RulesetResponse;
+import it.asansonne.management.model.Ruleset;
+import java.util.UUID;
 
 public interface RulesetComponent extends
     GetComponent<RulesetRequest, RulesetResponse>,
@@ -14,4 +16,6 @@ public interface RulesetComponent extends
     DeleteComponent
 {
   RulesetResponse findByCode(String code);
+
+  Ruleset getModel(UUID uuid);
 }

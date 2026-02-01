@@ -16,6 +16,9 @@ import lombok.experimental.SuperBuilder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Realm Response DTO")
 public class RealmResponse extends BaseResponse {
+
+  private RulesetResponse ruleset;
+
   @Schema(
       description = "Realm name",
       name = "name",

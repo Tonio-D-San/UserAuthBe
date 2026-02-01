@@ -3,10 +3,12 @@ package it.asansonne.management.ccsr.component.impl;
 import it.asansonne.authhub.exception.custom.ConflictException;
 import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.management.ccsr.component.RealmComponent;
+import it.asansonne.management.ccsr.component.RulesetComponent;
 import it.asansonne.management.ccsr.service.dashboard.RealmService;
 import it.asansonne.management.dto.request.RealmRequest;
 import it.asansonne.management.dto.response.RealmResponse;
 import it.asansonne.management.mapper.impl.RealmMapper;
+import it.asansonne.management.model.Realm;
 import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Component;
 public class RealmComponentImpl implements RealmComponent {
   private final RealmService service;
   private final RealmMapper mapper;
+  private final RulesetComponent rulesetComponent;
 
   @Override
   public RealmResponse findByUuid(UUID uuid) {
@@ -59,9 +62,13 @@ public class RealmComponentImpl implements RealmComponent {
       throw new IllegalArgumentException("Invalid realm code");
     }
     if (this.service.findByName(name).isPresent()) {
-      throw new ConflictException("Realm code already exists");
+      throw new ConflictException("Realm name already exists");
     }
-    return this.mapper.toDto(this.service.create(this.mapper.toModel(request)));
+    Realm realm = this.mapper.toModel(request);
+    realm.setRuleset(rulesetComponent.getModel(request.getRulesetUuid()));
+    return this.mapper.toDto(
+        this.service.create(realm)
+    );
   }
 
   @Override

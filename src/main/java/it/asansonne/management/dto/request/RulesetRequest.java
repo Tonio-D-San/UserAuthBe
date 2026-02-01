@@ -3,6 +3,8 @@ package it.asansonne.management.dto.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.asansonne.authhub.dto.Request;
+import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +21,14 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Ruleset Request DTO")
 public class RulesetRequest implements Request {
+  @NotNull(message = "The ruleset uuid must not be null")
+  @Schema(
+      description = "Ruleset uuid",
+      name = "uuid",
+      type = "UUID",
+      example = "207db025-4e57-42c2-a710-42cc4354af18")
+  private UUID uuid;
+
   @Schema(
       description = "Name of ruleset.",
       example = "Campaign name – Base Rules"

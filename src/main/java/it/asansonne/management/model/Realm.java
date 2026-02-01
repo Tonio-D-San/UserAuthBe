@@ -3,6 +3,9 @@ package it.asansonne.management.model;
 import it.asansonne.authhub.model.BaseModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -20,7 +23,7 @@ import lombok.ToString;
 @Table(
     name = "realms",
     uniqueConstraints = {
-        @UniqueConstraint(name = "uq_realms_ruleset_name", columnNames = {"name"})
+        @UniqueConstraint(name = "uq_realms_ruleset_name", columnNames = {"ruleset_id", "name"})
     }
 )
 @Getter
@@ -29,6 +32,11 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 public class Realm extends BaseModel {
+
+  @ToString.Exclude
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "ruleset_id", nullable = false)
+  private Ruleset ruleset;
 
   @Column(name = "name", nullable = false, unique = true)
   private String name;

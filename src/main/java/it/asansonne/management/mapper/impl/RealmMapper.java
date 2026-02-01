@@ -19,6 +19,7 @@ public class RealmMapper implements
     RequestMapper<RealmRequest, Realm>, ResponseMapper<Realm, RealmResponse> {
 
   private final CharacterMapper characterMapper;
+  private final RulesetMapper rulesetMapper;
 
   @Override
   public Realm toModel(RealmRequest dto) {
@@ -35,6 +36,7 @@ public class RealmMapper implements
     RealmResponse response = RealmResponse.builder()
         .uuid(model.getUuid())
         .updatedAt(model.getUpdatedAt())
+        .ruleset(rulesetMapper.toDto(model.getRuleset()))
         .name(model.getName())
 //        .description(model.getDescription())
         .maxim(model.getMaxim())
@@ -43,4 +45,5 @@ public class RealmMapper implements
     log.info("RealmResponse mapped from response: {}", response);
     return response;
   }
+
 }
