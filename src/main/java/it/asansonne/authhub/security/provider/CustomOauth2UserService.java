@@ -2,13 +2,10 @@ package it.asansonne.authhub.security.provider;
 
 import static it.asansonne.authhub.enumeration.GroupName.ADMIN;
 
-import it.asansonne.authhub.ccsr.repository.users.UserRepository;
-import it.asansonne.authhub.ccsr.service.users.impl.UserServiceImpl;
+import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.model.users.User;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +25,7 @@ import org.springframework.web.client.RestTemplate;
 @AllArgsConstructor
 public class CustomOauth2UserService implements OAuth2UserService<OidcUserRequest, OidcUser>{
 
-  private final UserServiceImpl userService;
-  private final UserRepository userRepository;
+  private final UserProvisioningService userProvisioningService;
 
   @Bean
   public OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
@@ -84,31 +80,17 @@ public class CustomOauth2UserService implements OAuth2UserService<OidcUserReques
                        String providerId, byte[] pictureBytes) {
     log.info("OIDC login for provider={} email={} name={} surname={}", provider, email, name,
         surname);
-    var userOpt = userRepository.findByEmail(email);
-    User user;
-
-    if (userOpt.isEmpty()) {
-      user = userService.create(
-          User.builder()
-              .provider(provider)
-              .providerId(providerId)
-              .email(email)
-              .name(name)
-              .surname(surname)
-              .profileImage(pictureBytes)
-              .build()
-      );
-      log.info("Creato nuovo utente {}", email);
-    } else {
-      user = userOpt.get();
-      if (pictureBytes != null && !Arrays.equals(user.getProfileImage(), pictureBytes)) {
-        user.setProfileImage(pictureBytes);
-        userRepository.save(user);
-        log.info("Aggiornato utente {} con nuovi dati OAuth", email);
-      }
-    }
-    return user;
+    return userProvisioningService.upsertUser(
+        provider,
+        providerId,
+        UserRequest.builder()
+            .email(email)
+            .firstname(name)
+            .lastname(surname)
+            .username(email)
+            .profileImage(pictureBytes)
+            .build()
+    );
   }
 
 }
-
