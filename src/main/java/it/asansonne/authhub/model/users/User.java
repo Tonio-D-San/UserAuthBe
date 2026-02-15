@@ -15,16 +15,16 @@ import java.time.Instant;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "users")
 @Getter
@@ -43,8 +43,8 @@ public class User extends BaseModel {
   @Column(name = "email", unique = true, nullable = false, length = 100)
   private String email;
 
-  @Column(name = "password", length = 100)
-  private String password;
+  @Column(name = "username", length = 100)
+  private String username;
 
   @Column(name = "name", nullable = false, length = 100)
   private String name;
@@ -63,8 +63,8 @@ public class User extends BaseModel {
   @Column(name = "last_access")
   private Instant lastAccess;
 
-  @Column(name = "img_profile", columnDefinition = "BYTEA")
-  private byte[] profileImage;
+  @Column(name = "img_profile", columnDefinition = "TEXT")
+  private String profileUrl;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(name = "user_group",

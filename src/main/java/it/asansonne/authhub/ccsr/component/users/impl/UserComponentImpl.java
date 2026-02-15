@@ -5,20 +5,26 @@ import it.asansonne.authhub.ccsr.service.users.UserService;
 import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.NotFoundException;
+import it.asansonne.authhub.exception.custom.UnauthorizedException;
 import it.asansonne.authhub.mapper.impl.UserMapper;
 import it.asansonne.authhub.model.users.User;
 import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 /**
  * The type User component.
  */
+@Slf4j
 @Component
 @AllArgsConstructor
 public class UserComponentImpl implements UserComponent {
@@ -28,6 +34,31 @@ public class UserComponentImpl implements UserComponent {
   @Override
   public UserResponse findByUuid(UUID uuid) {
     return this.mapper.toDto(findUser(uuid));
+  }
+
+  @Override
+  public UserResponse me(Principal principal, Authentication authentication) {
+    if (principal instanceof JwtAuthenticationToken jwtAuth) {
+      Jwt jwt = jwtAuth.getToken();
+      log.info("Authentication: {}", authentication);
+      UUID uuid = UUID.fromString(authentication.getName());
+      return mapper.toDto(
+          service.findByUuid(uuid).orElse(
+              service.create(
+                  User.builder()
+                      .uuid(uuid)
+                      .provider("Form")
+                      .email(jwt.getClaimAsString("email"))
+                      .username(jwt.getClaimAsString("preferred_username"))
+                      .name(jwt.getClaimAsString("given_name"))
+                      .surname(jwt.getClaimAsString("family_name"))
+                      .profileUrl(jwt.getClaimAsString("avatarUrl"))
+                      .build()
+              )
+          )
+      );
+    }
+    throw new UnauthorizedException("Jwt not found");
   }
 
   @Override
@@ -52,10 +83,10 @@ public class UserComponentImpl implements UserComponent {
             .provider("Form")
             .providerId(UUID.randomUUID().toString())
             .email(userRequest.getEmail())
-            .password(new BCryptPasswordEncoder().encode(userRequest.getPassword()))
+            .username(new BCryptPasswordEncoder().encode(userRequest.getPassword()))
             .name(userRequest.getFirstname())
             .surname(userRequest.getLastname())
-            .profileImage(userRequest.getProfileImage())
+            .profileUrl(userRequest.getProfileImage())
             .build()
     ));
   }
@@ -75,6 +106,7 @@ public class UserComponentImpl implements UserComponent {
   public User findUser(UUID uuid) {
     return this.service.findByUuid(uuid)
         .orElseThrow(() -> new NotFoundException("person.not.found", uuid))
-    ;
+        ;
   }
+
 }

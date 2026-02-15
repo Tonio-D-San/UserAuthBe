@@ -76,8 +76,8 @@ public class UserResponse extends BaseResponse {
   private String provider;
 
   @Schema(
-      description = "User profile image",
-      name = "profileImage",
-      type = "byte[]")
-  private byte[] profileImage;
+      description = "Url user profile image",
+      name = "profileUrl",
+      type = "String")
+  private String profileUrl;
 }

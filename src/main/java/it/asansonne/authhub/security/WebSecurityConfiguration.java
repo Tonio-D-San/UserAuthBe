@@ -4,14 +4,11 @@ import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
 import it.asansonne.authhub.exception.handler.AuthorizationAuthenticationHandler;
-import it.asansonne.authhub.dto.request.UserRequest;
 import it.asansonne.authhub.security.provider.CustomOauth2UserService;
-import it.asansonne.authhub.security.provider.UserProvisioningService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +21,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
@@ -98,40 +94,11 @@ public class WebSecurityConfiguration {
   protected static class KeycloakAuthenticationConverter
       implements Converter<Jwt, JwtAuthenticationToken> {
     private final KeycloakAuthoritiesConverter authoritiesConverter;
-    private final UserProvisioningService userProvisioningService;
 
     @Override
     public JwtAuthenticationToken convert(@NonNull Jwt jwt) {
-      syncUser(jwt);
       return new JwtAuthenticationToken(jwt, authoritiesConverter.convert(jwt),
-          List.of(jwt.getClaimAsString(StandardClaimNames.SUB)).toString()
-      );
-    }
-
-    private void syncUser(Jwt jwt) {
-      String email = jwt.getClaimAsString(StandardClaimNames.EMAIL);
-      if (email == null || email.isBlank()) {
-        log.debug("Skipping user sync because email claim is missing for sub={}",
-            jwt.getClaimAsString(StandardClaimNames.SUB));
-        return;
-      }
-
-      String firstname = Optional.ofNullable(jwt.getClaimAsString(StandardClaimNames.GIVEN_NAME))
-          .orElse(jwt.getClaimAsString(StandardClaimNames.NAME));
-      String lastname = Optional.ofNullable(jwt.getClaimAsString(StandardClaimNames.FAMILY_NAME))
-          .orElse("");
-      String username = Optional.ofNullable(jwt.getClaimAsString("preferred_username"))
-          .orElse(email);
-
-      userProvisioningService.upsertUser(
-          jwt.getIssuer() == null ? "keycloak" : jwt.getIssuer().toString(),
-          jwt.getClaimAsString(StandardClaimNames.SUB),
-          UserRequest.builder()
-              .email(email)
-              .username(username)
-              .firstname(firstname == null ? username : firstname)
-              .lastname(lastname)
-              .build()
+          jwt.getSubject()
       );
     }
 

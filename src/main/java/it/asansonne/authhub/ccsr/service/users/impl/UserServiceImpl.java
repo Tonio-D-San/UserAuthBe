@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 /**
  * The type User service.
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public final class UserServiceImpl implements UserService {
@@ -56,6 +58,7 @@ public final class UserServiceImpl implements UserService {
 
   @Override
   public User create(User user) {
+    log.info("user uuid: {}", user.getUuid());
     user.setGroups(
         List.of(Objects.requireNonNull(this.groupRepository.findById(3L).orElse(null)))
     );

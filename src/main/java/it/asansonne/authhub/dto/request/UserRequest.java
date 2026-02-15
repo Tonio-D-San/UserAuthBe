@@ -83,10 +83,10 @@ public class UserRequest implements Request {
 
   @Schema(
       hidden = true,
-      description = "User profile image",
-      name = "profileImage",
-      type = "byte[]")
-  private byte[] profileImage;
+      description = "Url user profile image",
+      name = "profileUrl",
+      type = "String")
+  private String profileImage;
 
   @Schema(
       description = "User status request",

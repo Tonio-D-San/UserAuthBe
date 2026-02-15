@@ -42,7 +42,7 @@ public class UserMapper implements RequestMapper<UserRequest, User>,
         .biography(model.getBiography())
         .enabled(model.getIsActive())
         .groups(model.getGroups() != null ? this.groupMapper.toDto(model.getGroups()) : null)
-        .profileImage(model.getProfileImage())
+        .profileUrl(model.getProfileUrl())
         .build();
   }
 
