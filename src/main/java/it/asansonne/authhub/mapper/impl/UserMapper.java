@@ -20,10 +20,7 @@ public class UserMapper implements RequestMapper<UserRequest, User>,
 
   @Override
   public User toModel(UserRequest dto) {
-    if (dto == null) {
-      return null;
-    }
-    return User.builder()
+    return dto == null ? null : User.builder()
         .biography(dto.getBiography())
         .build();
   }
@@ -34,6 +31,7 @@ public class UserMapper implements RequestMapper<UserRequest, User>,
       return null;
     }
     return UserResponse.builder()
+        .username(model.getUsername())
         .uuid(model.getUuid())
         .provider(model.getProvider())
         .email(model.getEmail())

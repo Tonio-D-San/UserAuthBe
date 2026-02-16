@@ -19,7 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -46,8 +45,8 @@ public class UserControllerV1Impl implements UserControllerV1 {
 
   @Override
   @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
-  public UserResponse me(Principal principal, Authentication authentication) {
-    return this.component.me(principal, authentication);
+  public UserResponse me(Principal principal) {
+    return this.component.me(principal);
   }
 
   @Override

@@ -3,25 +3,36 @@ package it.asansonne.authhub.security;
 import static it.asansonne.authhub.constant.SharedConstant.API;
 import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.asansonne.authhub.exception.handler.AuthorizationAuthenticationHandler;
 import it.asansonne.authhub.security.provider.CustomOauth2UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationManagerResolver;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -36,7 +47,6 @@ public class WebSecurityConfiguration {
   private final CustomOauth2UserService customOAuth2UserService;
   private final ManageToken manageToken;
   private static final String LOGIN_PAGE = "/login";
-  private static final String ERROR_PAGE = "/error";
   private static final String SWAGGER_URL =
       String.format("/%s/%s/swagger-ui/index.html", API, AUTH_HUB_API_VERSION);
 
@@ -45,48 +55,39 @@ public class WebSecurityConfiguration {
       HttpSecurity http, KeycloakAuthenticationConverter authenticationConverter
   ) throws Exception {
     log.info("Configuring security filter chain");
-
     return http
         .addFilterBefore(manageToken, UsernamePasswordAuthenticationFilter.class)
         .cors(Customizer.withDefaults())
         .csrf(AbstractHttpConfigurer::disable)
-        .oauth2ResourceServer(oauth2 ->
-            oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(authenticationConverter))
+        .oauth2ResourceServer(oauth2 -> oauth2
+            .authenticationManagerResolver(multiIssuerAuthManagerResolver(authenticationConverter))
         ).authorizeHttpRequests(requests -> requests
-            .requestMatchers(
-                "/v3/api-docs/**",
-                "/swagger-ui/**",
-                "/swagger-ui.html"
-            ).permitAll()
+            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
             .requestMatchers(
                 new AntPathRequestMatcher(String.format("/%s/%s/**", API, AUTH_HUB_API_VERSION)))
             .authenticated()
             .anyRequest().permitAll()
-        ).oauth2Login(oauth -> oauth
+        )
+        .oauth2Login(oauth -> oauth
             .loginPage(LOGIN_PAGE)
-            .userInfoEndpoint(userInfo -> userInfo
-                .oidcUserService(customOAuth2UserService)
-            ).defaultSuccessUrl(SWAGGER_URL, true)
+            .userInfoEndpoint(userInfo -> userInfo.oidcUserService(customOAuth2UserService))
+            .defaultSuccessUrl(SWAGGER_URL, true)
             .permitAll()
-        ).logout(logout -> logout
+        )
+        .logout(logout -> logout
             .logoutSuccessUrl("/")
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
-        ).sessionManagement(session -> {
-              session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-              session.maximumSessions(1).maxSessionsPreventsLogin(false);
-            }
-        ).exceptionHandling(exceptionHandling -> exceptionHandling
-            .authenticationEntryPoint((_, res, _) ->
-                res.sendRedirect(ERROR_PAGE)
-            ).defaultAuthenticationEntryPointFor(handler,
-                new AntPathRequestMatcher(String.format("/%s/**", API)))
-            .defaultAccessDeniedHandlerFor(handler,
-                new AntPathRequestMatcher((String.format("/%s/**", API))))
-        ).exceptionHandling(exceptionHandling -> exceptionHandling
+        )
+        .sessionManagement(session -> {
+          session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+          session.maximumSessions(1).maxSessionsPreventsLogin(false);
+        })
+        .exceptionHandling(exceptionHandling -> exceptionHandling
             .authenticationEntryPoint(handler)
             .accessDeniedHandler(handler)
-        ).build();
+        )
+        .build();
   }
 
   @Component
@@ -126,6 +127,75 @@ public class WebSecurityConfiguration {
         authorities.addAll(prefixScope);
         return authorities.stream().map(SimpleGrantedAuthority::new).toList();
       }
+    }
+  }
+
+  @Bean
+  AuthenticationManagerResolver<HttpServletRequest> multiIssuerAuthManagerResolver(
+      KeycloakAuthenticationConverter authenticationConverter
+  ) {
+    Map<String, AuthenticationManager> managers = new ConcurrentHashMap<>();
+
+    var trustedIssuers = java.util.Set.of(
+        "http://localhost:5443/kc/realms/user-auth",
+        "https://extrusive-joetta-imparipinnate.ngrok-free.dev/kc/realms/user-auth"
+    );
+
+    return request -> authentication -> {
+      String token = extractBearer(request);
+      if (token == null) {
+        throw new BadCredentialsException("Missing Bearer token");
+      }
+
+      String issuer = extractIssuerUnverified(token);
+      if (issuer == null) {
+        throw new BadCredentialsException("Missing iss claim");
+      }
+
+      if (!trustedIssuers.contains(issuer)) {
+        throw new BadCredentialsException("Untrusted issuer: " + issuer);
+      }
+
+      AuthenticationManager manager = managers.computeIfAbsent(issuer, iss -> {
+        JwtDecoder decoder = JwtDecoders.fromIssuerLocation(iss);
+        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(decoder);
+        provider.setJwtAuthenticationConverter(authenticationConverter);
+        return provider::authenticate;
+      });
+
+      return manager.authenticate(authentication);
+    };
+  }
+
+  private static String extractBearer(HttpServletRequest request) {
+    String auth = request.getHeader(HttpHeaders.AUTHORIZATION);
+    if (auth == null || !auth.startsWith("Bearer ")) {
+      return null;
+    }
+    return auth.substring("Bearer ".length()).trim();
+  }
+
+  private static final ObjectMapper OM = new ObjectMapper();
+
+  private static String extractIssuerUnverified(String jwt) {
+    try {
+      if (jwt == null) return null;
+      String[] parts = jwt.split("\\.");
+      if (parts.length != 3) return null;
+      String payloadB64 = parts[1];
+      if (payloadB64.length() > 4096) return null;
+      if (!payloadB64.matches("^[A-Za-z0-9_\\-]+$")) return null;
+      byte[] payloadBytes = Base64.getUrlDecoder().decode(payloadB64);
+      if (payloadBytes.length > 4096) return null;
+      Object iss = OM.readValue(
+          payloadBytes,
+          Map.class
+      ).get("iss");
+      if (iss == null) return null;
+      String issStr = iss.toString();
+      return issStr.length() <= 512 ? issStr : null;
+    } catch (Exception _) {
+      return null;
     }
   }
 }

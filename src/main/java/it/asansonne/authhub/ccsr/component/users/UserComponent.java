@@ -9,7 +9,6 @@ import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.model.users.User;
 import java.security.Principal;
 import java.util.UUID;
-import org.springframework.security.core.Authentication;
 
 /**
  * The interface User component.
@@ -21,5 +20,5 @@ public interface UserComponent extends
     DeleteComponent
 {
   User findUser(UUID userUuid);
-  UserResponse me(Principal principal, Authentication authentication);
+  UserResponse me(Principal principal);
 }

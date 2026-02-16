@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -37,13 +36,13 @@ public class UserComponentImpl implements UserComponent {
   }
 
   @Override
-  public UserResponse me(Principal principal, Authentication authentication) {
+  public UserResponse me(Principal principal) {
     if (principal instanceof JwtAuthenticationToken jwtAuth) {
       Jwt jwt = jwtAuth.getToken();
-      log.info("Authentication: {}", authentication);
-      UUID uuid = UUID.fromString(authentication.getName());
+      log.info("Authentication: {}", principal);
+      UUID uuid = UUID.fromString(principal.getName());
       return mapper.toDto(
-          service.findByUuid(uuid).orElse(
+          service.findByUuid(uuid).orElseGet(() ->
               service.create(
                   User.builder()
                       .uuid(uuid)

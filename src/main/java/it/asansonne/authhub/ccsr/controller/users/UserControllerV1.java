@@ -19,7 +19,6 @@ import it.asansonne.authhub.exception.ExceptionMessage;
 import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -101,6 +100,6 @@ public interface UserControllerV1 extends
   })
   @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  UserResponse me(Principal principal, Authentication authentication);
+  UserResponse me(Principal principal);
 }
 
