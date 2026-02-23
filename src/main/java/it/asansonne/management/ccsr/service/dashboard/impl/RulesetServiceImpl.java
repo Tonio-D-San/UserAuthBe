@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class RulesetServiceImpl implements RulesetService {
+  public static final String NOT_FOUND = "ruleset.not.found";
   private final RulesetRepository repository;
 
   @Override
@@ -45,15 +46,10 @@ public class RulesetServiceImpl implements RulesetService {
   }
 
   @Override
-  public Page<Ruleset> findAllByField(Pageable pageable) {
-    return this.repository.findAll(pageable);
-  }
-
-  @Override
   public void update(Ruleset model) {
     Ruleset ruleset =
         this.findByUuid(model.getUuid())
-            .orElseThrow(() -> new EntityNotFoundException("ruleset.not.found"));
+            .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND));
     model.setVersion(
         this.repository.findTopByCodeOrderByVersionDesc(ruleset.getCode())
             .map(Ruleset::getVersion).orElse(0) + 1
@@ -62,7 +58,7 @@ public class RulesetServiceImpl implements RulesetService {
 
   public Ruleset update(Ruleset model, Consumer<Ruleset> mutator) {
     Ruleset ruleset = this.findByUuid(model.getUuid())
-        .orElseThrow(() -> new EntityNotFoundException("ruleset.not.found"));
+        .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND));
     model.setVersion(
         this.repository.findTopByCodeOrderByVersionDesc(ruleset.getCode())
             .map(Ruleset::getVersion).orElse(0) + 1
@@ -90,10 +86,10 @@ public class RulesetServiceImpl implements RulesetService {
   }
 
   @Override
-  public Ruleset deleteByUuid(UUID uuid) {
-    Ruleset ruleset = this.findByUuid(uuid).orElseThrow(() -> new EntityNotFoundException("ruleset.not.found"));
-    this.repository.delete(ruleset);
-    return ruleset;
+  public void deleteByUuid(UUID uuid) {
+    this.repository.delete(
+        this.findByUuid(uuid).orElseThrow(() -> new EntityNotFoundException(NOT_FOUND))
+    );
   }
 
 }

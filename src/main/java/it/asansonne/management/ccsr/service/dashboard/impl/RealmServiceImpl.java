@@ -21,7 +21,7 @@ public class RealmServiceImpl implements RealmService {
 
   @Override
   public Optional<Realm> findByUuid(UUID uuid) {
-            return this.repository.findByUuid(uuid);
+    return this.repository.findByUuid(uuid);
   }
 
   @Override
@@ -42,11 +42,6 @@ public class RealmServiceImpl implements RealmService {
       throw new EntityNotFoundException("abilities.empty");
     }
     return abilities;
-  }
-
-  @Override
-  public Page<Realm> findAllByField(Pageable pageable) {
-    return this.repository.findAll(pageable);
   }
 
   @Override
@@ -71,10 +66,8 @@ public class RealmServiceImpl implements RealmService {
   }
 
   @Override
-  public Realm deleteByUuid(UUID uuid) {
-    Realm realm = findRealm(uuid);
-    this.repository.delete(realm);
-    return realm;
+  public void deleteByUuid(UUID uuid) {
+    this.repository.delete(findRealm(uuid));
   }
 
   private Realm findRealm(UUID uuid) {

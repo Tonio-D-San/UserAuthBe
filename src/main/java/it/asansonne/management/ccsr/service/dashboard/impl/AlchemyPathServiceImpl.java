@@ -45,11 +45,6 @@ public class AlchemyPathServiceImpl implements AlchemyPathService {
   }
 
   @Override
-  public Page<AlchemyPath> findAllByField(Pageable pageable) {
-    return this.repository.findAll(pageable);
-  }
-
-  @Override
   public void update(AlchemyPath model) {
     this.create(findAlchemyPath(model.getUuid()));
   }
@@ -71,10 +66,9 @@ public class AlchemyPathServiceImpl implements AlchemyPathService {
   }
 
   @Override
-  public AlchemyPath deleteByUuid(UUID uuid) {
+  public void deleteByUuid(UUID uuid) {
     AlchemyPath alchemyPath = findAlchemyPath(uuid);
     this.repository.delete(alchemyPath);
-    return alchemyPath;
   }
 
   private AlchemyPath findAlchemyPath(UUID uuid) {

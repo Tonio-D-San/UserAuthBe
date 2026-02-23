@@ -76,15 +76,6 @@ public class UserControllerV1Impl implements UserControllerV1 {
   }
 
   @Override
-  public Page<UserResponse> findAllByField(Integer page, Integer size, String direction,
-                                           UserRequest request) {
-    return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
-        request
-    );
-  }
-
-  @Override
   public ResponseEntity<UserResponse> create(
       Principal principal,
       @Valid @RequestBody UserRequest personRequest,
@@ -106,7 +97,7 @@ public class UserControllerV1Impl implements UserControllerV1 {
   )
   @Override
   public void updateByUuid(
-      @PathVariable UUID uuid, UserRequest request
+      @PathVariable UUID uuid, @RequestBody UserRequest request
   ) {
     this.component.updateByUuid(uuid, request);
   }

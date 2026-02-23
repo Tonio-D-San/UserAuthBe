@@ -40,11 +40,6 @@ public class DiaryComponentImpl implements DiaryComponent {
   }
 
   @Override
-  public Page<DiaryResponse> findAllByField(Pageable pageable, DiaryRequest request) {
-    return null;
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, DiaryRequest request) {
     // TODO document why this method is empty
   }

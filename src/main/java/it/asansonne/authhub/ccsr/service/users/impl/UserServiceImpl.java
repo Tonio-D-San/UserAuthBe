@@ -41,11 +41,6 @@ public final class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Page<User> findAllByField(Pageable pageable) {
-    return this.repository.findAll(pageable);
-  }
-
-  @Override
   public Page<User> findByIsActive(Pageable pageable, Boolean isActive) {
     Page<User> users = this.repository.findAllByIsActive(isActive, pageable);
     if (users.isEmpty()) {
@@ -71,9 +66,10 @@ public final class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User deleteByUuid(UUID uuid) {
-    User user = this.findByUuid(uuid).orElseThrow(() -> new EntityNotFoundException("person.not.found"));
-    this.repository.delete(user);
-    return user;
+  public void deleteByUuid(UUID uuid) {
+    this.repository.delete(
+        this.findByUuid(uuid)
+            .orElseThrow(() -> new EntityNotFoundException("person.not.found"))
+    );
   }
 }

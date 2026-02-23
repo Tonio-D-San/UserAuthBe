@@ -4,6 +4,7 @@ import it.asansonne.management.ccsr.repository.CharacterRepository;
 import it.asansonne.management.ccsr.service.dashboard.CharacterService;
 import it.asansonne.management.enumeration.character.AbilityName;
 import it.asansonne.management.model.Character;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class CharacterServiceImpl implements CharacterService {
-  private final CharacterRepository characterRepository;
+  public static final String NOT_FOUND = "character.not.found";
+  private final CharacterRepository repository;
 
   @Override
   public Optional<Character> findByAbility(AbilityName ability) {
@@ -38,18 +40,22 @@ public class CharacterServiceImpl implements CharacterService {
   }
 
   @Override
-  public Page<Character> findAllByField(Pageable pageable) {
-    return null;
-  }
-
-  @Override
   public void update(Character model) {
     this.create(model);
   }
 
   @Override
   public Character create(Character model) {
-    return characterRepository.save(model);
+    return repository.save(model);
   }
 
+  @Override
+  public void deleteByUuid(UUID uuid) {
+    this.repository.delete(findCharacter(uuid));
+  }
+
+  private Character findCharacter(UUID uuid) {
+    return this.findByUuid(uuid)
+        .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND));
+  }
 }

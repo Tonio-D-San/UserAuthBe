@@ -27,7 +27,7 @@ public class StatusRequest implements Request {
   @Schema(
       description = "Status",
       name = "isActive",
-      type = "String",
+      type = "Boolean",
       example = "false")
   private Boolean isActive;
 }

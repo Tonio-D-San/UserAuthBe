@@ -45,11 +45,6 @@ public class AlchemyPathComponentImpl implements AlchemyPathComponent {
   }
 
   @Override
-  public Page<AlchemyPathResponse> findAllByField(Pageable pageable, AlchemyPathRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, AlchemyPathRequest request) {
     this.service.update(this.mapper.toModel(request));
   }

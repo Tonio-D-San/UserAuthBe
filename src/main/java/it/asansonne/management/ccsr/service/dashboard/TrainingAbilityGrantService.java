@@ -7,7 +7,8 @@ import it.asansonne.authhub.ccsr.service.PostService;
 import it.asansonne.management.model.TrainingAbilityGrant;
 
 public interface TrainingAbilityGrantService extends
-    GetService<TrainingAbilityGrant>, PatchService<TrainingAbilityGrant>, PostService<TrainingAbilityGrant>, DeleteService<TrainingAbilityGrant>
+    GetService<TrainingAbilityGrant>, PatchService<TrainingAbilityGrant>,
+    PostService<TrainingAbilityGrant>, DeleteService
 {
 
 }

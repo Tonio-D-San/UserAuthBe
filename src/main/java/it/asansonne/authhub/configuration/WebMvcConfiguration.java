@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
-  @Value("${server.cors.allowed.methods:GET,POST,PUT,DELETE}")
+  @Value("${server.cors.allowed.methods:GET,POST,PATCH,DELETE}")
   private String[] allowedMethods;
   @Value("${server.cors.allowed.origins:*}")
   private String[] allowedOrigins;

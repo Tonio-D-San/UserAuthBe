@@ -38,7 +38,7 @@ public class Group extends BaseModel {
   @Column(name = "path", nullable = false, length = 50)
   private String path;
 
-  @Column(name = "description", length = 255)
+  @Column(name = "description")
   private String description;
 
   @JsonIgnore

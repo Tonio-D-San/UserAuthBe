@@ -43,11 +43,6 @@ public class AbilityPrerequisiteServiceImpl implements AbilityPrerequisiteServic
   }
 
   @Override
-  public Page<AbilityPrerequisite> findAllByField(Pageable pageable) {
-    return this.repository.findAll(pageable);
-  }
-
-  @Override
   public void update(AbilityPrerequisite model) {
     this.create(model);
   }
@@ -57,4 +52,10 @@ public class AbilityPrerequisiteServiceImpl implements AbilityPrerequisiteServic
     return this.repository.save(model);
   }
 
+  @Override
+  public void deleteByUuid(UUID uuid) {
+    AbilityPrerequisite abilityPrerequisite = this.findByUuid(uuid)
+        .orElseThrow(() -> new EntityNotFoundException("abilityPrerequisite.not.found"));
+    this.repository.delete(abilityPrerequisite);
+  }
 }

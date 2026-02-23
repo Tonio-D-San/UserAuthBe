@@ -142,6 +142,7 @@ public class WebSecurityConfiguration {
     );
 
     return request -> authentication -> {
+      log.info("Request: {}", request);
       String token = extractBearer(request);
       if (token == null) {
         throw new BadCredentialsException("Missing Bearer token");
@@ -179,19 +180,31 @@ public class WebSecurityConfiguration {
 
   private static String extractIssuerUnverified(String jwt) {
     try {
-      if (jwt == null) return null;
+      if (jwt == null) {
+        return null;
+      }
       String[] parts = jwt.split("\\.");
-      if (parts.length != 3) return null;
+      if (parts.length != 3) {
+        return null;
+      }
       String payloadB64 = parts[1];
-      if (payloadB64.length() > 4096) return null;
-      if (!payloadB64.matches("^[A-Za-z0-9_\\-]+$")) return null;
+      if (payloadB64.length() > 4096) {
+        return null;
+      }
+      if (!payloadB64.matches("^[A-Za-z0-9_\\-]+$")) {
+        return null;
+      }
       byte[] payloadBytes = Base64.getUrlDecoder().decode(payloadB64);
-      if (payloadBytes.length > 4096) return null;
+      if (payloadBytes.length > 4096) {
+        return null;
+      }
       Object iss = OM.readValue(
           payloadBytes,
           Map.class
       ).get("iss");
-      if (iss == null) return null;
+      if (iss == null) {
+        return null;
+      }
       String issStr = iss.toString();
       return issStr.length() <= 512 ? issStr : null;
     } catch (Exception _) {

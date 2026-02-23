@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface RulesetService extends
-    GetService<Ruleset>, PatchService<Ruleset>, PostService<Ruleset>, DeleteService<Ruleset>
+    GetService<Ruleset>, PatchService<Ruleset>, PostService<Ruleset>, DeleteService
 {
   Optional<Ruleset> findByCode(String code);
 

@@ -20,13 +20,6 @@ public class TrainingAbilityGrantServiceImpl implements TrainingAbilityGrantServ
   private final TrainingAbilityGrantRepository repository;
 
   @Override
-  public TrainingAbilityGrant deleteByUuid(UUID uuid) {
-    TrainingAbilityGrant training = findTrainingAbilityGrant(uuid);
-    this.repository.delete(training);
-    return training;
-  }
-
-  @Override
   public Optional<TrainingAbilityGrant> findByUuid(UUID uuid) {
     return this.repository.findByUuid(uuid);
   }
@@ -52,11 +45,6 @@ public class TrainingAbilityGrantServiceImpl implements TrainingAbilityGrantServ
   }
 
   @Override
-  public Page<TrainingAbilityGrant> findAllByField(Pageable pageable) {
-    return this.repository.findAll(pageable);
-  }
-
-  @Override
   public void update(TrainingAbilityGrant model) {
     this.create(findTrainingAbilityGrant(model.getUuid()));
   }
@@ -70,6 +58,11 @@ public class TrainingAbilityGrantServiceImpl implements TrainingAbilityGrantServ
   @Override
   public TrainingAbilityGrant create(TrainingAbilityGrant model) {
     return this.repository.save(model);
+  }
+
+  @Override
+  public void deleteByUuid(UUID uuid) {
+    this.repository.delete(findTrainingAbilityGrant(uuid));
   }
 
   private TrainingAbilityGrant findTrainingAbilityGrant(UUID uuid) {

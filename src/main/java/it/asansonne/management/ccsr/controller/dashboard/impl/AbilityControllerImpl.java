@@ -65,15 +65,6 @@ public class AbilityControllerImpl implements AbilityController {
     );
   }
 
-  @Override
-  public Page<AbilityResponse> findAllByField(Integer page, Integer size, String direction,
-                                             AbilityRequest request) {
-    return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
-        request
-    );
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,
@@ -81,7 +72,7 @@ public class AbilityControllerImpl implements AbilityController {
   )
   @Override
   public void updateByUuid(
-      @PathVariable UUID uuid, AbilityRequest request
+      @PathVariable UUID uuid, @RequestBody AbilityRequest request
   ) {
     component.updateByUuid(uuid, request);
   }

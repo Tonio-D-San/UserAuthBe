@@ -47,11 +47,6 @@ public class RulesetComponentImpl implements RulesetComponent {
   }
 
   @Override
-  public Page<RulesetResponse> findAllByField(Pageable pageable, RulesetRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, RulesetRequest request) {
     if (request.getStatusRequest() == null) {
       this.service.update(this.mapper.toModel(request));
@@ -84,7 +79,7 @@ public class RulesetComponentImpl implements RulesetComponent {
 
   @Override
   public void deleteByUuid(UUID uuid) {
-    this.mapper.toDto(this.service.deleteByUuid(uuid));
+    this.service.deleteByUuid(uuid);
   }
 
 }

@@ -39,11 +39,6 @@ public class AbilityPrerequisiteComponentImpl implements AbilityPrerequisiteComp
   }
 
   @Override
-  public Page<AbilityPrerequisiteResponse> findAllByField(Pageable pageable, AbilityPrerequisiteRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, AbilityPrerequisiteRequest request) {
     this.service.update(this.mapper.toModel(request));
   }

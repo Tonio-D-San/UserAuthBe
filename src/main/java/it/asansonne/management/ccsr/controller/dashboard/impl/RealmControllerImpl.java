@@ -66,15 +66,6 @@ public class RealmControllerImpl implements RealmController {
     );
   }
 
-  @Override
-  public Page<RealmResponse> findAllByField(Integer page, Integer size, String direction,
-                                             RealmRequest request) {
-    return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
-        request
-    );
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,

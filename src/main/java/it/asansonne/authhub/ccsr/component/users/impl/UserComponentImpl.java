@@ -66,11 +66,6 @@ public class UserComponentImpl implements UserComponent {
   }
 
   @Override
-  public Page<UserResponse> findAllByField(Pageable pageable, UserRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable /*,request*/), pageable);
-  }
-
-  @Override
   public Page<UserResponse> findByIsActive(Pageable pageable, Boolean isActive) {
     return this.mapper.toDto(this.service.findByIsActive(pageable, isActive), pageable);
   }
@@ -99,7 +94,7 @@ public class UserComponentImpl implements UserComponent {
 
   @Override
   public void deleteByUuid(UUID uuid) {
-    this.mapper.toDto(this.service.deleteByUuid(uuid));
+    this.service.deleteByUuid(uuid);
   }
 
   public User findUser(UUID uuid) {

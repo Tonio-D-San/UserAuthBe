@@ -65,15 +65,6 @@ public class AbilityPrerequisiteControllerImpl implements AbilityPrerequisiteCon
     );
   }
 
-  @Override
-  public Page<AbilityPrerequisiteResponse> findAllByField(Integer page, Integer size, String direction,
-                                             AbilityPrerequisiteRequest request) {
-    return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
-        request
-    );
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,
@@ -81,7 +72,7 @@ public class AbilityPrerequisiteControllerImpl implements AbilityPrerequisiteCon
   )
   @Override
   public void updateByUuid(
-      @PathVariable UUID uuid, AbilityPrerequisiteRequest request
+      @PathVariable UUID uuid, @RequestBody AbilityPrerequisiteRequest request
   ) {
     component.updateByUuid(uuid, request);
   }

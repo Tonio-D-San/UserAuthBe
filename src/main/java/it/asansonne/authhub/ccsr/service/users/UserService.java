@@ -13,7 +13,7 @@ public interface UserService extends
     GetService<User>,
     PatchService<User>,
     PostService<User>,
-    DeleteService<User>
+    DeleteService
 {
 
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum Status {
   DRAFT("draft.name"),
   ACTIVE("active.name"),
+  PUBLISHED("published.name"),
   DEPRECATED("deprecated.name");
   private final String name;
 }

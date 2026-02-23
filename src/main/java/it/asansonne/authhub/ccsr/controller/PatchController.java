@@ -4,12 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.asansonne.authhub.dto.Request;
 import it.asansonne.authhub.dto.Response;
-import it.asansonne.authhub.dto.request.StatusRequest;
 import it.asansonne.authhub.exception.ExceptionMessage;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
@@ -25,8 +23,7 @@ public interface PatchController<R extends Request, S extends Response> {
           responseCode = "200",
           description = "resource.update.200.description",
           content = @Content(
-              mediaType = MediaType.APPLICATION_JSON_VALUE,
-              schema = @Schema(implementation = StatusRequest.class)
+              mediaType = MediaType.APPLICATION_JSON_VALUE
           )
       ),
       @ApiResponse(
@@ -142,13 +139,6 @@ public interface PatchController<R extends Request, S extends Response> {
                   )
               },
               schema = @Schema(implementation = ExceptionMessage.class)))})
-  @RequestBody(
-      description = "resource.update",
-      required = true,
-      content = @Content(
-          schema = @Schema(implementation = StatusRequest.class)
-      )
-  )
   @ResponseStatus(HttpStatus.OK)
   void updateByUuid(
       @PathVariable UUID uuid, R request

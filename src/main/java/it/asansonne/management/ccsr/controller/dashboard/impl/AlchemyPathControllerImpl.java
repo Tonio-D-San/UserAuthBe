@@ -66,15 +66,6 @@ public class AlchemyPathControllerImpl implements AlchemyPathController {
     );
   }
 
-  @Override
-  public Page<AlchemyPathResponse> findAllByField(Integer page, Integer size, String direction,
-                                             AlchemyPathRequest request) {
-    return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
-        request
-    );
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,

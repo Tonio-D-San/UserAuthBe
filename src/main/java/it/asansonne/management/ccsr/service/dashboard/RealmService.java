@@ -8,7 +8,7 @@ import it.asansonne.management.model.Realm;
 import java.util.Optional;
 
 public interface RealmService extends
-    GetService<Realm>, PatchService<Realm>, PostService<Realm>, DeleteService<Realm>
+    GetService<Realm>, PatchService<Realm>, PostService<Realm>, DeleteService
 {
   Optional<Realm> findByName(String name);
 }

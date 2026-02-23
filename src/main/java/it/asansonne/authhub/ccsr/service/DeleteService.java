@@ -1,9 +1,8 @@
 package it.asansonne.authhub.ccsr.service;
 
-import it.asansonne.authhub.model.BaseModel;
 import java.util.UUID;
 
-public interface DeleteService<M extends BaseModel> {
+public interface DeleteService {
 
-  M deleteByUuid(UUID uuid);
+  void deleteByUuid(UUID uuid);
 }

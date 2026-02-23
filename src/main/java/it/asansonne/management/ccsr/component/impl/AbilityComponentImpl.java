@@ -42,11 +42,6 @@ public class AbilityComponentImpl implements AbilityComponent {
   }
 
   @Override
-  public Page<AbilityResponse> findAllByField(Pageable pageable, AbilityRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, AbilityRequest request) {
     this.service.update(this.mapper.toModel(request));
   }

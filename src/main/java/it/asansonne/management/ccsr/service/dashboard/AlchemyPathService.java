@@ -8,7 +8,7 @@ import it.asansonne.management.model.AlchemyPath;
 import java.util.Optional;
 
 public interface AlchemyPathService extends
-    GetService<AlchemyPath>, PatchService<AlchemyPath>, PostService<AlchemyPath>,
-    DeleteService<AlchemyPath> {
+    GetService<AlchemyPath>, PatchService<AlchemyPath>,
+    PostService<AlchemyPath>, DeleteService {
   Optional<AlchemyPath> findByName(String name);
 }

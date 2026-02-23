@@ -41,11 +41,6 @@ public class TrainingAbilityGrantComponentImpl implements TrainingAbilityGrantCo
   }
 
   @Override
-  public Page<TrainingAbilityGrantResponse> findAllByField(Pageable pageable, TrainingAbilityGrantRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, TrainingAbilityGrantRequest request) {
 
     this.service.update(this.mapper.toModel(request));

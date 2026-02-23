@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ public class PayPalControllerImpl implements PayPalController {
 
   @GetMapping(value = "/{uuid}", produces = MediaType.APPLICATION_JSON_VALUE)
   @Override
-  public OrdersResponse findByUuid(@PathVariable("uuid") UUID uuid) {
+  public OrdersResponse findByUuid(@PathVariable UUID uuid) {
     return this.component.findByUuid(uuid);
   }
 
@@ -62,15 +63,6 @@ public class PayPalControllerImpl implements PayPalController {
     );
   }
 
-  @Override
-  public Page<OrdersResponse> findAllByField(Integer page, Integer size, String direction,
-                                             OrdersRequest request) {
-    return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
-        request
-    );
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,
@@ -78,7 +70,7 @@ public class PayPalControllerImpl implements PayPalController {
   )
   @Override
   public void updateByUuid(
-      @PathVariable("uuid") UUID uuid, OrdersRequest request
+      @PathVariable UUID uuid, @RequestBody OrdersRequest request
   ) {
     component.updateByUuid(uuid, request);
   }

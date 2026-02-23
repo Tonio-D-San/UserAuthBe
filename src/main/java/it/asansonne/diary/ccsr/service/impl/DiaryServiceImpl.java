@@ -33,11 +33,6 @@ public class DiaryServiceImpl implements DiaryService {
   }
 
   @Override
-  public Page<Diary> findAllByField(Pageable pageable) {
-    return null;
-  }
-
-  @Override
   public void update(Diary model) {
 
   }

@@ -39,11 +39,6 @@ public class AbilityCostComponentImpl implements AbilityCostComponent {
   }
 
   @Override
-  public Page<AbilityCostResponse> findAllByField(Pageable pageable, AbilityCostRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, AbilityCostRequest request) {
     this.service.update(this.mapper.toModel(request));
   }

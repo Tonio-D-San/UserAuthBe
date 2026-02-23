@@ -45,11 +45,6 @@ public class RealmComponentImpl implements RealmComponent {
   }
 
   @Override
-  public Page<RealmResponse> findAllByField(Pageable pageable, RealmRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, RealmRequest request) {
     this.service.update(this.mapper.toModel(request));
   }

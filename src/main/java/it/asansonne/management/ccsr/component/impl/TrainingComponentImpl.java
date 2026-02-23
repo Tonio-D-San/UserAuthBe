@@ -45,11 +45,6 @@ public class TrainingComponentImpl implements TrainingComponent {
   }
 
   @Override
-  public Page<TrainingResponse> findAllByField(Pageable pageable, TrainingRequest request) {
-    return this.mapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, TrainingRequest request) {
 
     this.service.update(this.mapper.toModel(request));

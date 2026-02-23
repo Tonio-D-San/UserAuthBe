@@ -9,10 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.asansonne.authhub.dto.Request;
 import it.asansonne.authhub.dto.Response;
-import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.ExceptionMessage;
 import it.asansonne.authhub.util.swagger.schema.PageUserSchema;
-import jakarta.validation.Valid;
 import java.security.Principal;
 import java.util.Locale;
 import java.util.UUID;
@@ -21,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 public interface GetController<R extends Request, S extends Response> {
@@ -34,11 +31,7 @@ public interface GetController<R extends Request, S extends Response> {
   @ApiResponses(value = {
       @ApiResponse(
           responseCode = "200",
-          description = "resource.find.201.description",
-          content = @Content(
-              mediaType = MediaType.APPLICATION_JSON_VALUE,
-              schema = @Schema(implementation = UserResponse.class)
-          )
+          description = "resource.find.201.description"
       ), @ApiResponse(
       responseCode = "401",
       description = "resource.401.description",
@@ -109,11 +102,7 @@ public interface GetController<R extends Request, S extends Response> {
   @ApiResponses(value = {
       @ApiResponse(
           responseCode = "200",
-          description = "resource.find.200.description",
-          content = @Content(
-              mediaType = MediaType.APPLICATION_JSON_VALUE,
-              schema = @Schema(implementation = PageUserSchema.class)
-          )
+          description = "resource.find.200.description"
       ), @ApiResponse(
       responseCode = "204",
       description = "resource.204.description",
@@ -192,15 +181,15 @@ public interface GetController<R extends Request, S extends Response> {
                   @ExampleObject(
                       name = "401 - UNAUTHORIZED",
                       value = """
-                        {
-                        "status": "UNAUTHORIZED",
-                        "message": \
-                        "Unauthorized message"
-                        , "validations": \
-                        null }"""
-              )
-          },
-          schema = @Schema(implementation = ExceptionMessage.class)
+                          {
+                          "status": "UNAUTHORIZED",
+                          "message": \
+                          "Unauthorized message"
+                          , "validations": \
+                          null }"""
+                  )
+              },
+              schema = @Schema(implementation = ExceptionMessage.class)
           )
       ),
       @ApiResponse(
@@ -231,69 +220,5 @@ public interface GetController<R extends Request, S extends Response> {
       @Parameter(name = "direction.name", description = "direction.description") String direction,
       Locale locale, Principal principal
   );
-
-  @Operation(summary = "resource.find.all")
-  @ApiResponses(value = {
-      @ApiResponse(
-          responseCode = "200",
-          description = "resource.find.200.description",
-          content = @Content(
-              mediaType = MediaType.APPLICATION_JSON_VALUE,
-              schema = @Schema(implementation = PageUserSchema.class)
-          )
-      ),
-      @ApiResponse(
-          responseCode = "204",
-          description = "resource.204.description",
-          content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
-      ),
-      @ApiResponse(
-          responseCode = "401",
-          description = "resource.401.description",
-          content = @Content(
-              mediaType = MediaType.APPLICATION_JSON_VALUE,
-              examples = {
-                  @ExampleObject(
-                      name = "401 - UNAUTHORIZED",
-                      value = """
-                        {
-                        "status": "UNAUTHORIZED",
-                        "message": \
-                        "Unauthorized message"
-                        , "validations": \
-                        null }"""
-                  )
-              },
-              schema = @Schema(implementation = ExceptionMessage.class)
-          )
-      ),
-      @ApiResponse(
-          responseCode = "403",
-          description = "resource.403.description",
-          content = @Content(
-              mediaType = MediaType.APPLICATION_JSON_VALUE,
-              examples = {
-                  @ExampleObject(
-                      name = "403 - FORBIDDEN",
-                      value = """
-                          {
-                          "status": "FORBIDDEN",
-                          "message": \
-                          "Forbidden message"
-                          , "validations": \
-                          null }"""
-                  )
-              },
-              schema = @Schema(implementation = ExceptionMessage.class)
-          )
-      )
-  })
-  @GetMapping(value = "/fields", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseStatus(HttpStatus.OK)
-  Page<S> findAllByField(
-      @Parameter(name = "page.name", description = "page.description") Integer page,
-      @Parameter(name = "size.name", description = "size.description") Integer size,
-      @Parameter(name = "direction.name", description = "direction.description") String direction,
-      @Valid @RequestBody R request);
 
 }

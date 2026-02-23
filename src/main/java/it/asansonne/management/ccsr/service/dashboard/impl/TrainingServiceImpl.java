@@ -26,13 +26,6 @@ public class TrainingServiceImpl implements TrainingService {
   }
 
   @Override
-  public Training deleteByUuid(UUID uuid) {
-    Training training = findTraining(uuid);
-    this.repository.delete(training);
-    return training;
-  }
-
-  @Override
   public Optional<Training> findByUuid(UUID uuid) {
     return this.repository.findByUuid(uuid);
   }
@@ -58,11 +51,6 @@ public class TrainingServiceImpl implements TrainingService {
   }
 
   @Override
-  public Page<Training> findAllByField(Pageable pageable) {
-    return this.repository.findAll(pageable);
-  }
-
-  @Override
   public void update(Training model) {
     this.create(findTraining(model.getUuid()));
   }
@@ -76,6 +64,11 @@ public class TrainingServiceImpl implements TrainingService {
   @Override
   public Training create(Training model) {
     return this.repository.save(model);
+  }
+
+  @Override
+  public void deleteByUuid(UUID uuid) {
+    this.repository.delete(findTraining(uuid));
   }
 
   private Training findTraining(UUID uuid) {

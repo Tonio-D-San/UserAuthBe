@@ -20,9 +20,4 @@ public interface GetService<M extends BaseModel> {
       Pageable pageable, Locale locale
   );
 
-  Page<M> findAllByField(
-      Pageable pageable
-//      R request
-  );
-
 }

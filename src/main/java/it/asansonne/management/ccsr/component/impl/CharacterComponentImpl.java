@@ -52,11 +52,6 @@ public class CharacterComponentImpl implements CharacterComponent {
   }
 
   @Override
-  public Page<CharacterResponse> findAllByField(Pageable pageable, CharacterRequest request) {
-    return this.characterMapper.toDto(this.service.findAllByField(pageable), pageable);
-  }
-
-  @Override
   public void updateByUuid(UUID uuid, CharacterRequest request) {
     this.service.update(this.characterMapper.toModel(request));
   }

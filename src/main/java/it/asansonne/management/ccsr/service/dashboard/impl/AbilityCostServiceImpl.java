@@ -43,11 +43,6 @@ public class AbilityCostServiceImpl implements AbilityCostService {
   }
 
   @Override
-  public Page<AbilityCost> findAllByField(Pageable pageable) {
-    return this.repository.findAll(pageable);
-  }
-
-  @Override
   public void update(AbilityCost model) {
     this.create(model);
   }
@@ -57,4 +52,10 @@ public class AbilityCostServiceImpl implements AbilityCostService {
     return this.repository.save(model);
   }
 
+  @Override
+  public void deleteByUuid(UUID uuid) {
+    AbilityCost abilityCost = this.findByUuid(uuid)
+        .orElseThrow(() -> new EntityNotFoundException("abilityCost.not.found"));
+    this.repository.delete(abilityCost);
+  }
 }

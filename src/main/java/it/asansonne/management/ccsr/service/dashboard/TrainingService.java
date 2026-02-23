@@ -8,7 +8,8 @@ import it.asansonne.management.model.Training;
 import java.util.Optional;
 
 public interface TrainingService extends
-    GetService<Training>, PatchService<Training>, PostService<Training>, DeleteService<Training>
+    GetService<Training>, PatchService<Training>,
+    PostService<Training>, DeleteService
 {
   Optional<Training> findByName(String name);
 }

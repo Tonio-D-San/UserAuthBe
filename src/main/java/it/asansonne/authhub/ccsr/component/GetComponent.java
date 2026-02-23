@@ -22,9 +22,4 @@ public interface GetComponent<R extends Request, S extends Response> {
       Locale locale, Principal principal
   );
 
-  Page<S> findAllByField(
-      Pageable pageable,
-      R request
-  );
-
 }

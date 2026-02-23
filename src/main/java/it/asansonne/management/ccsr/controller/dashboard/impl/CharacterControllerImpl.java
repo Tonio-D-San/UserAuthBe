@@ -72,15 +72,6 @@ public class CharacterControllerImpl implements CharacterController {
     );
   }
 
-  @Override
-  public Page<CharacterResponse> findAllByField(Integer page, Integer size, String direction,
-                                             CharacterRequest request) {
-    return this.component.findAllByField(
-        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(direction), UPDATED_AT)),
-        request
-    );
-  }
-
   @PatchMapping(
       value = "/{uuid}",
       produces = MediaType.APPLICATION_JSON_VALUE,
@@ -88,7 +79,7 @@ public class CharacterControllerImpl implements CharacterController {
   )
   @Override
   public void updateByUuid(
-      @PathVariable UUID uuid, CharacterRequest request
+      @PathVariable UUID uuid, @RequestBody CharacterRequest request
   ) {
     component.updateByUuid(uuid, request);
   }
