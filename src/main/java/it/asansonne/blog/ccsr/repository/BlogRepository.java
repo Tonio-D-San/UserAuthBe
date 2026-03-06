@@ -26,6 +26,6 @@ public interface BlogRepository<T extends BlogModel>
 
   Page<T> searchByPrefix(String status, String prefix, Pageable pageable);
 
-  Page<T> searchBySlugContains(String status, String q, Pageable pageable);
+//  Page<T> searchBySlugContains(String status, String q, Pageable pageable);
 
 }
