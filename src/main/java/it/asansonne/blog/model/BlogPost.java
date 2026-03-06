@@ -1,10 +1,13 @@
 package it.asansonne.blog.model;
 
+import it.asansonne.authhub.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -29,8 +32,9 @@ public class BlogPost extends BlogModel {
   @Column(name = "cover_url", columnDefinition = "TEXT")
   private String coverUrl;
 
-  @Column(name = "author_name", length = 120)
-  private String authorName;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
+  private User user;
 
   @ManyToMany
   @JoinTable(

@@ -1,8 +1,8 @@
 package it.asansonne.diary.ccsr.service;
 
-import it.asansonne.authhub.ccsr.service.GetService;
-import it.asansonne.authhub.ccsr.service.PatchService;
-import it.asansonne.authhub.ccsr.service.PostService;
+import it.asansonne.common.ccsr.service.GetService;
+import it.asansonne.common.ccsr.service.PatchService;
+import it.asansonne.common.ccsr.service.PostService;
 import it.asansonne.diary.model.Diary;
 
 public interface DiaryService extends

@@ -7,7 +7,7 @@ import com.paypal.orders.Order;
 import com.paypal.orders.OrderRequest;
 import com.paypal.orders.OrdersCreateRequest;
 import com.paypal.orders.PurchaseUnitRequest;
-import it.asansonne.authhub.ccsr.component.users.UserComponent;
+import it.asansonne.authhub.ccsr.component.UserComponent;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.custom.IOCustomException;
 import it.asansonne.payments.ccsr.component.paypal.PayPalComponent;

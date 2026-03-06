@@ -2,7 +2,7 @@ package it.asansonne.management.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.BaseResponse;
+import it.asansonne.common.dto.BaseResponse;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

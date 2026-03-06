@@ -1,6 +1,6 @@
 package it.asansonne.blog.ccsr.repository;
 
-import it.asansonne.authhub.ccsr.repository.GetRepository;
+import it.asansonne.common.ccsr.repository.GetRepository;
 import it.asansonne.blog.model.BlogBaseModel;
 import java.util.List;
 import java.util.Optional;

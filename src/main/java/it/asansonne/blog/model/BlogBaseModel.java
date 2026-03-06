@@ -1,6 +1,6 @@
 package it.asansonne.blog.model;
 
-import it.asansonne.authhub.model.BaseModel;
+import it.asansonne.common.ccsr.model.BaseModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

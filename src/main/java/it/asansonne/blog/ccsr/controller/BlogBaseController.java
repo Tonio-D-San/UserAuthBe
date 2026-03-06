@@ -7,10 +7,10 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import it.asansonne.authhub.ccsr.controller.DeleteController;
-import it.asansonne.authhub.ccsr.controller.GetController;
-import it.asansonne.authhub.ccsr.controller.PatchController;
-import it.asansonne.authhub.ccsr.controller.PostController;
+import it.asansonne.common.ccsr.controller.DeleteController;
+import it.asansonne.common.ccsr.controller.GetController;
+import it.asansonne.common.ccsr.controller.PatchController;
+import it.asansonne.common.ccsr.controller.PostController;
 import it.asansonne.authhub.exception.ExceptionMessage;
 import it.asansonne.blog.dto.request.BlogBaseRequest;
 import it.asansonne.blog.dto.response.BlogBaseResponse;
@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 public interface BlogBaseController<T extends BlogBaseRequest, V extends BlogBaseResponse> extends
-    GetController<T, V> ,
-    PatchController<T, V>,
+    GetController<V> ,
+    PatchController<T>,
     PostController<T, V>,
     DeleteController
 {

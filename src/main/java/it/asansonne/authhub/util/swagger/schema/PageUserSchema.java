@@ -1,6 +1,6 @@
 package it.asansonne.authhub.util.swagger.schema;
 
-import it.asansonne.authhub.dto.response.UserResponse;
+import it.asansonne.common.dto.BaseResponse;
 import java.util.List;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
  * Don't use this class into the project
  * It is only a schema for Swagger documentation.
  */
-public final class PageUserSchema extends PageImpl<UserResponse> {
+public final class PageUserSchema extends PageImpl<BaseResponse> {
 
   /**
    * Instantiates a new Page user schema.
@@ -20,7 +20,7 @@ public final class PageUserSchema extends PageImpl<UserResponse> {
    * @param total    the total
    */
   @SuppressWarnings("unused")
-  public PageUserSchema(List<UserResponse> content, Pageable pageable, long total) {
+  public PageUserSchema(List<BaseResponse> content, Pageable pageable, long total) {
     super(content, pageable, total);
   }
 
@@ -30,7 +30,7 @@ public final class PageUserSchema extends PageImpl<UserResponse> {
    * @param content the content
    */
   @SuppressWarnings("unused")
-  public PageUserSchema(List<UserResponse> content) {
+  public PageUserSchema(List<BaseResponse> content) {
     super(content);
   }
 }

@@ -1,7 +1,7 @@
 package it.asansonne.diary.mapper.impl;
 
-import it.asansonne.authhub.mapper.RequestMapper;
-import it.asansonne.authhub.mapper.ResponseMapper;
+import it.asansonne.common.mapper.RequestMapper;
+import it.asansonne.common.mapper.ResponseMapper;
 import it.asansonne.diary.dto.request.DiaryRequest;
 import it.asansonne.diary.dto.response.DiaryResponse;
 import it.asansonne.diary.model.Diary;

@@ -2,8 +2,7 @@ package it.asansonne.blog.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Request;
-import jakarta.validation.constraints.NotBlank;
+import it.asansonne.common.dto.Request;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -22,7 +21,6 @@ import lombok.experimental.SuperBuilder;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Blog Request DTO")
 public abstract class BlogBaseRequest implements Request {
-  @NotBlank(message = "Post slug must not be null or empty")
   @Size(min = 3, max = 200, message = "Post slug must be between 3 and 200 characters")
   @Pattern(
       regexp = "^(?!-)(?!.*--)[a-z0-9-]+(?<!-)$",

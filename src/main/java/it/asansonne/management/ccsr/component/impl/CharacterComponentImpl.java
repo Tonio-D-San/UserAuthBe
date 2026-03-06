@@ -1,8 +1,8 @@
 package it.asansonne.management.ccsr.component.impl;
 
-import it.asansonne.authhub.ccsr.component.users.UserComponent;
+import it.asansonne.authhub.ccsr.component.UserComponent;
 import it.asansonne.authhub.exception.custom.NotFoundException;
-import it.asansonne.authhub.model.users.User;
+import it.asansonne.authhub.model.User;
 import it.asansonne.management.ccsr.component.CharacterComponent;
 import it.asansonne.management.ccsr.service.dashboard.CharacterService;
 import it.asansonne.management.dto.request.CharacterRequest;

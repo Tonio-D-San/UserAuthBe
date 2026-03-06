@@ -2,6 +2,7 @@ package it.asansonne.blog.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import it.asansonne.authhub.dto.response.UserResponse;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,12 +31,12 @@ public class BlogPostResponse extends BlogResponse {
   )
   private String coverUrl;
 
-  @Schema(
-      description = "Blog authorName",
-      name = "authorName",
-      type = "String",
-      example = "This is blog authorName"
-  )
-  private String authorName;
+//  @Schema(
+//      description = "Blog authorName",
+//      name = "authorName",
+//      type = "String",
+//      example = "This is blog authorName"
+//  )
+  private UserResponse author;
 
 }

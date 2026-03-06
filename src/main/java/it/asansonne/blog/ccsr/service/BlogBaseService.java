@@ -1,9 +1,9 @@
 package it.asansonne.blog.ccsr.service;
 
-import it.asansonne.authhub.ccsr.service.DeleteService;
-import it.asansonne.authhub.ccsr.service.GetService;
-import it.asansonne.authhub.ccsr.service.PatchService;
-import it.asansonne.authhub.ccsr.service.PostService;
+import it.asansonne.common.ccsr.service.DeleteService;
+import it.asansonne.common.ccsr.service.GetService;
+import it.asansonne.common.ccsr.service.PatchService;
+import it.asansonne.common.ccsr.service.PostService;
 import it.asansonne.blog.model.BlogBaseModel;
 import java.util.List;
 import java.util.Optional;

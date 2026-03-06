@@ -89,6 +89,16 @@ public class BlogPostServiceImpl implements BlogPostService {
   }
 
   @Override
+  public Page<BlogPost> searchByPrefix(String status, String prefix, Pageable pageable) {
+    return null;
+  }
+
+  @Override
+  public Page<BlogPost> searchBySlugContains(String status, String q, Pageable pageable) {
+    return null;
+  }
+
+  @Override
   public void deleteByUuid(UUID uuid) {
     this.repository.delete(
         this.findByUuid(uuid)

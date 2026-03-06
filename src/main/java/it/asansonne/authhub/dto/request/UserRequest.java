@@ -2,10 +2,11 @@ package it.asansonne.authhub.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Request;
+import it.asansonne.common.dto.Request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -86,12 +87,18 @@ public class UserRequest implements Request {
       description = "Url user profile image",
       name = "profileUrl",
       type = "String")
-  private String profileImage;
+  private String profileUrl;
 
   @Schema(
       description = "User status request",
       name = "statusRequest",
-      type = "UserStatusRequest")
+      type = "StatusRequest")
   private StatusRequest statusRequest;
+
+  @Schema(
+      description = "Group request",
+      name = "groupRequest",
+      type = "GroupRequest")
+  private List<GroupRequest> groupRequests;
 
 }

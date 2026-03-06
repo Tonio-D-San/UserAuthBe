@@ -2,7 +2,7 @@ package it.asansonne.payments.dto.response.paypal;
 
 import com.paypal.orders.LinkDescription;
 import com.paypal.orders.PurchaseUnit;
-import it.asansonne.authhub.dto.BaseResponse;
+import it.asansonne.common.dto.BaseResponse;
 import it.asansonne.authhub.dto.response.UserResponse;
 import java.util.List;
 import lombok.Getter;

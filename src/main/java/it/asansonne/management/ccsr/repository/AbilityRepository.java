@@ -1,6 +1,6 @@
 package it.asansonne.management.ccsr.repository;
 
-import it.asansonne.authhub.ccsr.repository.GetRepository;
+import it.asansonne.common.ccsr.repository.GetRepository;
 import it.asansonne.management.model.Ability;
 import java.util.UUID;
 import org.springframework.data.domain.Page;

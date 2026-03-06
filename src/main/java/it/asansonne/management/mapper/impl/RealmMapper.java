@@ -1,7 +1,7 @@
 package it.asansonne.management.mapper.impl;
 
-import it.asansonne.authhub.mapper.RequestMapper;
-import it.asansonne.authhub.mapper.ResponseMapper;
+import it.asansonne.common.mapper.RequestMapper;
+import it.asansonne.common.mapper.ResponseMapper;
 import it.asansonne.management.dto.request.RealmRequest;
 import it.asansonne.management.dto.response.RealmResponse;
 import it.asansonne.management.model.Realm;

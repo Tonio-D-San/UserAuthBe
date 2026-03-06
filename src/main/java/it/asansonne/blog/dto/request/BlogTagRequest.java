@@ -21,6 +21,7 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(description = "Representation of the Blog Request DTO")
 @ValidBlogTagSelector
+//@SlugMustBeAbsent
 public class BlogTagRequest extends BlogBaseRequest {
   @Schema(
       description = "Blog tag uuid",

@@ -10,10 +10,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import it.asansonne.authhub.ccsr.controller.DeleteController;
-import it.asansonne.authhub.ccsr.controller.GetController;
-import it.asansonne.authhub.ccsr.controller.PatchController;
-import it.asansonne.authhub.ccsr.controller.PostController;
+import it.asansonne.common.ccsr.controller.DeleteController;
+import it.asansonne.common.ccsr.controller.GetController;
+import it.asansonne.common.ccsr.controller.PatchController;
+import it.asansonne.common.ccsr.controller.PostController;
 import it.asansonne.authhub.dto.response.UserResponse;
 import it.asansonne.authhub.exception.ExceptionMessage;
 import it.asansonne.management.dto.request.RealmRequest;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Tag(name = "RealmController" + AUTH_HUB_API_VERSION)
 public interface RealmController extends
-    GetController<RealmRequest, RealmResponse> ,
-    PatchController<RealmRequest, RealmResponse>,
+    GetController<RealmResponse> ,
+    PatchController<RealmRequest>,
     PostController<RealmRequest, RealmResponse>,
     DeleteController
 {

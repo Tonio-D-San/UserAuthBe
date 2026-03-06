@@ -1,5 +1,6 @@
 package it.asansonne.blog.ccsr.component.impl;
 
+import it.asansonne.authhub.ccsr.service.UserService;
 import it.asansonne.authhub.exception.custom.NotFoundException;
 import it.asansonne.blog.ccsr.component.BlogPostComponent;
 import it.asansonne.blog.ccsr.service.BlogPostService;
@@ -11,9 +12,9 @@ import it.asansonne.blog.mapper.impl.BlogPostMapper;
 import it.asansonne.blog.model.BlogPost;
 import it.asansonne.blog.model.BlogTag;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ public class BlogPostComponentImpl implements BlogPostComponent {
   private final BlogPostService service;
   private final BlogPostMapper mapper;
   private final BlogTagService tagService;
+  private final UserService userService;
 
   @Override
   public BlogPostResponse findByUuid(UUID uuid) {
@@ -57,7 +59,6 @@ public class BlogPostComponentImpl implements BlogPostComponent {
   @Override
   public BlogPostResponse create(Principal principal, BlogPostRequest request) {
     List<BlogTagRequest> tagRequests = request.getTags();
-    Pageable pageable = Pageable.unpaged();
     return this.mapper.toDto(
         service.create(
             BlogPost.builder()
@@ -66,25 +67,16 @@ public class BlogPostComponentImpl implements BlogPostComponent {
                 .excerpt(request.getExcerpt())
                 .contentMd(request.getContentMd())
                 .coverUrl(request.getCoverUrl())
-                .authorName(request.getAuthorName())
+                .user(
+                    userService.findByUuid(
+                        UUID.fromString(principal.getName())
+                    ).orElseThrow(() -> new NotFoundException("user.not.found"))
+                )
                 .status(request.getStatusRequest().getStatus().getName())
-                .tags(findByUuidIn(pageable, tagRequests).isEmpty() ? tagRequests.stream()
-                    .filter(Objects::nonNull)
-                    .map(req -> BlogTag.builder()
-                        .name(req.getName())
-                        .slug(req.getSlug().toLowerCase())
-                        .build()
-                    ).map(tagService::create)
-                    .toList() : findByUuidIn(pageable, tagRequests)).build()
+                .tags(findTagByUuid(tagRequests))
+                .build()
         )
     );
-  }
-
-  private List<BlogTag> findByUuidIn(Pageable pageable, List<BlogTagRequest> tagRequests) {
-    return tagService.findByUuidIn(
-        tagRequests.stream().map(BlogTagRequest::getUuid).toList(),
-        pageable
-    ).stream().toList();
   }
 
   @Override
@@ -162,5 +154,18 @@ public class BlogPostComponentImpl implements BlogPostComponent {
   @Override
   public void deleteByUuid(UUID uuid) {
     this.service.deleteByUuid(uuid);
+  }
+
+  private List<BlogTag> findTagByUuid(List<BlogTagRequest> tagRequests) {
+    List<BlogTag> tags = new ArrayList<>();
+    tagRequests.forEach(req -> {
+      if(req.getUuid() != null) {
+        tags.add(
+            tagService.findByUuid(req.getUuid())
+                .orElseThrow(() -> new NotFoundException("tag.not.found"))
+        );
+      }
+    });
+    return tags;
   }
 }

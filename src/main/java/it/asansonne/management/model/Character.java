@@ -1,7 +1,7 @@
 package it.asansonne.management.model;
 
-import it.asansonne.authhub.model.BaseModel;
-import it.asansonne.authhub.model.users.User;
+import it.asansonne.common.ccsr.model.BaseModel;
+import it.asansonne.authhub.model.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

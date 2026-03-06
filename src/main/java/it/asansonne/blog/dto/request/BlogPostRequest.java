@@ -34,12 +34,12 @@ public class BlogPostRequest extends BlogRequest {
       example = "https://cdn.example.com/images/memento.jpg")
   private String coverUrl;
 
-  @Size(max = 120, message = "Author name must be at most 120 characters")
-  @Schema(
-      description = "Author display name",
-      name = "authorName",
-      type = "String",
-      example = "ALA Staff")
-  private String authorName;
+//  @Size(max = 120, message = "Author name must be at most 120 characters")
+//  @Schema(
+//      description = "Author display name",
+//      name = "authorName",
+//      type = "String",
+//      example = "ALA Staff")
+//  private String authorName; //TODO probabilmente mi conviene prendere lo user che crea
 
 }

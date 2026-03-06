@@ -5,13 +5,13 @@ import static it.asansonne.authhub.constant.SharedConstant.AUTH_HUB_API_VERSION;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.asansonne.authhub.exception.handler.AuthorizationAuthenticationHandler;
-import it.asansonne.authhub.security.provider.CustomOauth2UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -44,11 +43,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class WebSecurityConfiguration {
   private final AuthorizationAuthenticationHandler handler;
-  private final CustomOauth2UserService customOAuth2UserService;
   private final ManageToken manageToken;
-  private static final String LOGIN_PAGE = "/login";
-  private static final String SWAGGER_URL =
-      String.format("/%s/%s/swagger-ui/index.html", API, AUTH_HUB_API_VERSION);
+
+  @Value("${keycloak.host.realm:err-error}")
+  String localhostIssuer;
+  @Value("${application.issuer.ngrok:ngrok-error}")
+  String ngrokIssuer;
 
   @Bean
   protected SecurityFilterChain filterChain(
@@ -60,34 +60,24 @@ public class WebSecurityConfiguration {
         .cors(Customizer.withDefaults())
         .csrf(AbstractHttpConfigurer::disable)
         .oauth2ResourceServer(oauth2 -> oauth2
-            .authenticationManagerResolver(multiIssuerAuthManagerResolver(authenticationConverter))
+            .authenticationManagerResolver(
+                multiIssuerAuthManagerResolver(authenticationConverter)
+            )
         ).authorizeHttpRequests(requests -> requests
             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
             .requestMatchers(
                 new AntPathRequestMatcher(String.format("/%s/%s/**", API, AUTH_HUB_API_VERSION)))
             .authenticated()
             .anyRequest().permitAll()
-        )
-        .oauth2Login(oauth -> oauth
-            .loginPage(LOGIN_PAGE)
-            .userInfoEndpoint(userInfo -> userInfo.oidcUserService(customOAuth2UserService))
-            .defaultSuccessUrl(SWAGGER_URL, true)
-            .permitAll()
-        )
-        .logout(logout -> logout
-            .logoutSuccessUrl("/")
-            .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID")
-        )
-        .sessionManagement(session -> {
-          session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-          session.maximumSessions(1).maxSessionsPreventsLogin(false);
-        })
-        .exceptionHandling(exceptionHandling -> exceptionHandling
+        ).sessionManagement(session ->
+            {
+              session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+              session.maximumSessions(1).maxSessionsPreventsLogin(false);
+            }
+        ).exceptionHandling(exceptionHandling -> exceptionHandling
             .authenticationEntryPoint(handler)
             .accessDeniedHandler(handler)
-        )
-        .build();
+        ).build();
   }
 
   @Component
@@ -98,8 +88,8 @@ public class WebSecurityConfiguration {
 
     @Override
     public JwtAuthenticationToken convert(@NonNull Jwt jwt) {
-      return new JwtAuthenticationToken(jwt, authoritiesConverter.convert(jwt),
-          jwt.getSubject()
+      return new JwtAuthenticationToken(
+          jwt, authoritiesConverter.convert(jwt), jwt.getSubject()
       );
     }
 
@@ -135,10 +125,8 @@ public class WebSecurityConfiguration {
       KeycloakAuthenticationConverter authenticationConverter
   ) {
     Map<String, AuthenticationManager> managers = new ConcurrentHashMap<>();
-
-    var trustedIssuers = java.util.Set.of(
-        "http://localhost:5443/kc/realms/user-auth",
-        "https://extrusive-joetta-imparipinnate.ngrok-free.dev/kc/realms/user-auth"
+    var trustedIssuers = Set.of(
+        localhostIssuer, ngrokIssuer
     );
 
     return request -> authentication -> {
@@ -157,14 +145,16 @@ public class WebSecurityConfiguration {
         throw new BadCredentialsException("Untrusted issuer: " + issuer);
       }
 
-      AuthenticationManager manager = managers.computeIfAbsent(issuer, iss -> {
-        JwtDecoder decoder = JwtDecoders.fromIssuerLocation(iss);
-        JwtAuthenticationProvider provider = new JwtAuthenticationProvider(decoder);
-        provider.setJwtAuthenticationConverter(authenticationConverter);
-        return provider::authenticate;
-      });
-
-      return manager.authenticate(authentication);
+      return managers.computeIfAbsent(
+          issuer,
+          iss -> {
+            JwtAuthenticationProvider provider = new JwtAuthenticationProvider(
+                JwtDecoders.fromIssuerLocation(iss)
+            );
+            provider.setJwtAuthenticationConverter(authenticationConverter);
+            return provider::authenticate;
+          }
+      ).authenticate(authentication);
     };
   }
 

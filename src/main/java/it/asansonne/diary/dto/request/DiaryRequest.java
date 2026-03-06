@@ -2,7 +2,7 @@ package it.asansonne.diary.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Request;
+import it.asansonne.common.dto.Request;
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 import lombok.AllArgsConstructor;

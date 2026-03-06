@@ -59,6 +59,46 @@ public interface BlogPostRepository extends
       Pageable pageable
   );
 
+  @Override
+  @Query(value = """
+      select * from blog_post p
+            where p.status = :status
+            and p.slug like concat(:prefix, '%')
+            order by p.created_at desc
+      """,
+      countQuery = """
+          select count(*)
+          from blog_post p
+          where p.status = :status
+            and p.slug like concat(:prefix, '%')
+          """,
+      nativeQuery = true
+  )
+  Page<BlogPost> searchByPrefix(
+      @Param("status") String status,
+      @Param("q") String prefix,
+      Pageable pageable
+  );
+
+  @Query(value = """
+      select *
+      from blog_post p
+      where p.status = :status
+        and p.slug ilike concat('%', :q, '%')
+      order by p.created_at desc
+      """,
+      countQuery = """
+          select count(*)
+          from blog_post p
+          where p.status = :status
+            and p.slug ilike concat('%', :q, '%')
+          """,
+      nativeQuery = true)
+  Page<BlogPost> searchBySlugContains(
+      @Param("status") String status,
+      @Param("q") String q,
+      Pageable pageable
+  );
 
 }
 

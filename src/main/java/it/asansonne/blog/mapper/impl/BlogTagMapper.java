@@ -1,7 +1,7 @@
 package it.asansonne.blog.mapper.impl;
 
-import it.asansonne.authhub.mapper.RequestMapper;
-import it.asansonne.authhub.mapper.ResponseMapper;
+import it.asansonne.common.mapper.RequestMapper;
+import it.asansonne.common.mapper.ResponseMapper;
 import it.asansonne.blog.dto.request.BlogTagRequest;
 import it.asansonne.blog.dto.response.BlogTagResponse;
 import it.asansonne.blog.model.BlogTag;

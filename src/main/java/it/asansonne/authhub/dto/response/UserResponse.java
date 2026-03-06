@@ -2,7 +2,7 @@ package it.asansonne.authhub.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.BaseResponse;
+import it.asansonne.common.dto.BaseResponse;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -80,4 +80,5 @@ public class UserResponse extends BaseResponse {
       name = "profileUrl",
       type = "String")
   private String profileUrl;
+
 }

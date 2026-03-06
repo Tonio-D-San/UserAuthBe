@@ -2,7 +2,7 @@ package it.asansonne.payments.dto.request.paypal;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.asansonne.authhub.dto.Request;
+import it.asansonne.common.dto.Request;
 import it.asansonne.management.enumeration.AmountType;
 import it.asansonne.payments.enumeration.CurrencyCode;
 import lombok.AllArgsConstructor;

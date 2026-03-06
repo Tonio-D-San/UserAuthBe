@@ -1,6 +1,6 @@
 package it.asansonne.diary.model;
 
-import it.asansonne.authhub.model.BaseModel;
+import it.asansonne.common.ccsr.model.BaseModel;
 import it.asansonne.management.model.Character;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

@@ -1,7 +1,8 @@
 package it.asansonne.blog.mapper.impl;
 
-import it.asansonne.authhub.mapper.RequestMapper;
-import it.asansonne.authhub.mapper.ResponseMapper;
+import it.asansonne.authhub.mapper.UserMapper;
+import it.asansonne.common.mapper.RequestMapper;
+import it.asansonne.common.mapper.ResponseMapper;
 import it.asansonne.blog.dto.request.BlogPostRequest;
 import it.asansonne.blog.dto.response.BlogPostResponse;
 import it.asansonne.blog.model.BlogPost;
@@ -17,6 +18,7 @@ public class BlogPostMapper implements
     RequestMapper<BlogPostRequest, BlogPost>, ResponseMapper<BlogPost, BlogPostResponse> {
 
   private final BlogTagMapper blogTagMapper;
+  private final UserMapper userMapper;
 
   @Override
   public BlogPost toModel(BlogPostRequest dto) {
@@ -26,7 +28,7 @@ public class BlogPostMapper implements
         .excerpt(dto.getExcerpt())
         .contentMd(dto.getContentMd())
         .coverUrl(dto.getCoverUrl())
-        .authorName(dto.getAuthorName())
+//        .authorName(dto.getAuthorName())
         .status(dto.getStatusRequest().getStatus().getName())
         .tags(blogTagMapper.toModel(dto.getTags()))
         .build();
@@ -42,7 +44,7 @@ public class BlogPostMapper implements
         .excerpt(model.getExcerpt())
         .contentMd(model.getContentMd())
         .coverUrl(model.getCoverUrl())
-        .authorName(model.getAuthorName())
+        .author(userMapper.toDto(model.getUser()))
         .tags(blogTagMapper.toDto(model.getTags()))
         .build();
   }

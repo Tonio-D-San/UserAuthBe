@@ -2,8 +2,8 @@ package it.asansonne.management.mapper.impl;
 
 import static it.asansonne.management.enumeration.Status.DRAFT;
 
-import it.asansonne.authhub.mapper.RequestMapper;
-import it.asansonne.authhub.mapper.ResponseMapper;
+import it.asansonne.common.mapper.RequestMapper;
+import it.asansonne.common.mapper.ResponseMapper;
 import it.asansonne.management.dto.request.RulesetRequest;
 import it.asansonne.management.dto.response.RulesetResponse;
 import it.asansonne.management.model.Ruleset;

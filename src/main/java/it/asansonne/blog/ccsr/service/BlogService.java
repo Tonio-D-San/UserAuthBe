@@ -20,4 +20,8 @@ public interface BlogService<T extends BlogModel> extends
 
   Page<T> searchPublished(String status, String q, Pageable pageable);
 
+  Page<T> searchByPrefix(String status, String prefix, Pageable pageable);
+
+  Page<T> searchBySlugContains(String status, String q, Pageable pageable);
+
 }

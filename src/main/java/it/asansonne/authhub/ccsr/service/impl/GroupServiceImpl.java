@@ -1,0 +1,35 @@
+package it.asansonne.authhub.ccsr.service.impl;
+
+import it.asansonne.authhub.ccsr.repository.GroupRepository;
+import it.asansonne.authhub.ccsr.service.GroupService;
+import it.asansonne.authhub.model.Group;
+import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+
+/**
+ * The type Group service.
+ */
+@Service
+@RequiredArgsConstructor
+public final class GroupServiceImpl implements GroupService {
+  private final GroupRepository groupRepository;
+
+  @Override
+  public Optional<Group> findGroupByUuid(UUID uuid) {
+    Optional<Group> group = this.groupRepository.findGroupByUuid(uuid);
+    if (group.isEmpty()) {
+      throw new EntityNotFoundException("group.empty");
+    }
+    return group;
+  }
+
+  @Override
+  public List<Group> findAllByUuidIn(List<UUID> uuidList) {
+    return this.groupRepository.findAllByUuidIn(uuidList);
+  }
+}
